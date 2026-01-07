@@ -137,6 +137,78 @@ table tbody tr td {
 
 /*====== Dasboard CSS Rules =====*/
 
+/*Loader CSS */
+.loader-wrapper {
+    position: fixed;
+    z-index: 9999;
+    background: #fff;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.loader-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 150px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 5px solid #fff;
+    box-shadow: 0 0 0 5px #0D47A1;
+    overflow: hidden;
+}
+
+.loader-wave {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #0D47A1;
+    border-radius: 50%;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, .5);
+}
+
+.loader-wave:before,
+.loader-wave:after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -75%);
+}
+
+.loader-wave:before {
+    border-radius: 45%;
+    background: rgba(255,255,255,1);
+    animation: animate 5s linear infinite;
+    -webkit-animation: animate 5s linear infinite;
+    -ms-animation: animate 5s linear infinite;
+    -moz-animation: animate 5s linear infinite;
+}
+
+.loader-wave:after {
+    border-radius: 40%;
+    background: rgba(255,255,255,.5);
+    animation: animate 10s linear infinite;
+    -webkit-animation: animate 10s linear infinite;
+    -ms-animation: animate 10s linear infinite;
+    -moz-animation: animate 10s linear infinite;
+}
+
+@keyframes animate {
+    0% { transform: translate(-50%, -75%) rotate(0deg) }
+    100% { transform: translate(-50%, -75%) rotate(360deg) }
+}
+
+@-webkit-keyframes animate {
+    0% { transform: translate(-50%, -75%) rotate(0deg) }
+    100% { transform: translate(-50%, -75%) rotate(360deg) }
+}
+
 
 
 /*Header CSS */
@@ -236,7 +308,7 @@ table tbody tr td {
     content: '\f00d';
     font-family: FontAwesome !important;
     display: inline-block;
-    color: white;
+    color: #313246;
     font-size: 18px;
 }
 
@@ -312,7 +384,7 @@ table tbody tr td {
 
 .sidebar > .inner-sidebar {
     height: 100%;
-    background: #FFC107;
+    background: #2E2E3A;
 }
 
 .avatar img {

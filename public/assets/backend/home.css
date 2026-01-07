@@ -27,7 +27,7 @@
     --amaranth-purple: hsl(335, 88%, 20%);
 
     --royal-blue-dark: hsl(236, 100%, 50%);
-    --chrome-yellow: hsl(138, 91%, 35%);
+    --chrome-yellow: hsl(39, 100%, 52%);
     --space-cadet-1: hsl(230, 41%, 25%);
     --space-cadet-2: hsl(230, 59%, 20%);
     --winter-sky_50: hsla(335, 87%, 53%, 0.5);
@@ -38,7 +38,7 @@
     --razzmatazz: hsl(335, 87%, 40%);
     --platinum: hsl(0, 0%, 80%);
     --black_70: hsla(0, 0%, 0%, 0.7);
-    --rajah: hsl(138, 91%, 35%);
+    --rajah: hsl(29, 99%, 67%);
     --white: hsl(0, 0%, 100%);
   
     --gradient-1: linear-gradient(90deg,var(--royal-blue-dark) 0,var(--winter-skyblue) 51%,var(--royal-blue-dark));
@@ -529,9 +529,9 @@ h2 {
   
   .hero-subtitle {
     color: var(--chrome-yellow);s
-    /* font-family: var(--ff-source-sans-pro); */
-    /* font-size: var(--fs-7); */
-    /* margin-block-end: 15px; */
+    font-family: var(--ff-source-sans-pro);
+    font-size: var(--fs-7);
+    margin-block-end: 15px;
   }
   
   .hero-title {

@@ -42,34 +42,23 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function statusadmin()
+    public function jadimitra()
     {
-        return $this->belongsTo(statusadmin::class);
+        return $this->hasMany(Jadimitra::class);
     }
 
-    public function berita()
+    public function fundraiser()
     {
-        return $this->hasMany(beritajakon::class);
+        return $this->hasOne(Fundraiser::class);
+        // MEMAMAKAI HAS ONE KARENA 1 USERS HANYA BISA MENJADI 1 FUNDRAISER
     }
 
-    public function pesertapelatihan()
+
+    public function lokasipengajuan()
     {
-        return $this->hasMany(pesertapelatihan::class);
+        return $this->hasMany(Lokasipengajuan::class);
     }
 
-    public function allskktenagakerjablora()
-    {
-        return $this->hasMany(allskktenagakerjablora::class);
-    }
 
-    public function beritajakon()
-    {
-        return $this->hasMany(beritajakon::class);
-    }
-
-    public function artikeljakonmasjaki()
-    {
-        return $this->hasMany(artikeljakonmasjaki::class);
-    }
 
 }
