@@ -14,12 +14,12 @@ class ProgrammakangratisController extends Controller
         //
         return view('fe_dashboard.programmakangratis.index',[
         // return view('404',[
-            'title' => 'Haiu Care Indonesia',
+            'title' => 'Lembang Kita',
             // 'title_halaman' => 'Halaman Fundraising',
 
             'data_lokasimakangratis'  => Lokasimakangratis::all(),
             'data_daftarmitrarumahmakan'  => Daftarmitrarumahmakann::all(),
 
-        ]); 
+        ]);
     }
 }

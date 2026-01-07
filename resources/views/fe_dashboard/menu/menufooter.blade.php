@@ -15,7 +15,7 @@
     </div>
 
     <div class="main-carousel mt-[50px] ml-[100px]" style="display: flex; margin-top: 50px; margin-left: 15px;">
-        
+
         <a href="/comingsoon">
             <div class="px-2 first-of-type:pl-4 last-of-type:pr-4" style="margin-left: 3px; margin-right: 3px;">
                 <div class="w-[40px] h-[40px] flex shrink-0 overflow-hidden ml-3" style="width: 40px; height: 40px; display: flex; align-items: center; overflow: hidden;">
@@ -47,7 +47,7 @@
                 </div>
             </div>
         </a>
-        
+
         <a href="/comingsoon">
             <div class="px-2 first-of-type:pl-4 last-of-type:pr-4" style="margin-left: 3px; margin-right: 3px;">
                 <div class="w-[40px] h-[40px] flex shrink-0 overflow-hidden ml-3" style="width: 40px; height: 40px; display: flex; align-items: center; overflow: hidden;">
@@ -59,22 +59,22 @@
 
     </div>
 
-        
+
             <div class="flex items-center">
                 <div class="w-10 h-10 flex shrink-0">
                    <img src="/assets/css/fe_css/images/logohaiucare/logohaiucareindonesia.png" alt="icon">
-                </div>               
+                </div>
            </div>
-       
-        
-        
-        
+
+
+
+
            <div class="px-4 flex justify-center items-center mt-[5px]" style="display: flex; justify-content: center; align-items: center; margin-top: 5px;">
-               <h2 class="font-bold text-sm text-stone-800 border-spacing-2" style="font-weight: 700; font-size: 0.875rem; color: #4B5563;">Yayasan Haiu Care Indonesia</h2>
+               <h2 class="font-bold text-sm text-stone-800 border-spacing-2" style="font-weight: 700; font-size: 0.875rem; color: #4B5563;">lembang Kita</h2>
            </div>
-       
+
            <a href="#" style="display: block; text-align: center;">
-               <h6 class="text-center font-semibold text-sm text-stone-600" style="text-align: center; font-weight: 600; font-size: 0.875rem; color: #4B5563;"> HCI @2024 </h6>
+               <h6 class="text-center font-semibold text-sm text-stone-600" style="text-align: center; font-weight: 600; font-size: 0.875rem; color: #4B5563;"> Lembang Kita @2026 </h6>
            </a>
 
 
