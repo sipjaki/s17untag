@@ -18,6 +18,7 @@ use App\Http\Controllers\KategorittController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LokasipengajuanController;
 use App\Http\Controllers\DonaturController;
+use App\Http\Controllers\PublicController;
 use App\Models\Daftarmenu;
 use App\Models\Daftarmitrarumahmakann;
 use App\Models\Programmakangratis;
@@ -104,7 +105,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 // ==========================================================
 // |||||||||||||||||| ROUTE UNTUK USERS DASHBOARD PROGRAM MAKAN GRATIS |||||||||||||||||||||||||||||||||||
-Route::resource('/', ProgrammakangratisController::class);
+// Route::resource('/', ProgrammakangratisController::class);
 // Route::resource('/dashboard', ProgrammakangratisController::class);
 // --------------------------------------------------------------------------------------------------------------------------------
 
@@ -323,43 +324,12 @@ Route::get('/daftardonatur', [DonaturController::class, 'index'])->middleware('a
 // ROUTE UNTUK PANGAMBILAN DATA KATEGORI
 // Route::resource('/lokasimakangratis', LokasimakangratisController::class);
 
-// ===================================================================================
-// ROUTE UNTUK PANGAMBILAN DATA KATEGORI
-// Route::resource('/daftarmitrarumahmakan', DaftarmitrarumahmakanController::class);
 
+// PEMBAHARUAN BARU APLIKASI SNOC UNTAG SEMARANG
+Route::get('/', [PublicController::class, 'index'])->name('index');
 
-// MENAMBAHKAN FITUR MIDLEWARE -> PENGGUNAAN GUEST UNTUK HALAMAN YANG BELUM TERAUTENTIKASI ATAU TERDAFTAR
-// Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest'); // PENAMBAHAN FITUR GUEST
-// Route::post('/login', [LoginController::class, 'authenticate']);
-// Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('/sekapursirih', [PublicController::class, 'sekapursirih'])->name('sekapursirih');
 
-// Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
-// Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.reset');
-
-// Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
-// Route::post('/register', [RegisterController::class, 'store']);
-
-// Route::get('/daftarsendotp', [RegisterController::class, 'daftarsendotp'])->name('verify.otp');
-// Route::get('/daftarverifyotp', [RegisterController::class, 'verifyOTPForm'])->name('verifyOTPForm');
-// Route::post('/login', [LoginController::class, 'authenticate']);
-// Route::post('/logout', [LoginController::class, 'logout']);
-// ----------------------------------------------------
-
-
-// ==========================================================
-// Route::get('/dashboard', function () {
-//     return view('fe_dashboard.programmakangratis.index', [
-    //         'title' => 'Selamat Datang',
-//     ]);
-// });
-
-// Route::get('/daftarmitrasuccess', function () {
-    //     return view('fe_dashboard.daftarjadimitra.success',[
-    //         'title' => 'Registration Successful!',
-    //     ]);
-// })->middleware('auth');
-
-
-
+Route::get('/kepengurusan', [PublicController::class, 'kepengurusan'])->name('kepengurusan');
 
         require __DIR__.'/auth.php';
