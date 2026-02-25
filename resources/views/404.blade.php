@@ -49,7 +49,7 @@
         </div>
     </div> --}}
     <!--Page loader-->
-    
+
     <!--Page Wrapper-->
 
     <div class="container-fluid">
@@ -59,7 +59,7 @@
             <div class="title mb-4 text-center text-secondary text-uppercase mt-2">
                 <strong>"LOOKS LIKE YOU'RE LOST... OUR WEBSITE IS CURRENTLY UNDER <i class="fas fa-hammer"></i> CONTRUCTIONS. <i class="fas fa-spinner fa-spin"></i> PLEASE WAIT A MOMENT."</strong>
                 <div class="text-center important">
-                    <p class="mt-2">More For Info Click Me 
+                    <p class="mt-2">More For Info Click Me
                         <a href="https://api.whatsapp.com/send?phone=6281321455855">
                             <button class="btn btn-success btn-circle ml-2">
                                 <i class="fas fa-phone"></i>
@@ -71,8 +71,8 @@
                         </p>
                 </div>
             </div>
-            
-             
+
+
             <div class="buttons mb-5">
                 <div class="row">
                     <div class="col-md-6">
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-group mb-2">
                 <label class="text-uppercase">Try to find something that you need:</label>
                 <div class="input-group">
@@ -93,18 +93,18 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Copyright -->
-            <div class="copyright text-center">
+            {{-- <div class="copyright text-center">
                 <div class="mb-2">
                     &copy; 2024 <strong class="text-theme mb-2">HaiuCare Bangun Indonesia </strong>. All rights reserved.
                 </div>
                 <div class="mb-2">
                     <a href="#">Terms of use</a> / <a href="#">Privacy Policy</a>
                 </div>
-            </div>
+            </div> --}}
             <!-- ./Copyright -->
-            
+
         </div>
 
     </div>
@@ -122,6 +122,6 @@
     <!--Custom Js Script-->
     <script src="/assets/backend/css/js/custom.js"></script>
     <!--Custom Js Script-->
-    
+
     </body>
 </html>
