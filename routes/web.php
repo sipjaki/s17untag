@@ -327,6 +327,7 @@ Route::get('/daftardonatur', [DonaturController::class, 'index'])->middleware('a
 
 // PEMBAHARUAN BARU APLIKASI SNOC UNTAG SEMARANG
 Route::get('/', [PublicController::class, 'index'])->name('index');
+Route::get('/beranda', [PublicController::class, 'index'])->name('index');
 
 Route::get('/sekapursirih', [PublicController::class, 'sekapursirih'])->name('sekapursirih');
 

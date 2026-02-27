@@ -4,7 +4,7 @@
         <div class="nav-container">
            <a href="#" class="logo">
                 <img src="/assets/newtheme/gambar/sabha.png" alt="Sabhagiriwana Logo" class="logo-img">
-                <span>Sabhagiriwana 17</span>
+                <img style="margin-left: -20px;">Sabhagiriwana'17</img>
             </a>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <span></span>
@@ -21,7 +21,7 @@
                         <li><a href="#sejarah"><i class="fas fa-history"></i> Sejarah</a></li>
                     </ul>
                 </li> --}}
-                <li class="nav-item has-dropdown">
+                <li class="nav-item">
                     <a href="/" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item has-dropdown">
