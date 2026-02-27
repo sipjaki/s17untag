@@ -33,5 +33,13 @@ class PublicController extends Controller
         ]);
     }
 
+    public function peraturan()
+    {
+        return view('NEW.01_menu1.03_peraturan.peraturan', [
+            'title' => 'Peraturan | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+        ]);
+    }
+
 
 }

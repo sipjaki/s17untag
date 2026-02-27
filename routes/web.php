@@ -333,4 +333,6 @@ Route::get('/sekapursirih', [PublicController::class, 'sekapursirih'])->name('se
 
 Route::get('/kepengurusan', [PublicController::class, 'kepengurusan'])->name('kepengurusan');
 
+Route::get('/peraturan', [PublicController::class, 'peraturan'])->name('peraturan');
+
         require __DIR__.'/auth.php';
