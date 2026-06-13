@@ -18,10 +18,11 @@ return new class extends Migration
             $table->bigInteger('phone_number')->nullable();
             // $table->bigInteger('otp')->nullable();
             $table->string('email')->unique();
-            $table->string('is_admin')->nullable();
+            $table->string('statusadmin_id')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

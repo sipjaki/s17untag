@@ -11,6 +11,7 @@ use App\Models\Lokasimakangratis;
 use App\Models\Lokasipengajuan;
 use App\Models\User;
 use App\Models\Donatur;
+use App\Models\statusadmin;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -29,24 +30,73 @@ class DatabaseSeeder extends Seeder
             // ]);
 
 
-            Kategorit::create([
-                'nama'  => 'Makanan',
-                'slug' => '-makanan',
-            ]);
-            Kategorit::create([
-                'nama'  => 'Kesehatan',
-                'slug' => '-kesehatan',
-            ]);
-            Kategorit::create([
-                'nama'  => 'Pendidikan',
-                'slug' => '-pendidikan',
-            ]);
-            Kategorit::create([
-                'nama'  => 'Infrastruktur',
-                'slug' => '-infrastrukturs',
+              User::create([
+            'id'  => 1,
+            'name'  => 'Sigit Septiadi',
+            'username' => 'Sigit',
+            'statusadmin_id' => '1',
+            'avatar' => 'assets/abgblora/logo/iconabgblora.png',
+            'email' => 'sigitseptiadi1@gmail.com',
+            'password' => bcrypt('adminadmin123$$')
+        ]);
+
+          User::create([
+            'id'  => 2,
+            'name'  => 'Pa Anex Fachrian',
+            'username' => 'Sigit',
+            'statusadmin_id' => '1',
+            'avatar' => 'assets/abgblora/logo/iconabgblora.png',
+            'email' => 'anexfachrians17@gmail.com',
+            'password' => bcrypt('adminadmin123$$')
+        ]);
+
+          User::create([
+            'id'  => 3,
+            'name'  => 'Admin Sabhagiriwana 17 ',
+            'username' => 'Sigit',
+            'statusadmin_id' => '1',
+            'avatar' => 'assets/abgblora/logo/iconabgblora.png',
+            'email' => 'sabhagiriwana17@gmail.com',
+            'password' => bcrypt('adminadmin123$$')
+        ]);
+
+          User::create([
+            'id'  => 4,
+            'name'  => 'Admin Sabhagiriwana 17 ',
+            'username' => 'Sigit',
+            'statusadmin_id' => '1',
+            'avatar' => 'assets/abgblora/logo/iconabgblora.png',
+            'email' => 'sabhagiriwana17new@gmail.com',
+            'password' => bcrypt('adminadmin$$123')
+        ]);
+
+        // STATUS ADMIN UNTUK HAK AKSES
+
+            statusadmin::create([
+                'id'  => 1,
+                'statusadmin'  => 'superadmin',
             ]);
 
+            statusadmin::create([
+                'id'  => 2,
+                'statusadmin'  => 'admin',
+            ]);
 
+            statusadmin::create([
+                'id'  => 3,
+                'statusadmin'  => 'mahasiswa',
+            ]);
 
+            statusadmin::create([
+                'id'  => 4,
+                'statusadmin'  => 'pengurus',
+            ]);
+
+            statusadmin::create([
+                'id'  => 5,
+                'statusadmin'  => 'hakakseslain',
+            ]);
+
+            // ==========================================================
     }
 }

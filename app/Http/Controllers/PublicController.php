@@ -41,5 +41,13 @@ class PublicController extends Controller
         ]);
     }
 
+    public function atribut()
+    {
+        return view('NEW.01_menu1.04_atribut.atribut', [
+            'title' => 'Atribut | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+        ]);
+    }
+
 
 }

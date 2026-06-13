@@ -30,7 +30,7 @@
                        <li><a href="/sekapursirih"><i class="fas fa-comment-dots"></i> Sekapur Sirih</a></li>
                             <li><a href="/kepengurusan"><i class="fas fa-sitemap"></i> Kepengurusan</a></li>
                             <li><a href="/peraturan"><i class="fas fa-gavel"></i> Peraturan</a></li>
-                            <li><a href="#atribut"><i class="fas fa-id-badge"></i> Atribut</a></li>
+                            <li><a href="/atribut"><i class="fas fa-id-badge"></i> Atribut</a></li>
                             <li><a href="#divisi-s17"><i class="fas fa-layer-group"></i> Divisi S'17</a></li>
                             <li><a href="#keanggotaan"><i class="fas fa-user-friends"></i> Keanggotaan</a></li>
                             <li><a href="#kesekretariatan"><i class="fas fa-briefcase"></i> Kesekretariatan</a></li>

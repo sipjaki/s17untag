@@ -11,9 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-    use HasFactory, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $guarded = ['id'];
     /**
@@ -42,23 +40,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function jadimitra()
+    public function statusadmin()
     {
-        return $this->hasMany(Jadimitra::class);
+        return $this->belongsTo(statusadmin::class, 'statusadmin');
     }
-
-    public function fundraiser()
-    {
-        return $this->hasOne(Fundraiser::class);
-        // MEMAMAKAI HAS ONE KARENA 1 USERS HANYA BISA MENJADI 1 FUNDRAISER
-    }
-
-
-    public function lokasipengajuan()
-    {
-        return $this->hasMany(Lokasipengajuan::class);
-    }
-
-
 
 }
