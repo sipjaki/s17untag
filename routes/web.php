@@ -137,13 +137,140 @@ Route::resource('/daftarmenu', DaftarmenuController::class);
 // Route::get('/lokasimakangratis/{alamat}', [LokasimakangratisController::class, 'show'])->name('lokasimakangratis');
 // --------------------------------------------------------------------------------------------------------------------------------
 
-Route::get('/dashboard', function () {
-    return view('fe_dashboard.dashboard.index', [
-        'title' => 'Selamat Datang !',
-        'data_lokasimakangratis'  => Lokasimakangratis::all(),
-        'data_daftarmitrarumahmakan'  => Daftarmitrarumahmakann::all(),
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('fe_dashboard.dashboard.index', [
+//         'title' => 'Selamat Datang !',
+//         'data_lokasimakangratis'  => Lokasimakangratis::all(),
+//         'data_daftarmitrarumahmakan'  => Daftarmitrarumahmakann::all(),
+//     ]);
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+// ===============================================================================================
+// ===============================================================================================
+// ===============================================================================================
+
+
+// ==========================================================
+// |||||||||||||||||| ROUTE UNTUK USERS ADMINISTRASI |||||||||||||||||||||||||||||||||||
+Route::get('/haiucaresprogramkami', function () {
+    return view('fe_dashboard.a_programkami.index', [
+        'title' => 'Program Kami',
+        ]);
+        });
+
+// ==========================================================
+// |||||||||||||||||| ROUTE UNTUK USERS ADMINISTRASI |||||||||||||||||||||||||||||||||||
+Route::get('/programkesehatan', function () {
+    return view('fe_dashboard.a_programkami.programkesehatan.index', [
+        'title' => 'Program Kesehatan',
+        ]);
+        });
+
+// ==========================================================
+// |||||||||||||||||| ROUTE UNTUK USERS ADMINISTRASI |||||||||||||||||||||||||||||||||||
+Route::get('/programpendidikan', function () {
+    return view('fe_dashboard.a_programkami.programpendidikan.index', [
+        'title' => 'Program Pendidikan',
+        ]);
+        });
+
+// ==========================================================
+// |||||||||||||||||| ROUTE UNTUK USERS ADMINISTRASI |||||||||||||||||||||||||||||||||||
+Route::get('/programinfra', function () {
+    return view('fe_dashboard.a_programkami.programinfra.index', [
+        'title' => 'Program Infrastruktur',
+        ]);
+        });
+
+// ROUTE UNTUK PANGAMBILAN DATA PENANGGUNGJAWAB
+// Route::get('/profile/{name}', [UserController::class, 'index'])->middleware('auth');
+
+
+// Route::get('/', function () {
+    //     return view('welcome');
+    // });
+// Route::middleware('auth')->group(function () {
+    //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+// ROUTE UNTUK PANGAMBILAN DATA PENANGGUNGJAWAB
+
+
+// Route::get('/masuk', function () {
+    //         return view('masuk');
+//     });
+
+
+// Route::get('/dashboard', function () {
+    //     return view('admin_dashboard.be_dashboard.dashboard.index',[
+        //         'title' => 'Admin Dashboard',
+//         'title_halaman' => 'Halaman Dashboard',
+
+//         'data_users' => User::all()
+
+//     ]);
+
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+// ----------------------------------------------------
+// ROUTE UNTUK PANGAMBILAN DATA PENANGGUNGJAWAB
+// Route::resource('/user', UserController::class)->middleware('auth');
+
+
+// ----------------------------------------------------
+// ROUTE UNTUK PANGAMBILAN DATA KATEGORI
+// Route::resource('/category', CategoryController::class)->middleware('auth');
+
+// ----------------------------------------------------
+// ROUTE UNTUK PANGAMBILAN DATA KATEGORI
+Route::get('/daftardonatur', [DonaturController::class, 'index'])->middleware('auth');
+
+// ----------------------------------------------------
+// ROUTE UNTUK PANGAMBILAN DATA KATEGORI
+// Route::resource('/fundraiser', FundraiserController::class)->middleware('auth');
+
+// Route::post('/daftarjadimitra/store', JadimitraController::class)->middleware('auth');
+// Route::get('/lokasimakangratis/{alamat}', [LokasimakangratisController::class, 'show'])->name('lokasimakangratis');
+
+// ----------------------------------------------------
+// ROUTE UNTUK PANGAMBILAN DATA KATEGORI
+// Route::resource('/fundraising', FundraisingController::class)->middleware('auth');
+
+// ----------------------------------------------------
+// ROUTE UNTUK PANGAMBILAN DATA KATEGORI
+// Route::resource('/fundraising_phases', FundraisingPhasController::class)->middleware('auth');
+
+// ----------------------------------------------------
+// ROUTE UNTUK PANGAMBILAN DATA KATEGORI
+// Route::resource('/withdrawals', FundraisingWithdrawalsController::class)->middleware('auth');
+
+// ===================================================================================
+// ROUTE UNTUK PANGAMBILAN DATA KATEGORI
+// Route::resource('/makangratis', FeMakangratisController::class);
+
+
+// ===================================================================================
+// ROUTE UNTUK PANGAMBILAN DATA KATEGORI
+// Route::resource('/tentangkami', TentangkamiController::class);
+
+// ===================================================================================
+// ROUTE UNTUK PANGAMBILAN DATA KATEGORI
+// Route::resource('/lokasimakangratis', LokasimakangratisController::class);
+
+
+// PEMBAHARUAN BARU APLIKASI SNOC UNTAG SEMARANG
+Route::get('/', [PublicController::class, 'index'])->name('index');
+Route::get('/beranda', [PublicController::class, 'index'])->name('index');
+
+Route::get('/sekapursirih', [PublicController::class, 'sekapursirih'])->name('sekapursirih');
+
+Route::get('/kepengurusan', [PublicController::class, 'kepengurusan'])->name('kepengurusan');
+
+Route::get('/peraturan', [PublicController::class, 'peraturan'])->name('peraturan');
+
+Route::get('/atribut', [PublicController::class, 'atribut'])->name('atribut');
 
         require __DIR__.'/auth.php';
