@@ -411,12 +411,12 @@
             <div class="collapse" id="sabhagiriwana">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="/sekapursirih">
+                        <a class="nav-link" href="/01sekapursirih">
                             <i class="mdi mdi-comment-text-outline"></i> Sekapur Sirih
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/kepengurusan">
+                        <a class="nav-link" href="/02kepengurusan">
                             <i class="mdi mdi-sitemap"></i> Kepengurusan
                         </a>
                     </li>

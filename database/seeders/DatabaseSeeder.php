@@ -11,6 +11,7 @@ use App\Models\Lokasimakangratis;
 use App\Models\Lokasipengajuan;
 use App\Models\User;
 use App\Models\Donatur;
+use App\Models\sabha1;
 use App\Models\statusadmin;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -98,5 +99,11 @@ class DatabaseSeeder extends Seeder
             ]);
 
             // ==========================================================
-    }
+
+            sabha1::create([
+                'id'  => 1,
+                'sabha1'  => 'ini contoh',
+            ]);
+
+            }
 }
