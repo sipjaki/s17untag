@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sabha1;
+use App\Models\sabha1;
 use App\Models\sabha2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +18,7 @@ class BerandaController extends Controller
     // ====================================================================================================================
     public function adminsekapursirih()
     {
-        $data = Sabha1::all();
+        $data = sabha1::all();
 
         return view('backend.01_beranda.01_sekapursirih.01_adminsekapursirih', [
             'title' => 'Sabhagiriwana17 | Sekapur Sirih',
@@ -41,7 +41,7 @@ class BerandaController extends Controller
         ]);
 
         try {
-            $data = Sabha1::create([
+            $data = sabha1::create([
                 'sabha1' => $request->sabha1,
                 'sabha2' => $request->sabha2,
                 'sabha3' => $request->sabha3,
@@ -72,7 +72,7 @@ class BerandaController extends Controller
         ]);
 
         try {
-            $data = Sabha1::findOrFail($id);
+            $data = sabha1::findOrFail($id);
 
             $data->update([
                 'sabha1' => $request->sabha1,
@@ -98,7 +98,7 @@ class BerandaController extends Controller
     public function sekapursirihdelete($id)
     {
         try {
-            $data = Sabha1::findOrFail($id);
+            $data = sabha1::findOrFail($id);
             $data->delete();
 
             return redirect()->route('01sekapursirih.index')
