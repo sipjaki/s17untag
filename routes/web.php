@@ -88,7 +88,7 @@ Route::post('/input_otp', [RegisterController::class, 'inputotp'])->name('verify
 // |||||||||||||||||| ROUTE UNTUK AKSES LOGIN PENGGUNA |||||||||||||||||||||||||||||||||||
 // Route::resource('/logins', LoginController::class);
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/masuk', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 // --------------------------------------------------------------------------------------------------------------------------------
 
@@ -137,14 +137,9 @@ Route::resource('/daftarmenu', DaftarmenuController::class);
 // Route::get('/lokasimakangratis/{alamat}', [LokasimakangratisController::class, 'show'])->name('lokasimakangratis');
 // --------------------------------------------------------------------------------------------------------------------------------
 
-// Route::get('/dashboard', function () {
-//     return view('fe_dashboard.dashboard.index', [
-//         'title' => 'Selamat Datang !',
-//         'data_lokasimakangratis'  => Lokasimakangratis::all(),
-//         'data_daftarmitrarumahmakan'  => Daftarmitrarumahmakann::all(),
-//     ]);
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 // ===============================================================================================
 // ===============================================================================================

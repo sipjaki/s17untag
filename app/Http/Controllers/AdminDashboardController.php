@@ -11,15 +11,12 @@ use App\Models\Lokasimakangratis;
 class AdminDashboardController extends Controller
 {
     //
-    public function index()
-    {
-        return view('be_dashboard.dashboard.index',[
-            'title' => 'Halaman Dashboard',
-            'title_halamandata' => 'Sistem Informasi HaiuCare Bangun Indonesia',
-
-            'data_lokasimakangratis' => Lokasimakangratis::all() 
-
-        ]);
-    }
+        public function index()
+        {
+            return view('backend.00_dashboard.01_halamandashboard',[
+                'title' => 'Halaman Dashboard Sabhagiriwana17',
+                'user' => auth()->user(),
+            ]);
+        }
 
 }

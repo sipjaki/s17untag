@@ -14,42 +14,32 @@ class LoginController extends Controller
         //
         return view('auth.login',[
             'title' => 'Silahkan Login !',
-            
+
             // 'title_halaman' => 'Halaman Fundraising',
             // 'data_daftarjadimitra'  => Jadimitra::all(),
-        ]); 
+        ]);
     }
 
-    public function authenticate(Request $request)
+      public function authenticate(Request $request)
     {
-        // $credentials = $request->validate([
-        //     'email' => 'required|email',  // PENGGUNAAN DNS UNTUK MENERIMA EMAIL YANG SANGAT BENAR VALID ,
-        //     'password' => 'required'
-        // ]);
-
+        // Validasi input
         $credentials = $request->validate([
             'email' => ['required', 'email:crf'],
             'password' => 'required'
         ]);
 
-        // // Coba melakukan autentikasi pengguna
-        // if (Auth::attempt($credentials)) {
-        //     // Jika autentikasi berhasil, arahkan pengguna ke dashboard
-        //     return redirect()->intended('/dashboard');
-        // } else {
-        //     // Jika autentikasi gagal, kembalikan pengguna ke halaman login dengan pesan kesalahan
-        //     return back()->withErrors(['email' => 'Email atau kata sandi yang Anda masukkan salah.'])->withInput($request->only('email'));
-        // }
-        
-
+        // Attempt login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
         }
-        return back()->with('loginError', 'Login Failed !');
 
-        // dd('Berhasil Masuk Iqlima');
+        // Login gagal
+        return back()->withErrors([
+            'email' => 'Email atau password yang Anda masukkan salah. Silahkan coba lagi!'
+        ])->withInput($request->only('email'));
     }
+
 
     public function logout(Request $request)
     {
