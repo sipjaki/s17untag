@@ -202,6 +202,9 @@
 
           @include('backend.01_beranda.01_sekapursirih.00_infodatabase')
 
+  {{-- @include('backend.00_dashboard.07_paginations') --}}
+
+
           </div>
         </div>
         <!-- content-wrapper ends -->

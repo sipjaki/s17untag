@@ -274,9 +274,27 @@ Route::put('/peraturanupdate/{id}', [BerandaController::class, 'peraturanupdate'
 
 // MENU 4 ===========================
 Route::get('/04divisi', [BerandaController::class, 'admindivisi'])->middleware('auth')->name('04divisi.index');
-Route::delete('/04divisi/{id}', [BerandaController::class, 'divisidelete'])->middleware('auth')->name('03peraturan.destroy');
+Route::delete('/04divisi/{id}', [BerandaController::class, 'divisidelete'])->middleware('auth')->name('04divisi.destroy');
 Route::post('/divisicreate', [BerandaController::class, 'divisicreate'])->middleware('auth')->name('divisi.create');
 Route::put('/divisiupdate/{id}', [BerandaController::class, 'divisiupdate'])->middleware('auth')->name('divisi.update');
+
+// MENU 5 ===========================
+Route::get('/05keanggotaan', [BerandaController::class, 'adminkeanggotaan'])->middleware('auth')->name('05keanggotaan.index');
+Route::delete('/05keanggotaan/{id}', [BerandaController::class, 'keanggotaandelete'])->middleware('auth')->name('05keanggotaan.destroy');
+Route::post('/keanggotaancreate', [BerandaController::class, 'keanggotaancreate'])->middleware('auth')->name('keanggotaan.create');
+Route::put('/keanggotaanupdate/{id}', [BerandaController::class, 'keanggotaanupdate'])->middleware('auth')->name('keanggotaan.update');
+
+// MENU 6 ===========================
+Route::get('/06kesekertariatan', [BerandaController::class, 'adminkesekertariatan'])->middleware('auth')->name('06kesekertariatan.index');
+Route::delete('/06kesekertariatan/{id}', [BerandaController::class, 'kesekertariatandelete'])->middleware('auth')->name('06kesekertariatan.destroy');
+Route::post('/kesekertariatancreate', [BerandaController::class, 'kesekertariatancreate'])->middleware('auth')->name('kesekertariatan.create');
+Route::put('/kesekertariatanupdate/{id}', [BerandaController::class, 'kesekertariatanupdate'])->middleware('auth')->name('kesekertariatan.update');
+
+// MENU 7 ===========================
+Route::get('/07prestasi', [BerandaController::class, 'adminprestasi'])->middleware('auth')->name('07prestasi.index');
+Route::delete('/07prestasi/{id}', [BerandaController::class, 'prestasidelete'])->middleware('auth')->name('07prestasi.destroy');
+Route::post('/prestasicreate', [BerandaController::class, 'prestasicreate'])->middleware('auth')->name('prestasi.create');
+Route::put('/prestasiupdate/{id}', [BerandaController::class, 'prestasiupdate'])->middleware('auth')->name('prestasi.update');
 
 
 

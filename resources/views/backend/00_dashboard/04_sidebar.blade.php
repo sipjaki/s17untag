@@ -44,25 +44,25 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#keanggotaan">
+                        <a class="nav-link" href="/05keanggotaan">
                             <i class="mdi mdi-account-group"></i> Keanggotaan
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#kesekretariatan">
+                        <a class="nav-link" href="/06kesekertariatan">
                             <i class="mdi mdi-briefcase"></i> Kesekretariatan
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#prestasi">
+                        <a class="nav-link" href="/07prestasi">
                             <i class="mdi mdi-trophy"></i> Prestasi
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="#posko">
                             <i class="mdi mdi-map-marker"></i> Posko
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </li>
@@ -166,11 +166,11 @@
         <li class="nav-item nav-category">Pengaturan Akun</li>
 
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+            {{-- <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                 <i class="menu-icon mdi mdi-account-circle-outline"></i>
                 <span class="menu-title">Settings Akun</span>
                 <i class="menu-arrow"></i>
-            </a>
+            </a> --}}
             <div class="collapse" id="auth">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">

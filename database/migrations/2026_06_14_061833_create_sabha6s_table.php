@@ -23,9 +23,16 @@ return new class extends Migration
             $table->string('sabha6')->nullable();
             $table->string('sabha7')->nullable();
 
+
             $table->text('sabha8')->nullable();
             $table->text('sabha9')->nullable();
             $table->text('sabha10')->nullable();
+
+            $table->string('sabha11')->nullable();
+            $table->string('sabha12')->nullable();
+            $table->string('sabha13')->nullable();
+            $table->string('sabha14')->nullable();
+            $table->string('sabha15')->nullable();
 
             $table->string('sabhaberkas1')->nullable();
             $table->string('sabhaberkas2')->nullable();

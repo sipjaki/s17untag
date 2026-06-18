@@ -15,6 +15,10 @@ use App\Models\sabha1;
 use App\Models\sabha2;
 use App\Models\sabha3;
 use App\Models\sabha4;
+use App\Models\sabha5;
+use App\Models\sabha6;
+use App\Models\sabha7;
+use App\Models\sabha8;
 use App\Models\statusadmin;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -108,20 +112,342 @@ class DatabaseSeeder extends Seeder
                 'sabha1'  => 'ini contoh',
             ]);
 
+
             sabha2::create([
                 'id'  => 1,
                 'sabha1'  => 'ini contoh sabha2',
             ]);
+            sabha2::create([
+                'id'  => 2,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+            sabha2::create([
+                'id'  => 3,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+            sabha2::create([
+                'id'  => 4,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+            sabha2::create([
+                'id'  => 5,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+            sabha2::create([
+                'id'  => 6,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+            sabha2::create([
+                'id'  => 7,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+            sabha2::create([
+                'id'  => 8,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+            sabha2::create([
+                'id'  => 9,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+            sabha2::create([
+                'id'  => 10,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+            sabha2::create([
+                'id'  => 11,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+            sabha2::create([
+                'id'  => 12,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+
+
+
 
             sabha3::create([
                 'id'  => 1,
                 'sabha1'  => 'ini contoh sabha3',
             ]);
 
+            sabha3::create([
+                'id'  => 2,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha3::create([
+                'id'  => 3,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha3::create([
+                'id'  => 4,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha3::create([
+                'id'  => 5,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha3::create([
+                'id'  => 6,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha3::create([
+                'id'  => 7,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha3::create([
+                'id'  => 8,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha3::create([
+                'id'  => 9,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha3::create([
+                'id'  => 10,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha3::create([
+                'id'  => 11,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha3::create([
+                'id'  => 12,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+
+
             sabha4::create([
                 'id'  => 1,
                 'sabha1'  => 'ini contoh sabha4',
             ]);
+
+            sabha4::create([
+                'id'  => 2,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+            sabha4::create([
+                'id'  => 3,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+            sabha4::create([
+                'id'  => 4,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+            sabha4::create([
+                'id'  => 5,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+            sabha4::create([
+                'id'  => 6,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+            sabha4::create([
+                'id'  => 7,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+            sabha4::create([
+                'id'  => 8,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+            sabha4::create([
+                'id'  => 9,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+            sabha4::create([
+                'id'  => 10,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+            sabha4::create([
+                'id'  => 11,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+            sabha4::create([
+                'id'  => 12,
+                'sabha1'  => 'ini contoh sabha4',
+            ]);
+
+
+            sabha5::create([
+                'id'  => 1,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 2,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 3,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 4,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 5,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 6,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 7,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 8,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 9,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 10,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 11,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+            sabha5::create([
+                'id'  => 12,
+                'sabha1'  => 'ini contoh sabha5',
+            ]);
+
+            sabha6::create([
+                'id'  => 1,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+
+            sabha6::create([
+                'id'  => 2,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+            sabha6::create([
+                'id'  => 3,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+            sabha6::create([
+                'id'  => 4,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+            sabha6::create([
+                'id'  => 5,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+            sabha6::create([
+                'id'  => 6,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+            sabha6::create([
+                'id'  => 7,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+            sabha6::create([
+                'id'  => 8,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+            sabha6::create([
+                'id'  => 9,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+            sabha6::create([
+                'id'  => 10,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+            sabha6::create([
+                'id'  => 11,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+            sabha6::create([
+                'id'  => 12,
+                'sabha1'  => 'ini contoh sabha6',
+            ]);
+
+
+            sabha7::create([
+                'id'  => 1,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 2,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 3,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 4,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 5,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 6,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 7,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 8,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 9,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 10,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 11,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
+            sabha7::create([
+                'id'  => 12,
+                'sabha1'  => 'ini contoh sabha7 prestasi',
+            ]);
+
 
             }
 }
