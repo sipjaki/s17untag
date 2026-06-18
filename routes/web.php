@@ -14,9 +14,7 @@ use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\BerandaController;
-use App\Http\Controllers\KategorittController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LokasipengajuanController;
+use App\Http\Controllers\BerandaController as ControllersBerandaController;
 use App\Http\Controllers\DonaturController;
 use App\Http\Controllers\PublicController;
 use App\Models\Daftarmenu;
@@ -255,6 +253,32 @@ Route::get('/daftardonatur', [DonaturController::class, 'index'])->middleware('a
 // ROUTE UNTUK PANGAMBILAN DATA KATEGORI
 // Route::resource('/lokasimakangratis', LokasimakangratisController::class);
 
+// HALAMAN BACKEN ADMIN DASHBOARD UNTUK ADMIN SABHAFIRINWA 17
+// MENU 1 ===========================
+Route::get('/01sekapursirih', [BerandaController::class, 'adminsekapursirih'])->middleware('auth')->name('01sekapursirih.index');
+Route::delete('/01sekapursirih/{id}', [BerandaController::class, 'sekapursirihdelete'])->middleware('auth')->name('01sekapursirih.destroy');
+Route::post('/sekapursirihcreate', [BerandaController::class, 'sekapursirihcreate'])->middleware('auth')->name('sekapursirih.create');
+Route::put('/sekapursirihcreate/{id}', [BerandaController::class, 'sekapursirihupdate'])->middleware('auth')->name('sekapursirih.update');
+
+// MENU 2 ===========================
+Route::get('/02kepengurusan', [BerandaController::class, 'adminkepengurusan'])->middleware('auth')->name('02kepengurusan.index');
+Route::delete('/02kepengurusan/{id}', [BerandaController::class, 'kepengurusandelete'])->middleware('auth')->name('02kepengurusan.destroy');
+Route::post('/kepengurusancreate', [BerandaController::class, 'kepengurusancreate'])->middleware('auth')->name('kepengurusan.create');
+Route::put('/kepengurusancreate/{id}', [BerandaController::class, 'kepengurusupdate'])->middleware('auth')->name('kepengurusan.update');
+
+// MENU 3 ===========================
+Route::get('/03peraturan', [BerandaController::class, 'adminperaturan'])->middleware('auth')->name('03peraturan.index');
+Route::delete('/03peraturan/{id}', [BerandaController::class, 'peraturandelete'])->middleware('auth')->name('03peraturan.destroy');
+Route::post('/peraturancreate', [BerandaController::class, 'peraturancreate'])->middleware('auth')->name('peraturan.create');
+Route::put('/peraturanupdate/{id}', [BerandaController::class, 'peraturanupdate'])->middleware('auth')->name('peraturan.update');
+
+// MENU 4 ===========================
+Route::get('/04divisi', [BerandaController::class, 'admindivisi'])->middleware('auth')->name('04divisi.index');
+Route::delete('/04divisi/{id}', [BerandaController::class, 'divisidelete'])->middleware('auth')->name('03peraturan.destroy');
+Route::post('/divisicreate', [BerandaController::class, 'divisicreate'])->middleware('auth')->name('divisi.create');
+Route::put('/divisiupdate/{id}', [BerandaController::class, 'divisiupdate'])->middleware('auth')->name('divisi.update');
+
+
 
 // PEMBAHARUAN BARU APLIKASI SNOC UNTAG SEMARANG
 Route::get('/', [PublicController::class, 'index'])->name('index');
@@ -267,19 +291,6 @@ Route::get('/kepengurusan', [PublicController::class, 'kepengurusan'])->name('ke
 Route::get('/peraturan', [PublicController::class, 'peraturan'])->name('peraturan');
 
 Route::get('/atribut', [PublicController::class, 'atribut'])->name('atribut');
-
-// HALAMAN BACKEN ADMIN DASHBOARD UNTUK ADMIN SABHAFIRINWA 17
-// MENU 1 ===========================
-Route::get('/01sekapursirih', [BerandaController::class, 'adminsekapursirih'])->middleware('auth')->name('01sekapursirih.index');
-Route::delete('/01sekapursirih/{id}', [BerandaController::class, 'sekapursirihdelete'])->middleware('auth')->name('01sekapursirih.destroy');
-Route::post('/sekapursirihcreate', [BerandaController::class, 'sekapursirihcreate'])->middleware('auth')->name('sekapursirih.create');
-Route::put('/sekapursirihcreate/{id}', [BerandaController::class, 'sekapursirihupdate'])->middleware('auth')->name('sekapursirih.update');
-
-// MENU 1 ===========================
-Route::get('/02kepengurusan', [BerandaController::class, 'adminkepengurusan'])->middleware('auth')->name('02kepengurusan.index');
-Route::delete('/02kepengurusan/{id}', [BerandaController::class, 'kepengurusandelete'])->middleware('auth')->name('01sekapursirih.destroy');
-Route::post('/kepengurusancreate', [BerandaController::class, 'kepengurusancreate'])->middleware('auth')->name('kepengurusan.create');
-Route::put('/kepengurusancreate/{id}', [BerandaController::class, 'kepengurusupdate'])->middleware('auth')->name('kepengurusan.update');
 
 
         require __DIR__.'/auth.php';

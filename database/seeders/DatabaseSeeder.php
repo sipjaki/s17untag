@@ -12,6 +12,9 @@ use App\Models\Lokasipengajuan;
 use App\Models\User;
 use App\Models\Donatur;
 use App\Models\sabha1;
+use App\Models\sabha2;
+use App\Models\sabha3;
+use App\Models\sabha4;
 use App\Models\statusadmin;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -103,6 +106,21 @@ class DatabaseSeeder extends Seeder
             sabha1::create([
                 'id'  => 1,
                 'sabha1'  => 'ini contoh',
+            ]);
+
+            sabha2::create([
+                'id'  => 1,
+                'sabha1'  => 'ini contoh sabha2',
+            ]);
+
+            sabha3::create([
+                'id'  => 1,
+                'sabha1'  => 'ini contoh sabha3',
+            ]);
+
+            sabha4::create([
+                'id'  => 1,
+                'sabha1'  => 'ini contoh sabha4',
             ]);
 
             }
