@@ -1,5 +1,5 @@
 {{-- ============================================================
-     DATA SEKAPUR SIRIH (LENGKAP + RESPONSIF)
+     DATA SEKAPUR SIRIH (LENGKAP + RESPONSIF) - FIX EDIT MODAL
      ============================================================ --}}
 
 <div class="col-12">
@@ -86,11 +86,11 @@
                                     </span>
                                 </div>
                                 <div class="d-flex flex-wrap gap-1">
-                                    {{-- TOMBOL EDIT PAKAI onclick --}}
-                                    <button class="btn btn-sm btn-outline-primary" onclick="openEditModal('{{ $item->id }}')" style="border-radius: 8px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: 4px 12px;">
+                                    {{-- TOMBOL EDIT - PAKAI onclick LANGSUNG --}}
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="editData('{{ $item->id }}')" style="border-radius: 8px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: 4px 12px;">
                                         <i class="mdi mdi-pencil"></i> Edit
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: 4px 12px;" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: 4px 12px;" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
                                         <i class="mdi mdi-delete"></i> Hapus
                                     </button>
                                 </div>
@@ -477,31 +477,37 @@
 @push('scripts')
 <script>
 // ============================================================
-// FUNGSI BUKA MODAL EDIT - PASTI JALAN
+// EDIT MODAL - PAKAI FUNGSI GLOBAL (PASTI JALAN)
 // ============================================================
-function openEditModal(id) {
+function editData(id) {
     if (!id) {
         alert('ID tidak ditemukan!');
         return;
     }
 
-    var modalElement = document.getElementById('editModal' + id);
-    if (!modalElement) {
+    var modal = document.getElementById('editModal' + id);
+    if (!modal) {
         alert('Modal tidak ditemukan!');
         return;
     }
 
-    // Hapus instance modal yang sudah ada
-    if (bootstrap.Modal.getInstance(modalElement)) {
-        bootstrap.Modal.getInstance(modalElement).dispose();
+    // Pake jQuery kalo ada
+    if (typeof $ !== 'undefined') {
+        $(modal).modal('show');
+        return;
     }
 
-    // Buat instance baru dan tampilkan
-    var myModal = new bootstrap.Modal(modalElement, {
-        backdrop: 'static',
-        keyboard: true
-    });
-    myModal.show();
+    // Fallback pake Bootstrap vanilla
+    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+        var myModal = new bootstrap.Modal(modal);
+        myModal.show();
+        return;
+    }
+
+    // Kalo ga ada Bootstrap sama sekali, pake cara manual
+    modal.style.display = 'block';
+    modal.classList.add('show');
+    document.body.classList.add('modal-open');
 }
 
 // ============================================================

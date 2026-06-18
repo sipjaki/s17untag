@@ -22,7 +22,7 @@
             </div>
 
             {{-- ============================================================
-                 FILTER: SEARCH, PER PAGE, DOWNLOAD
+                 SEARCH, PER PAGE, DOWNLOAD (TAMBAHAN BARU)
                  ============================================================ --}}
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
                 {{-- Search Form --}}
@@ -32,7 +32,7 @@
                             <span class="input-group-text bg-white border-0" style="padding: 0 12px;">
                                 <i class="mdi mdi-magnify" style="color: #7a8a9e;"></i>
                             </span>
-                            <input type="text" class="form-control border-0" name="search" placeholder="Cari nama atau jabatan..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 0;">
+                            <input type="text" class="form-control border-0" name="search" placeholder="Cari nama, jabatan, divisi..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 0;" id="searchInput">
                             <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
                         </div>
                         <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap;">
@@ -87,7 +87,7 @@
                             <!-- Header: Nama + Tombol Aksi -->
                             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
                                 <div class="d-flex align-items-center gap-3">
-                                    <!-- Foto Profil -->
+                                    <!-- Foto Profil (sabha5) -->
                                     <div style="width: clamp(48px, 6vw, 56px); height: clamp(48px, 6vw, 56px); border-radius: 50%; overflow: hidden; border: 3px solid #c62828; flex-shrink: 0; background: #f0f2f5;">
                                         @if($item->sabha5 && file_exists(public_path($item->sabha5)))
                                             <img src="{{ asset($item->sabha5) }}" alt="Foto" style="width: 100%; height: 100%; object-fit: cover;">
@@ -107,28 +107,27 @@
                                     </div>
                                 </div>
                                 <div class="d-flex flex-wrap gap-1">
-                                    {{-- TOMBOL EDIT PAKAI onclick --}}
-                                    <button class="btn btn-sm btn-outline-primary" onclick="openEdit('{{ $item->id }}')" style="border-radius: 8px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: clamp(3px, 0.5vw, 4px) clamp(8px, 1vw, 12px);">
+                                    <button class="btn btn-sm btn-outline-primary btn-edit" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: clamp(3px, 0.5vw, 4px) clamp(8px, 1vw, 12px);">
                                         <i class="mdi mdi-pencil"></i> <span class="d-none d-sm-inline">Edit</span>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: clamp(3px, 0.5vw, 4px) clamp(8px, 1vw, 12px);" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: clamp(3px, 0.5vw, 4px) clamp(8px, 1vw, 12px);" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
                                         <i class="mdi mdi-delete"></i> <span class="d-none d-sm-inline">Hapus</span>
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- Detail (Jurusan & Keterangan) - Responsif -->
+                            <!-- Detail (NPM, Divisi, Jabatan) - Responsif -->
                             <div style="display: flex; flex-wrap: wrap; gap: clamp(8px, 1.5vw, 16px) clamp(12px, 2vw, 24px); padding-top: 8px; border-top: 1px solid #f0f2f5;">
                                 <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                                    <i class="mdi mdi-school" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px);"></i>
+                                    <i class="mdi mdi-card-account-details" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px);"></i>
                                     <span style="font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.3vw, 13px); color: #5a6a7a;">
-                                        <strong style="color: #1a1a2e;">Jurusan:</strong> {{ $item->sabha3 ?? '-' }}
+                                        <strong style="color: #1a1a2e;">NPM:</strong> {{ $item->sabha3 ?? '-' }}
                                     </span>
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                                    <i class="mdi mdi-information" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px);"></i>
+                                    <i class="mdi mdi-domain" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px);"></i>
                                     <span style="font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.3vw, 13px); color: #5a6a7a;">
-                                        <strong style="color: #1a1a2e;">Keterangan:</strong> {{ $item->sabha4 ?? '-' }}
+                                        <strong style="color: #1a1a2e;">Divisi:</strong> {{ $item->sabha4 ?? '-' }}
                                     </span>
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 6px; margin-left: auto; flex-wrap: wrap;">
@@ -182,10 +181,18 @@
                             <i class="mdi mdi-account-group"></i>
                         </div>
                         <h5 style="font-family: 'Poppins', sans-serif; font-weight: 500; color: #5a6a7a; margin: 0; font-size: clamp(16px, 2vw, 18px);">
-                            Belum Ada Data Pengurus
+                            @if(request('search'))
+                                Data Tidak Ditemukan!
+                            @else
+                                Belum Ada Data Pengurus
+                            @endif
                         </h5>
                         <p style="font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.5vw, 14px); color: #b0b8c4; margin-top: 6px;">
-                            Klik tombol <strong>"Tambah Pengurus"</strong> untuk menambahkan data kepengurusan.
+                            @if(request('search'))
+                                Tidak ada hasil untuk pencarian "<strong>{{ request('search') }}</strong>"
+                            @else
+                                Klik tombol <strong>"Tambah Pengurus"</strong> untuk menambahkan data kepengurusan.
+                            @endif
                         </p>
                     </div>
                 @endforelse
@@ -194,6 +201,7 @@
             {{-- ============================================================
                  PAGINATION (RESPONSIF + NEXT PREVIOUS)
                  ============================================================ --}}
+            @if($data->total() > 0)
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-4 pt-3" style="border-top: 2px solid #f0f2f5;">
 
                 {{-- Info Kiri --}}
@@ -207,12 +215,13 @@
                     <span style="background: linear-gradient(135deg, #4f6af5, #7c3aed); color: white; padding: 2px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 4px;">data</span>
                 </div>
 
-                {{-- Pagination --}}
+                {{-- Pagination Kanan dengan Next & Previous --}}
                 <nav aria-label="Page navigation">
                     <ul class="pagination pagination-nav" style="display: flex; align-items: center; gap: 6px; margin: 0; flex-wrap: wrap; justify-content: center;">
 
+                        {{-- Previous Page Link --}}
                         @if ($data->onFirstPage())
-                            <li class="page-item disabled">
+                            <li class="page-item disabled" aria-disabled="true" aria-label="Previous">
                                 <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #b8c5d6; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; opacity: 0.5; cursor: not-allowed;">
                                     <i class="mdi mdi-chevron-left" style="font-size: 18px;"></i> Prev
                                 </span>
@@ -225,41 +234,58 @@
                             </li>
                         @endif
 
+                        {{-- Pagination Elements --}}
                         @php
                             $start = max(1, $data->currentPage() - 2);
                             $end = min($data->lastPage(), $data->currentPage() + 2);
                         @endphp
 
+                        {{-- First Page Link --}}
                         @if ($start > 1)
                             <li class="page-item">
-                                <a class="page-link" href="{{ $data->url(1) }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">1</a>
+                                <a class="page-link" href="{{ $data->url(1) }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">
+                                    1
+                                </a>
                             </li>
                             @if ($start > 2)
-                                <li class="page-item disabled"><span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; color: #b8c5d6; background: transparent; border: none; padding: 8px 12px;">...</span></li>
+                                <li class="page-item disabled">
+                                    <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; color: #b8c5d6; background: transparent; border: none; padding: 8px 12px;">...</span>
+                                </li>
                             @endif
                         @endif
 
+                        {{-- Page Numbers --}}
                         @for ($i = $start; $i <= $end; $i++)
                             @if ($i == $data->currentPage())
-                                <li class="page-item active">
-                                    <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; background: linear-gradient(135deg, #4f6af5, #7c3aed); border-color: #4f6af5; color: #ffffff; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); transform: translateY(-2px); animation: pulse 2s infinite;">{{ $i }}</span>
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; background: linear-gradient(135deg, #4f6af5, #7c3aed); border-color: #4f6af5; color: #ffffff; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); transform: translateY(-2px); animation: pulse 2s infinite;">
+                                        {{ $i }}
+                                    </span>
                                 </li>
                             @else
                                 <li class="page-item">
-                                    <a class="page-link" href="{{ $data->url($i) }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">{{ $i }}</a>
+                                    <a class="page-link" href="{{ $data->url($i) }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">
+                                        {{ $i }}
+                                    </a>
                                 </li>
                             @endif
                         @endfor
 
+                        {{-- Last Page Link --}}
                         @if ($end < $data->lastPage())
                             @if ($end < $data->lastPage() - 1)
-                                <li class="page-item disabled"><span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; color: #b8c5d6; background: transparent; border: none; padding: 8px 12px;">...</span></li>
+                                <li class="page-item disabled">
+                                    <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; color: #b8c5d6; background: transparent; border: none; padding: 8px 12px;">...</span>
+                                </li>
                             @endif
                             <li class="page-item">
-                                <a class="page-link" href="{{ $data->url($data->lastPage()) }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">{{ $data->lastPage() }}</a>
+                                <a class="page-link" href="{{ $data->url($data->lastPage()) }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">
+                                    {{ $data->lastPage() }}
+                                </a>
                             </li>
                         @endif
 
+                        {{-- Next Page Link --}}
                         @if ($data->hasMorePages())
                             <li class="page-item">
                                 <a class="page-link" href="{{ $data->nextPageUrl() }}" rel="next" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: #f8fafc; border: 1px solid #e9edf2; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">
@@ -267,10 +293,10 @@
                                 </a>
                             </li>
                         @else
-                            <li class="page-item disabled">
+                            <li class="page-item disabled" aria-disabled="true" aria-label="Next">
                                 <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #b8c5d6; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; opacity: 0.5; cursor: not-allowed;">
                                     Next <i class="mdi mdi-chevron-right" style="font-size: 18px;"></i>
-                                </span>
+                                </a>
                             </li>
                         @endif
 
@@ -278,6 +304,7 @@
                 </nav>
 
             </div>
+            @endif
 
         </div>
     </div>
@@ -300,26 +327,45 @@
                 @csrf
                 <div class="modal-body" style="padding: clamp(14px, 2vw, 24px);">
                     <div class="row g-3">
+                        <!-- Nama Lengkap (sabha1) -->
                         <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Nama Lengkap</label>
-                            <input type="text" class="form-control" name="sabha1" placeholder="Masukkan nama lengkap" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-account" style="color: #c62828;"></i> Nama Lengkap
+                            </label>
+                            <input type="text" class="form-control" name="sabha1" placeholder="Masukkan nama lengkap" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);" required>
                         </div>
+
+                        <!-- Jabatan (sabha2) -->
                         <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Divisi / Jabatan</label>
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-briefcase" style="color: #c62828;"></i> Jabatan
+                            </label>
                             <input type="text" class="form-control" name="sabha2" placeholder="Contoh: Ketua, Sekretaris" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
+
+                        <!-- NPM (sabha3) -->
                         <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Jurusan</label>
-                            <input type="text" class="form-control" name="sabha3" placeholder="Contoh: Teknik Informatika" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-card-account-details" style="color: #0d47a1;"></i> NPM
+                            </label>
+                            <input type="text" class="form-control" name="sabha3" placeholder="Masukkan NPM" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
+
+                        <!-- Divisi (sabha4) -->
                         <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Upload Foto</label>
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-domain" style="color: #0d47a1;"></i> Divisi
+                            </label>
+                            <input type="text" class="form-control" name="sabha4" placeholder="Contoh: Pendidikan, Olahraga" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                        </div>
+
+                        <!-- Foto (sabha5) -->
+                        <div class="col-12">
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-camera" style="color: #c62828;"></i> Upload Foto
+                            </label>
                             <input type="file" class="form-control" name="sabha5" accept="image/*" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">
                             <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: JPG, PNG, JPEG. Maks 2MB</small>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Keterangan</label>
-                            <textarea class="form-control" name="sabha4" rows="3" placeholder="Keterangan tambahan..." style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);"></textarea>
                         </div>
                     </div>
                 </div>
@@ -335,7 +381,7 @@
 </div>
 
 {{-- ============================================================
-     MODAL EDIT DATA (RESPONSIF) - FIX
+     MODAL EDIT DATA (RESPONSIF)
      ============================================================ --}}
 @foreach ($data as $item)
 <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
@@ -353,20 +399,43 @@
                 @method('PUT')
                 <div class="modal-body" style="padding: clamp(14px, 2vw, 24px);">
                     <div class="row g-3">
+                        <!-- Nama Lengkap (sabha1) -->
                         <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Nama Lengkap</label>
-                            <input type="text" class="form-control" name="sabha1" value="{{ $item->sabha1 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-account" style="color: #c62828;"></i> Nama Lengkap
+                            </label>
+                            <input type="text" class="form-control" name="sabha1" value="{{ $item->sabha1 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);" required>
                         </div>
+
+                        <!-- Jabatan (sabha2) -->
                         <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Divisi / Jabatan</label>
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-briefcase" style="color: #c62828;"></i> Jabatan
+                            </label>
                             <input type="text" class="form-control" name="sabha2" value="{{ $item->sabha2 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
+
+                        <!-- NPM (sabha3) -->
                         <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Jurusan</label>
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-card-account-details" style="color: #0d47a1;"></i> NPM
+                            </label>
                             <input type="text" class="form-control" name="sabha3" value="{{ $item->sabha3 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
+
+                        <!-- Divisi (sabha4) -->
                         <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Upload Foto</label>
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-domain" style="color: #0d47a1;"></i> Divisi
+                            </label>
+                            <input type="text" class="form-control" name="sabha4" value="{{ $item->sabha4 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                        </div>
+
+                        <!-- Foto (sabha5) -->
+                        <div class="col-12">
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-camera" style="color: #c62828;"></i> Upload Foto
+                            </label>
                             @if($item->sabha5 && file_exists(public_path($item->sabha5)))
                                 <div style="margin-bottom: 8px;">
                                     <img src="{{ asset($item->sabha5) }}" alt="Foto Saat Ini" style="width: clamp(60px, 8vw, 80px); height: clamp(60px, 8vw, 80px); object-fit: cover; border-radius: 10px; border: 2px solid #f0f2f5;">
@@ -377,10 +446,6 @@
                             @endif
                             <input type="file" class="form-control" name="sabha5" accept="image/*" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">
                             <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: JPG, PNG, JPEG. Maks 2MB</small>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Keterangan</label>
-                            <textarea class="form-control" name="sabha4" rows="3" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">{{ $item->sabha4 }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -401,6 +466,9 @@
      ============================================================ --}}
 @push('styles')
 <style>
+    /* ============================================================
+       PAGINATION STYLE
+       ============================================================ */
     .pagination-nav .page-item {
         margin: 0 2px;
     }
@@ -483,11 +551,15 @@
         100% { box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); }
     }
 
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
     @media (max-width: 768px) {
         .pagination-nav {
             justify-content: center;
             flex-wrap: wrap;
         }
+
         .pagination-nav .page-link {
             font-size: 13px;
             padding: 6px 12px;
@@ -495,6 +567,7 @@
             height: 38px;
             border-radius: 10px;
         }
+
         .pagination-nav .page-item:first-child .page-link,
         .pagination-nav .page-item:last-child .page-link {
             padding: 6px 10px;
@@ -510,6 +583,7 @@
             height: 34px;
             border-radius: 8px;
         }
+
         .pagination-nav .page-item:first-child .page-link,
         .pagination-nav .page-item:last-child .page-link {
             padding: 4px 8px;
@@ -517,84 +591,92 @@
         }
     }
 </style>
-@endpush
 
-@push('scripts')
 <script>
-// ============================================================
-// FUNGSI BUKA MODAL EDIT - PASTI JALAN
-// ============================================================
-function openEdit(id) {
-    if (!id) {
-        alert('ID tidak ditemukan!');
-        return;
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        // ---- BUKA MODAL EDIT ----
+        document.querySelectorAll('.btn-edit').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                var id = this.dataset.id;
+                var modal = document.getElementById('editModal' + id);
+                if (modal) {
+                    var bsModal = new bootstrap.Modal(modal);
+                    bsModal.show();
+                }
+            });
+        });
 
-    var modalElement = document.getElementById('editModal' + id);
-    if (!modalElement) {
-        alert('Modal tidak ditemukan!');
-        return;
-    }
-
-    // Hapus instance modal yang sudah ada
-    if (bootstrap.Modal.getInstance(modalElement)) {
-        bootstrap.Modal.getInstance(modalElement).dispose();
-    }
-
-    // Buat instance baru dan tampilkan
-    var myModal = new bootstrap.Modal(modalElement, {
-        backdrop: 'static',
-        keyboard: true
-    });
-    myModal.show();
-}
-
-// ============================================================
-// DOWNLOAD CSV
-// ============================================================
-function exportToCSV() {
-    var dataCards = document.querySelectorAll('#dataContainer .card');
-
-    if (dataCards.length === 0) {
-        alert('Tidak ada data untuk di-download!');
-        return;
-    }
-
-    var csv = [];
-    var headers = ['No', 'Nama', 'Jabatan', 'Jurusan', 'Keterangan', 'Tanggal Dibuat'];
-    csv.push(headers.join(','));
-
-    dataCards.forEach(function(card, index) {
-        var row = [];
-        row.push(index + 1);
-
-        var nama = card.querySelector('h5');
-        row.push(nama ? nama.textContent.trim() : '-');
-
-        var jabatan = card.querySelector('.d-flex.align-items-center.gap-3 .d-flex .d-inline-block');
-        row.push(jabatan ? jabatan.textContent.trim() : '-');
-
-        var jurusan = card.querySelector('.mdi-school')?.closest('.d-flex')?.querySelector('span');
-        row.push(jurusan ? jurusan.textContent.replace('Jurusan:', '').trim() : '-');
-
-        var ket = card.querySelector('.mdi-information')?.closest('.d-flex')?.querySelector('span');
-        row.push(ket ? ket.textContent.replace('Keterangan:', '').trim() : '-');
-
-        var date = card.querySelector('.mdi-calendar')?.closest('.d-flex')?.querySelector('span');
-        row.push(date ? date.textContent.trim() : '-');
-
-        csv.push(row.join(','));
+        // ---- TUTUP MODAL SAAT KLIK DI LUAR ----
+        document.querySelectorAll('.modal').forEach(function(modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    var bsModal = bootstrap.Modal.getInstance(this);
+                    if (bsModal) {
+                        bsModal.hide();
+                    }
+                }
+            });
+        });
     });
 
-    var blob = new Blob(['\uFEFF' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
-    var link = document.createElement('a');
-    var url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'kepengurusan_' + new Date().toISOString().slice(0,10) + '.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-}
+    // ============================================================
+    // DOWNLOAD CSV
+    // ============================================================
+    function exportToCSV() {
+        var dataCards = document.querySelectorAll('#dataContainer .card');
+
+        if (dataCards.length === 0) {
+            alert('Tidak ada data untuk di-download!');
+            return;
+        }
+
+        var csv = [];
+        var headers = ['No', 'Nama', 'Jabatan', 'NPM', 'Divisi', 'Tanggal Dibuat'];
+        csv.push(headers.join(','));
+
+        dataCards.forEach(function(card, index) {
+            var row = [];
+
+            // No
+            row.push(index + 1);
+
+            // Nama (sabha1)
+            var nama = card.querySelector('h5') ? card.querySelector('h5').textContent.trim() : '-';
+            row.push(nama);
+
+            // Jabatan (sabha2)
+            var jabatan = card.querySelector('.d-flex.align-items-center.gap-3 .d-flex span') ?
+                          card.querySelector('.d-flex.align-items-center.gap-3 .d-flex span').textContent.trim() : '-';
+            row.push(jabatan);
+
+            // NPM (sabha3)
+            var npmSpan = card.querySelector('.d-flex.flex-wrap.gap-3 .d-flex.align-items-center.gap-6:first-child span');
+            var npm = npmSpan ? npmSpan.textContent.trim().replace('NPM:', '').trim() : '-';
+            row.push(npm);
+
+            // Divisi (sabha4)
+            var divisiSpan = card.querySelector('.d-flex.flex-wrap.gap-3 .d-flex.align-items-center.gap-6:nth-child(2) span');
+            var divisi = divisiSpan ? divisiSpan.textContent.trim().replace('Divisi:', '').trim() : '-';
+            row.push(divisi);
+
+            // Tanggal
+            var dateSpan = card.querySelector('.d-flex.flex-wrap.gap-3 .d-flex.align-items-center.gap-6:last-child span');
+            var date = dateSpan ? dateSpan.textContent.trim() : '-';
+            row.push(date);
+
+            csv.push(row.join(','));
+        });
+
+        var blob = new Blob(['\uFEFF' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+        var link = document.createElement('a');
+        var url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'kepengurusan_' + new Date().toISOString().slice(0,10) + '.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
 </script>
 @endpush
