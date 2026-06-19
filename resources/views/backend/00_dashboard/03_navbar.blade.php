@@ -1,50 +1,51 @@
-  <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
-  <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-    <div class="me-3">
-      <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
-        <span class="icon-menu"></span>
-      </button>
+<nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+        <div class="me-3">
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+                <span class="icon-menu"></span>
+            </button>
+        </div>
+        <div>
+            <a class="navbar-brand brand-logo" href="../index.html">
+                <img src="/assets/newtheme/gambar/sabha.png" alt="logo" />
+            </a>
+            Sabhagiriwana'17
+            {{-- <a class="navbar-brand brand-logo-mini" href="../index.html">
+                <img src="../assets/images/logo-mini.svg" alt="logo" />
+            </a> --}}
+        </div>
     </div>
-    <div>
-      <a class="navbar-brand brand-logo" href="../index.html">
-        <img src="/assets/newtheme/gambar/sabha.png" alt="logo" />
-      </a>
-      {{-- <a class="navbar-brand brand-logo-mini" href="../index.html">
-        <img src="../assets/images/logo-mini.svg" alt="logo" />
-      </a> --}}
+
+    <div class="navbar-menu-wrapper d-flex align-items-top">
+        <ul class="navbar-nav">
+            <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+                <h1 class="welcome-text">
+                    Selamat
+                    @php
+                        $hour = date('H');
+                        if ($hour >= 4 && $hour < 10) {
+                            $greeting = 'Pagi';
+                        } elseif ($hour >= 10 && $hour < 15) {
+                            $greeting = 'Siang';
+                        } elseif ($hour >= 15 && $hour < 19) {
+                            $greeting = 'Sore';
+                        } else {
+                            $greeting = 'Malam';
+                        }
+                    @endphp
+                    {{ $greeting }},
+                    <span class="text-black fw-bold">{{ Auth::user()->username ?? Auth::user()->name ?? 'Admin' }}</span>
+                </h1>
+                {{-- <h3 class="welcome-sub-text">{{ $title ?? 'Dashboard' }}</h3> --}}
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto">
+            {{-- Tempat untuk menu tambahan di sisi kanan --}}
+        </ul>
+
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+        </button>
     </div>
-  </div>
-  <div class="navbar-menu-wrapper d-flex align-items-top">
-<ul class="navbar-nav">
-    <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-        <h1 class="welcome-text">
-            Selamat
-            @php
-                $hour = date('H');
-                if ($hour >= 4 && $hour < 10) {
-                    $greeting = 'Pagi';
-                } elseif ($hour >= 10 && $hour < 15) {
-                    $greeting = 'Siang';
-                } elseif ($hour >= 15 && $hour < 19) {
-                    $greeting = 'Sore';
-                } else {
-                    $greeting = 'Malam';
-                }
-            @endphp
-            {{ $greeting }},
-            <span class="text-black fw-bold">{{ Auth::user()->username ?? Auth::user()->name ?? 'Admin' }}</span>
-        </h1>
-        <h3 class="welcome-sub-text">{{ $title ?? 'Dashboard' }}</h3>
-    </li>
-</ul>
-
-<ul class="navbar-nav ms-auto">
-
-
-    </ul>
-    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-      data-bs-toggle="offcanvas">
-      <span class="mdi mdi-menu"></span>
-    </button>
-  </div>
 </nav>

@@ -254,17 +254,23 @@ Route::get('/daftardonatur', [DonaturController::class, 'index'])->middleware('a
 // Route::resource('/lokasimakangratis', LokasimakangratisController::class);
 
 // HALAMAN BACKEN ADMIN DASHBOARD UNTUK ADMIN SABHAFIRINWA 17
+// MENU 0 ===========================
+Route::get('/00beranda', [BerandaController::class, 'adminberanda'])->middleware('auth')->name('00beranda.index');
+Route::delete('/00beranda/{id}', [BerandaController::class, 'berandadelete'])->middleware('auth')->name('00beranda.destroy');
+Route::post('/berandacreate', [BerandaController::class, 'berandacreate'])->middleware('auth')->name('beranda.create');
+Route::put('/berandacreate/{id}', [BerandaController::class, 'berandaupdate'])->middleware('auth')->name('beranda.update');
+
 // MENU 1 ===========================
 Route::get('/01sekapursirih', [BerandaController::class, 'adminsekapursirih'])->middleware('auth')->name('01sekapursirih.index');
 Route::delete('/01sekapursirih/{id}', [BerandaController::class, 'sekapursirihdelete'])->middleware('auth')->name('01sekapursirih.destroy');
 Route::post('/sekapursirihcreate', [BerandaController::class, 'sekapursirihcreate'])->middleware('auth')->name('sekapursirih.create');
-Route::put('/sekapursirihcreate/{id}', [BerandaController::class, 'sekapursirihupdate'])->middleware('auth')->name('sekapursirih.update');
+Route::put('/sekapursirihupdate/{id}', [BerandaController::class, 'sekapursirihupdate'])->middleware('auth')->name('sekapursirih.update');
 
 // MENU 2 ===========================
 Route::get('/02kepengurusan', [BerandaController::class, 'adminkepengurusan'])->middleware('auth')->name('02kepengurusan.index');
 Route::delete('/02kepengurusan/{id}', [BerandaController::class, 'kepengurusandelete'])->middleware('auth')->name('02kepengurusan.destroy');
 Route::post('/kepengurusancreate', [BerandaController::class, 'kepengurusancreate'])->middleware('auth')->name('kepengurusan.create');
-Route::put('/kepengurusancreate/{id}', [BerandaController::class, 'kepengurusupdate'])->middleware('auth')->name('kepengurusan.update');
+Route::put('/kepengurusanupdate/{id}', [BerandaController::class, 'kepengurusupdate'])->middleware('auth')->name('kepengurusan.update');
 
 // MENU 3 ===========================
 Route::get('/03peraturan', [BerandaController::class, 'adminperaturan'])->middleware('auth')->name('03peraturan.index');

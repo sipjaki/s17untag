@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\beranda;
 use App\Models\sabha1;
 use App\Models\sabha2;
 use App\Models\sabha3;
@@ -1219,5 +1220,128 @@ public function divisidelete($id)
     }
 
 
+    // ====================================================================================================================
+    // MENU 0
+    // ====================================================================================================================
+       public function adminberanda(Request $request)
+            {
+                $search = $request->search;
+                $perPage = $request->per_page ?? 5;
+
+                $data = beranda::when($search, function($q) use ($search) {
+                    return $q->where('sabha1', 'LIKE', "%$search%")
+                            ->orWhere('sabha2', 'LIKE', "%$search%")
+                            ->orWhere('sabha3', 'LIKE', "%$search%")
+                            ->orWhere('sabha4', 'LIKE', "%$search%")
+                            ->orWhere('sabha5', 'LIKE', "%$search%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($perPage)
+                ->appends(['search' => $search, 'per_page' => $perPage]);
+
+                return view('backend.01_beranda.00_beranda.01_adminberanda', [
+                    'title' => 'Sabhagiriwana17 | Foto Beranda',
+                    'user'  => Auth::user(),
+                    'data'  => $data,
+                ]);
+            }
+
+            public function berandacreate(Request $request)
+{
+    $request->validate([
+        'sabha1' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+        'sabha2' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+    ]);
+
+    try {
+        $fotos = [];
+        for ($i = 1; $i <= 5; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_beranda'), $filename);
+                $fotos[$field] = 'foto_beranda/' . $filename;
+            } else {
+                $fotos[$field] = null;
+            }
+        }
+
+        $data = beranda::create($fotos);
+
+        return redirect()->route('00beranda.index')
+            ->with('success', 'Foto Beranda berhasil ditambahkan!');
+
+    } catch (\Exception $e) {
+        return back()
+            ->with('error', 'Gagal menyimpan data: ' . $e->getMessage())
+            ->withInput();
+    }
+}
+
+public function berandaupdate(Request $request, $id)
+{
+    $request->validate([
+        'sabha1' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+        'sabha2' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+    ]);
+
+    try {
+        $data = beranda::findOrFail($id);
+
+        for ($i = 1; $i <= 5; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                // Hapus foto lama
+                if ($data->$field && file_exists(public_path($data->$field))) {
+                    unlink(public_path($data->$field));
+                }
+                // Upload foto baru
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_beranda'), $filename);
+                $data->$field = 'foto_beranda/' . $filename;
+            }
+        }
+        $data->save();
+
+        return redirect()->route('00beranda.index')
+            ->with('warning', 'Foto Beranda berhasil diperbarui!');
+
+    } catch (\Exception $e) {
+        return back()
+            ->with('error', 'Gagal memperbarui data: ' . $e->getMessage())
+            ->withInput();
+    }
+}
+
+public function berandadelete($id)
+{
+    try {
+        $data = beranda::findOrFail($id);
+
+        for ($i = 1; $i <= 5; $i++) {
+            $field = 'sabha' . $i;
+            if ($data->$field && file_exists(public_path($data->$field))) {
+                unlink(public_path($data->$field));
+            }
+        }
+
+        $data->delete();
+
+        return redirect()->route('00beranda.index')
+            ->with('error', 'Foto Beranda berhasil dihapus!');
+
+    } catch (\Exception $e) {
+        return back()
+            ->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+    }
+}
 
     }

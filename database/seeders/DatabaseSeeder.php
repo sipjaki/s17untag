@@ -45,37 +45,47 @@ class DatabaseSeeder extends Seeder
             'statusadmin_id' => '1',
             'avatar' => 'assets/abgblora/logo/iconabgblora.png',
             'email' => 'sigitseptiadi1@gmail.com',
-            'password' => bcrypt('adminadmin123$$')
+            'password' => bcrypt('adminsabha123')
         ]);
 
           User::create([
             'id'  => 2,
             'name'  => 'Pa Anex Fachrian',
-            'username' => 'Sigit',
+            'username' => 'Pa Anex Fachrian',
             'statusadmin_id' => '1',
             'avatar' => 'assets/abgblora/logo/iconabgblora.png',
-            'email' => 'anexfachrians17@gmail.com',
-            'password' => bcrypt('adminadmin123$$')
+            'email' => 'sabha17admin@gmail.com',
+            'password' => bcrypt('adminsabha123')
         ]);
 
           User::create([
             'id'  => 3,
             'name'  => 'Admin Sabhagiriwana 17 ',
-            'username' => 'Sigit',
+            'username' => 'Admin Sabhagiriwana17 (1)',
             'statusadmin_id' => '1',
             'avatar' => 'assets/abgblora/logo/iconabgblora.png',
             'email' => 'sabhagiriwana17@gmail.com',
-            'password' => bcrypt('adminadmin123$$')
+            'password' => bcrypt('adminsabha123')
         ]);
 
           User::create([
             'id'  => 4,
             'name'  => 'Admin Sabhagiriwana 17 ',
-            'username' => 'Sigit',
+            'username' => 'Admin Sabhagiriwana17 (2)',
             'statusadmin_id' => '1',
             'avatar' => 'assets/abgblora/logo/iconabgblora.png',
-            'email' => 'sabhagiriwana17new@gmail.com',
-            'password' => bcrypt('adminadmin$$123')
+            'email' => 'adminsabha17@gmail.com',
+            'password' => bcrypt('adminsabha123')
+        ]);
+
+          User::create([
+            'id'  => 5,
+            'name'  => 'Admin Sabhagiriwana 17 ',
+            'username' => 'Admin Sabhagiriwana17 (3)',
+            'statusadmin_id' => '1',
+            'avatar' => 'assets/abgblora/logo/iconabgblora.png',
+            'email' => 'admin2sabha17@gmail.com',
+            'password' => bcrypt('adminsabha123')
         ]);
 
         // STATUS ADMIN UNTUK HAK AKSES
@@ -105,348 +115,348 @@ class DatabaseSeeder extends Seeder
                 'statusadmin'  => 'hakakseslain',
             ]);
 
-            // ==========================================================
+            // // ==========================================================
 
-            sabha1::create([
-                'id'  => 1,
-                'sabha1'  => 'ini contoh',
-            ]);
-
-
-            sabha2::create([
-                'id'  => 1,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 2,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 3,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 4,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 5,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 6,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 7,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 8,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 9,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 10,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 11,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
-            sabha2::create([
-                'id'  => 12,
-                'sabha1'  => 'ini contoh sabha2',
-            ]);
+            // sabha1::create([
+            //     'id'  => 1,
+            //     'sabha1'  => 'ini contoh',
+            // ]);
 
 
-
-
-            sabha3::create([
-                'id'  => 1,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 2,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 3,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 4,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 5,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 6,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 7,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 8,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 9,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 10,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 11,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
-
-            sabha3::create([
-                'id'  => 12,
-                'sabha1'  => 'ini contoh sabha3',
-            ]);
+            // sabha2::create([
+            //     'id'  => 1,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 2,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 3,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 4,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 5,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 6,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 7,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 8,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 9,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 10,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 11,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
+            // sabha2::create([
+            //     'id'  => 12,
+            //     'sabha1'  => 'ini contoh sabha2',
+            // ]);
 
 
 
-            sabha4::create([
-                'id'  => 1,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
 
-            sabha4::create([
-                'id'  => 2,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 1,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-            sabha4::create([
-                'id'  => 3,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 2,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-            sabha4::create([
-                'id'  => 4,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 3,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-            sabha4::create([
-                'id'  => 5,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 4,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-            sabha4::create([
-                'id'  => 6,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 5,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-            sabha4::create([
-                'id'  => 7,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 6,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-            sabha4::create([
-                'id'  => 8,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 7,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-            sabha4::create([
-                'id'  => 9,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 8,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-            sabha4::create([
-                'id'  => 10,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 9,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-            sabha4::create([
-                'id'  => 11,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 10,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-            sabha4::create([
-                'id'  => 12,
-                'sabha1'  => 'ini contoh sabha4',
-            ]);
+            // sabha3::create([
+            //     'id'  => 11,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
-
-            sabha5::create([
-                'id'  => 1,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 2,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 3,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 4,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 5,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 6,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 7,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 8,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 9,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 10,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 11,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-            sabha5::create([
-                'id'  => 12,
-                'sabha1'  => 'ini contoh sabha5',
-            ]);
-
-            sabha6::create([
-                'id'  => 1,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-
-            sabha6::create([
-                'id'  => 2,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-            sabha6::create([
-                'id'  => 3,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-            sabha6::create([
-                'id'  => 4,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-            sabha6::create([
-                'id'  => 5,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-            sabha6::create([
-                'id'  => 6,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-            sabha6::create([
-                'id'  => 7,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-            sabha6::create([
-                'id'  => 8,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-            sabha6::create([
-                'id'  => 9,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-            sabha6::create([
-                'id'  => 10,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-            sabha6::create([
-                'id'  => 11,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
-            sabha6::create([
-                'id'  => 12,
-                'sabha1'  => 'ini contoh sabha6',
-            ]);
+            // sabha3::create([
+            //     'id'  => 12,
+            //     'sabha1'  => 'ini contoh sabha3',
+            // ]);
 
 
-            sabha7::create([
-                'id'  => 1,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
 
-            sabha7::create([
-                'id'  => 2,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 1,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
 
-            sabha7::create([
-                'id'  => 3,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 2,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
 
-            sabha7::create([
-                'id'  => 4,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 3,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
 
-            sabha7::create([
-                'id'  => 5,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 4,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
 
-            sabha7::create([
-                'id'  => 6,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 5,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
 
-            sabha7::create([
-                'id'  => 7,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 6,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
 
-            sabha7::create([
-                'id'  => 8,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 7,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
 
-            sabha7::create([
-                'id'  => 9,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 8,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
 
-            sabha7::create([
-                'id'  => 10,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 9,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
 
-            sabha7::create([
-                'id'  => 11,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 10,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
 
-            sabha7::create([
-                'id'  => 12,
-                'sabha1'  => 'ini contoh sabha7 prestasi',
-            ]);
+            // sabha4::create([
+            //     'id'  => 11,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
+
+            // sabha4::create([
+            //     'id'  => 12,
+            //     'sabha1'  => 'ini contoh sabha4',
+            // ]);
+
+
+            // sabha5::create([
+            //     'id'  => 1,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 2,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 3,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 4,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 5,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 6,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 7,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 8,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 9,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 10,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 11,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+            // sabha5::create([
+            //     'id'  => 12,
+            //     'sabha1'  => 'ini contoh sabha5',
+            // ]);
+
+            // sabha6::create([
+            //     'id'  => 1,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+
+            // sabha6::create([
+            //     'id'  => 2,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+            // sabha6::create([
+            //     'id'  => 3,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+            // sabha6::create([
+            //     'id'  => 4,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+            // sabha6::create([
+            //     'id'  => 5,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+            // sabha6::create([
+            //     'id'  => 6,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+            // sabha6::create([
+            //     'id'  => 7,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+            // sabha6::create([
+            //     'id'  => 8,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+            // sabha6::create([
+            //     'id'  => 9,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+            // sabha6::create([
+            //     'id'  => 10,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+            // sabha6::create([
+            //     'id'  => 11,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+            // sabha6::create([
+            //     'id'  => 12,
+            //     'sabha1'  => 'ini contoh sabha6',
+            // ]);
+
+
+            // sabha7::create([
+            //     'id'  => 1,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 2,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 3,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 4,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 5,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 6,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 7,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 8,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 9,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 10,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 11,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
+
+            // sabha7::create([
+            //     'id'  => 12,
+            //     'sabha1'  => 'ini contoh sabha7 prestasi',
+            // ]);
 
 
             }
