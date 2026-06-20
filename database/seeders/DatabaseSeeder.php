@@ -117,10 +117,21 @@ class DatabaseSeeder extends Seeder
 
             // // ==========================================================
 
-            // sabha1::create([
-            //     'id'  => 1,
-            //     'sabha1'  => 'ini contoh',
-            // ]);
+            sabha1::create([
+                'id'  => 1,
+                'sabha1'  => 'Sekapur 1',
+                'sabha2'  => 'Sekapur 2',
+                'sabha3'  => 'Sekapur 3',
+                'sabha4'  => 'Sekapur 4',
+            ]);
+
+            sabha8::create([
+                'id'  => 1,
+                'sabha1'  => 'null',
+                'sabha2'  => 'null',
+                'sabha3'  => 'null',
+                'sabha4'  => 'null',
+            ]);
 
 
             // sabha2::create([

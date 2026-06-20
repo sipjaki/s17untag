@@ -302,6 +302,37 @@ Route::delete('/07prestasi/{id}', [BerandaController::class, 'prestasidelete'])-
 Route::post('/prestasicreate', [BerandaController::class, 'prestasicreate'])->middleware('auth')->name('prestasi.create');
 Route::put('/prestasiupdate/{id}', [BerandaController::class, 'prestasiupdate'])->middleware('auth')->name('prestasi.update');
 
+// MENU 8 ===========================
+Route::get('/08dokkegiatan', [BerandaController::class, 'admindokkegiatan'])->middleware('auth')->name('08dokkegiatan.index');
+Route::delete('/08dokkegiatan/{id}', [BerandaController::class, 'dokkegiatandelete'])->middleware('auth')->name('08dokkegiatan.destroy');
+Route::post('/dokkegiatancreate', [BerandaController::class, 'dokkegiatancreate'])->middleware('auth')->name('dokkegiatan.create');
+Route::put('/dokkegiatanupdate/{id}', [BerandaController::class, 'dokkegiatanupdate'])->middleware('auth')->name('dokkegiatan.update');
+
+// MENU 9 SNOC ===========================
+Route::get('/09snoc', [BerandaController::class, 'admionsnoc'])->middleware('auth')->name('09snoc.index');
+Route::delete('/09snoc/{id}', [BerandaController::class, 'snocdelete'])->middleware('auth')->name('09snoc.destroy');
+Route::post('/snoccreate', [BerandaController::class, 'snoccreate'])->middleware('auth')->name('snoc.create');
+Route::put('/snocupdate/{id}', [BerandaController::class, 'snocupdate'])->middleware('auth')->name('snoc.update');
+
+
+// MENU 10 SNOC ===========================
+Route::get('/10nwct', [BerandaController::class, 'adminnwct'])->middleware('auth')->name('10nwct.index');
+Route::delete('/10nwct/{id}', [BerandaController::class, 'nwctdelete'])->middleware('auth')->name('10nwct.destroy');
+Route::post('/nwctcreate', [BerandaController::class, 'nwctcreate'])->middleware('auth')->name('nwct.create');
+Route::put('/nwctupdate/{id}', [BerandaController::class, 'nwctupdate'])->middleware('auth')->name('nwct.update');
+
+// MENU 11 SNOC ===========================
+Route::get('/11llbs', [BerandaController::class, 'adminllbs'])->middleware('auth')->name('11llbs.index');
+Route::delete('/11llbs/{id}', [BerandaController::class, 'llbsdelete'])->middleware('auth')->name('11llbs.destroy');
+Route::post('/llbscreate', [BerandaController::class, 'llbscreate'])->middleware('auth')->name('llbs.create');
+Route::put('/llbsupdate/{id}', [BerandaController::class, 'llbsupdate'])->middleware('auth')->name('llbs.update');
+
+// MENU 12 DIKLAT  ===========================
+Route::get('/12diklat', [BerandaController::class, 'admindiklat'])->middleware('auth')->name('12diklat.index');
+Route::delete('/12diklat/{id}', [BerandaController::class, 'diklatdelete'])->middleware('auth')->name('12diklat.destroy');
+Route::post('/diklatcreate', [BerandaController::class, 'diklatcreate'])->middleware('auth')->name('diklat.create');
+Route::put('/diklatupdate/{id}', [BerandaController::class, 'diklatupdate'])->middleware('auth')->name('diklat.update');
+
 
 
 // PEMBAHARUAN BARU APLIKASI SNOC UNTAG SEMARANG
@@ -315,6 +346,12 @@ Route::get('/kepengurusan', [PublicController::class, 'kepengurusan'])->name('ke
 Route::get('/peraturan', [PublicController::class, 'peraturan'])->name('peraturan');
 
 Route::get('/atribut', [PublicController::class, 'atribut'])->name('atribut');
+
+Route::get('/divisis17', [PublicController::class, 'divisis17'])->name('divisis17');
+
+Route::get('/keanggotaan', [PublicController::class, 'keanggotaan'])->name('keanggotaan');
+
+Route::get('/prestasi', [PublicController::class, 'prestasi'])->name('prestasi');
 
 
         require __DIR__.'/auth.php';

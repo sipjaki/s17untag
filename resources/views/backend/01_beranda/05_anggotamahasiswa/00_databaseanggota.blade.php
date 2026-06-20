@@ -22,7 +22,7 @@
             </div>
 
             {{-- ============================================================
-                 SEARCH, PER PAGE, DOWNLOAD (TAMBAHAN)
+                 SEARCH, PER PAGE, DOWNLOAD
                  ============================================================ --}}
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
                 {{-- Search Form --}}
@@ -104,13 +104,13 @@
                                             <div class="d-flex align-items-center gap-2 flex-wrap">
                                                 <!-- Status -->
                                                 <span style="font-family: 'Poppins', sans-serif; font-weight: 700; font-size: clamp(10px, 1.1vw, 12px); padding: 3px 12px; border-radius: 30px; white-space: nowrap;
-                                                    @if($item->sabha1 == 'Aktif')
+                                                    @if($item->sabha1 == 'Muda')
                                                         background: rgba(40,167,69,0.12); color: #28a745;
-                                                    @elseif($item->sabha1 == 'Non-Aktif')
+                                                    @elseif($item->sabha1 == 'Biasa')
                                                         background: rgba(220,53,69,0.12); color: #dc3545;
-                                                    @elseif($item->sabha1 == 'Alumni')
+                                                    @elseif($item->sabha1 == 'Luar Biasa')
                                                         background: rgba(23,162,184,0.12); color: #17a2b8;
-                                                    @elseif($item->sabha1 == 'Calon Anggota')
+                                                    @elseif($item->sabha1 == 'Kehormatan')
                                                         background: rgba(255,193,7,0.12); color: #856404;
                                                     @else
                                                         background: rgba(108,117,125,0.12); color: #6c757d;
@@ -170,11 +170,11 @@
                                                 <strong style="color: #1a1a2e;">Tempat/Tgl Lahir:</strong> {{ $item->sabha4 ?? '-' }}
                                             </span>
                                         </div>
-                                        <!-- Angkatan (sabha6) -->
+                                        <!-- Angkatan Pendidikan (sabha6) -->
                                         <div style="display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 6px 12px; border-radius: 8px;">
                                             <i class="mdi mdi-calendar" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px); width: 20px;"></i>
                                             <span style="font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); color: #5a6a7a;">
-                                                <strong style="color: #1a1a2e;">Angkatan:</strong> {{ $item->sabha6 ?? '-' }}
+                                                <strong style="color: #1a1a2e;">Angkatan Pendidikan:</strong> {{ $item->sabha6 ?? '-' }}
                                             </span>
                                         </div>
                                         <!-- Fakultas (sabha8) -->
@@ -182,6 +182,20 @@
                                             <i class="mdi mdi-school" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px); width: 20px;"></i>
                                             <span style="font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); color: #5a6a7a;">
                                                 <strong style="color: #1a1a2e;">Fakultas:</strong> {{ $item->sabha8 ?? '-' }}
+                                            </span>
+                                        </div>
+                                        <!-- Tanggal Pendidikan (sabha13) - BARU -->
+                                        <div style="display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 6px 12px; border-radius: 8px;">
+                                            <i class="mdi mdi-calendar-edit" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px); width: 20px;"></i>
+                                            <span style="font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); color: #5a6a7a;">
+                                                <strong style="color: #1a1a2e;">Tanggal Pendidikan:</strong> {{ $item->sabha13 ? \Carbon\Carbon::parse($item->sabha13)->format('d M Y') : '-' }}
+                                            </span>
+                                        </div>
+                                        <!-- Tanggal Pelantikan (sabha14) - BARU -->
+                                        <div style="display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 6px 12px; border-radius: 8px;">
+                                            <i class="mdi mdi-calendar-star" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px); width: 20px;"></i>
+                                            <span style="font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); color: #5a6a7a;">
+                                                <strong style="color: #1a1a2e;">Tanggal Pelantikan:</strong> {{ $item->sabha14 ? \Carbon\Carbon::parse($item->sabha14)->format('d M Y') : '-' }}
                                             </span>
                                         </div>
                                     </div>
@@ -227,7 +241,7 @@
                     </div>
 
                     {{-- ============================================================
-                         MODAL HAPUS (RESPONSIF)
+                         MODAL HAPUS
                          ============================================================ --}}
                     <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -285,7 +299,7 @@
             </div>
 
             {{-- ============================================================
-                 PAGINATION (RESPONSIF + NEXT PREVIOUS)
+                 PAGINATION
                  ============================================================ --}}
             @if($data->total() > 0)
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-4 pt-3" style="border-top: 2px solid #f0f2f5;">
@@ -301,13 +315,12 @@
                     <span style="background: linear-gradient(135deg, #4f6af5, #7c3aed); color: white; padding: 2px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 4px;">data</span>
                 </div>
 
-                {{-- Pagination Kanan dengan Next & Previous --}}
+                {{-- Pagination --}}
                 <nav aria-label="Page navigation">
                     <ul class="pagination pagination-nav" style="display: flex; align-items: center; gap: 6px; margin: 0; flex-wrap: wrap; justify-content: center;">
 
-                        {{-- Previous Page Link --}}
                         @if ($data->onFirstPage())
-                            <li class="page-item disabled" aria-disabled="true" aria-label="Previous">
+                            <li class="page-item disabled">
                                 <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #b8c5d6; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; opacity: 0.5; cursor: not-allowed;">
                                     <i class="mdi mdi-chevron-left" style="font-size: 18px;"></i> Prev
                                 </span>
@@ -320,13 +333,11 @@
                             </li>
                         @endif
 
-                        {{-- Pagination Elements --}}
                         @php
                             $start = max(1, $data->currentPage() - 2);
                             $end = min($data->lastPage(), $data->currentPage() + 2);
                         @endphp
 
-                        {{-- First Page Link --}}
                         @if ($start > 1)
                             <li class="page-item">
                                 <a class="page-link" href="{{ $data->url(1) }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">
@@ -340,10 +351,9 @@
                             @endif
                         @endif
 
-                        {{-- Page Numbers --}}
                         @for ($i = $start; $i <= $end; $i++)
                             @if ($i == $data->currentPage())
-                                <li class="page-item active" aria-current="page">
+                                <li class="page-item active">
                                     <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; background: linear-gradient(135deg, #4f6af5, #7c3aed); border-color: #4f6af5; color: #ffffff; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); transform: translateY(-2px); animation: pulse 2s infinite;">
                                         {{ $i }}
                                     </span>
@@ -357,7 +367,6 @@
                             @endif
                         @endfor
 
-                        {{-- Last Page Link --}}
                         @if ($end < $data->lastPage())
                             @if ($end < $data->lastPage() - 1)
                                 <li class="page-item disabled">
@@ -371,7 +380,6 @@
                             </li>
                         @endif
 
-                        {{-- Next Page Link --}}
                         @if ($data->hasMorePages())
                             <li class="page-item">
                                 <a class="page-link" href="{{ $data->nextPageUrl() }}" rel="next" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: #f8fafc; border: 1px solid #e9edf2; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">
@@ -379,10 +387,10 @@
                                 </a>
                             </li>
                         @else
-                            <li class="page-item disabled" aria-disabled="true" aria-label="Next">
+                            <li class="page-item disabled">
                                 <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #b8c5d6; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; opacity: 0.5; cursor: not-allowed;">
                                     Next <i class="mdi mdi-chevron-right" style="font-size: 18px;"></i>
-                                </a>
+                                </span>
                             </li>
                         @endif
 
@@ -397,7 +405,7 @@
 </div>
 
 {{-- ============================================================
-     MODAL TAMBAH DATA (RESPONSIF)
+     MODAL TAMBAH DATA
      ============================================================ --}}
 <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -420,11 +428,10 @@
                             </label>
                             <select class="form-control" name="sabha1" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);" required>
                                 <option value="">Pilih Status</option>
-                                <option value="Aktif">Aktif</option>
-                                <option value="Non-Aktif">Non-Aktif</option>
-                                <option value="Alumni">Alumni</option>
-                                <option value="Calon Anggota">Calon Anggota</option>
-                                <option value="Lainnya">Lainnya</option>
+                                <option value="Muda">Muda</option>
+                                <option value="Biasa">Biasa</option>
+                                <option value="Luar Biasa">Luar Biasa</option>
+                                <option value="Kehormatan">Kehormatan</option>
                             </select>
                         </div>
 
@@ -449,7 +456,7 @@
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
                                 <i class="mdi mdi-cake" style="color: #0d47a1;"></i> Tempat / Tanggal Lahir
                             </label>
-                            <input type="text" class="form-control" name="sabha4" placeholder="Contoh: Jakarta, 01 Jan 2000" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                            <input type="date" class="form-control" name="sabha4" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
 
                         <!-- NPA (sabha5) -->
@@ -460,12 +467,12 @@
                             <input type="text" class="form-control" name="sabha5" placeholder="Masukkan NPA" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
 
-                        <!-- Angkatan (sabha6) -->
+                        <!-- Angkatan Pendidikan (sabha6) -->
                         <div class="col-12 col-md-6">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
-                                <i class="mdi mdi-calendar" style="color: #0d47a1;"></i> Angkatan
+                                <i class="mdi mdi-calendar" style="color: #0d47a1;"></i> Angkatan Pendidikan
                             </label>
-                            <input type="text" class="form-control" name="sabha6" placeholder="Contoh: 2020" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                            <input type="text" class="form-control" name="sabha6" placeholder="Contoh: Kalajengking" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
 
                         <!-- NPM (sabha7) -->
@@ -522,6 +529,22 @@
                             <input type="file" class="form-control" name="sabha12" accept=".jpg,.jpeg,.png,.gif,.webp" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">
                             <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: JPG, PNG, GIF, WEBP. Maks 20MB</small>
                         </div>
+
+                        <!-- Tanggal Pendidikan (sabha13) - BARU -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-calendar-edit" style="color: #0d47a1;"></i> Tanggal Pendidikan
+                            </label>
+                            <input type="date" class="form-control" name="sabha13" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                        </div>
+
+                        <!-- Tanggal Pelantikan (sabha14) - BARU -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-calendar-star" style="color: #0d47a1;"></i> Tanggal Pelantikan
+                            </label>
+                            <input type="date" class="form-control" name="sabha14" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
@@ -536,7 +559,7 @@
 </div>
 
 {{-- ============================================================
-     MODAL EDIT DATA (RESPONSIF)
+     MODAL EDIT DATA
      ============================================================ --}}
 @foreach ($data as $item)
 <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
@@ -561,11 +584,10 @@
                             </label>
                             <select class="form-control" name="sabha1" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);" required>
                                 <option value="">Pilih Status</option>
-                                <option value="Aktif" {{ $item->sabha1 == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                <option value="Non-Aktif" {{ $item->sabha1 == 'Non-Aktif' ? 'selected' : '' }}>Non-Aktif</option>
-                                <option value="Alumni" {{ $item->sabha1 == 'Alumni' ? 'selected' : '' }}>Alumni</option>
-                                <option value="Calon Anggota" {{ $item->sabha1 == 'Calon Anggota' ? 'selected' : '' }}>Calon Anggota</option>
-                                <option value="Lainnya" {{ $item->sabha1 == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                <option value="Muda" {{ $item->sabha1 == 'Muda' ? 'selected' : '' }}>Muda</option>
+                                <option value="Biasa" {{ $item->sabha1 == 'Biasa' ? 'selected' : '' }}>Biasa</option>
+                                <option value="Luar Biasa" {{ $item->sabha1 == 'Luar Biasa' ? 'selected' : '' }}>Luar Biasa</option>
+                                <option value="Kehormatan" {{ $item->sabha1 == 'Kehormatan' ? 'selected' : '' }}>Kehormatan</option>
                             </select>
                         </div>
 
@@ -590,7 +612,7 @@
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
                                 <i class="mdi mdi-cake" style="color: #0d47a1;"></i> Tempat / Tanggal Lahir
                             </label>
-                            <input type="text" class="form-control" name="sabha4" value="{{ $item->sabha4 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                            <input type="date" class="form-control" name="sabha4" value="{{ $item->sabha4 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
 
                         <!-- NPA (sabha5) -->
@@ -601,10 +623,10 @@
                             <input type="text" class="form-control" name="sabha5" value="{{ $item->sabha5 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
 
-                        <!-- Angkatan (sabha6) -->
+                        <!-- Angkatan Pendidikan (sabha6) -->
                         <div class="col-12 col-md-6">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
-                                <i class="mdi mdi-calendar" style="color: #0d47a1;"></i> Angkatan
+                                <i class="mdi mdi-calendar" style="color: #0d47a1;"></i> Angkatan Pendidikan
                             </label>
                             <input type="text" class="form-control" name="sabha6" value="{{ $item->sabha6 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
@@ -676,6 +698,22 @@
                             <input type="file" class="form-control" name="sabha12" accept=".jpg,.jpeg,.png,.gif,.webp" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">
                             <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: JPG, PNG, GIF, WEBP. Maks 20 MB</small>
                         </div>
+
+                        <!-- Tanggal Pendidikan (sabha13) - BARU -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-calendar-edit" style="color: #0d47a1;"></i> Tanggal Pendidikan
+                            </label>
+                            <input type="date" class="form-control" name="sabha13" value="{{ $item->sabha13 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                        </div>
+
+                        <!-- Tanggal Pelantikan (sabha14) - BARU -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
+                                <i class="mdi mdi-calendar-star" style="color: #0d47a1;"></i> Tanggal Pelantikan
+                            </label>
+                            <input type="date" class="form-control" name="sabha14" value="{{ $item->sabha14 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
@@ -695,13 +733,9 @@
      ============================================================ --}}
 @push('styles')
 <style>
-    /* ============================================================
-       PAGINATION STYLE
-       ============================================================ */
     .pagination-nav .page-item {
         margin: 0 2px;
     }
-
     .pagination-nav .page-link {
         font-family: 'Poppins', sans-serif;
         font-size: 14px;
@@ -719,7 +753,6 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
     }
-
     .pagination-nav .page-link:hover {
         background: #f0f4ff;
         border-color: #4f6af5;
@@ -727,7 +760,6 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(79, 106, 245, 0.15);
     }
-
     .pagination-nav .page-item.active .page-link {
         background: linear-gradient(135deg, #4f6af5, #7c3aed);
         border-color: #4f6af5;
@@ -737,7 +769,6 @@
         transform: translateY(-2px);
         animation: pulse 2s infinite;
     }
-
     .pagination-nav .page-item.disabled .page-link {
         color: #b8c5d6;
         background: transparent;
@@ -746,7 +777,6 @@
         transform: none;
         opacity: 0.5;
     }
-
     .pagination-nav .page-item:first-child .page-link,
     .pagination-nav .page-item:last-child .page-link {
         font-size: 14px;
@@ -755,7 +785,6 @@
         background: #f8fafc;
         border: 1px solid #e9edf2;
     }
-
     .pagination-nav .page-item:first-child .page-link:hover,
     .pagination-nav .page-item:last-child .page-link:hover {
         background: #4f6af5;
@@ -764,7 +793,6 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 15px rgba(79, 106, 245, 0.25);
     }
-
     .pagination-nav .page-item:first-child.disabled .page-link:hover,
     .pagination-nav .page-item:last-child.disabled .page-link:hover {
         background: #f8fafc;
@@ -773,176 +801,136 @@
         transform: none;
         box-shadow: none;
     }
-
     @keyframes pulse {
         0% { box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); }
         50% { box-shadow: 0 4px 25px rgba(79, 106, 245, 0.5); }
         100% { box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); }
     }
 
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
     @media (max-width: 768px) {
-        .pagination-nav {
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .pagination-nav .page-link {
-            font-size: 13px;
-            padding: 6px 12px;
-            min-width: 38px;
-            height: 38px;
-            border-radius: 10px;
-        }
-
+        .pagination-nav { justify-content: center; flex-wrap: wrap; }
+        .pagination-nav .page-link { font-size: 13px; padding: 6px 12px; min-width: 38px; height: 38px; border-radius: 10px; }
         .pagination-nav .page-item:first-child .page-link,
-        .pagination-nav .page-item:last-child .page-link {
-            padding: 6px 10px;
-            font-size: 12px;
-        }
+        .pagination-nav .page-item:last-child .page-link { padding: 6px 10px; font-size: 12px; }
     }
-
     @media (max-width: 480px) {
-        .pagination-nav .page-link {
-            font-size: 12px;
-            padding: 4px 10px;
-            min-width: 34px;
-            height: 34px;
-            border-radius: 8px;
-        }
-
+        .pagination-nav .page-link { font-size: 12px; padding: 4px 10px; min-width: 34px; height: 34px; border-radius: 8px; }
         .pagination-nav .page-item:first-child .page-link,
-        .pagination-nav .page-item:last-child .page-link {
-            padding: 4px 8px;
-            font-size: 11px;
-        }
+        .pagination-nav .page-item:last-child .page-link { padding: 4px 8px; font-size: 11px; }
     }
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // ---- BUKA MODAL EDIT ----
-        document.querySelectorAll('.btn-edit').forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                var id = this.dataset.id;
-                var modal = document.getElementById('editModal' + id);
-                if (modal) {
-                    var bsModal = new bootstrap.Modal(modal);
-                    bsModal.show();
-                }
-            });
-        });
-
-        // ---- TUTUP MODAL SAAT KLIK DI LUAR ----
-        document.querySelectorAll('.modal').forEach(function(modal) {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    var bsModal = bootstrap.Modal.getInstance(this);
-                    if (bsModal) {
-                        bsModal.hide();
-                    }
-                }
-            });
+document.addEventListener('DOMContentLoaded', function() {
+    // Edit Modal
+    document.querySelectorAll('.btn-edit').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var id = this.dataset.id;
+            var modal = document.getElementById('editModal' + id);
+            if (modal) {
+                var bsModal = new bootstrap.Modal(modal);
+                bsModal.show();
+            }
         });
     });
 
-    // ============================================================
-    // DOWNLOAD CSV
-    // ============================================================
-    function exportToCSV() {
-        var dataCards = document.querySelectorAll('#dataContainer .card');
-
-        if (dataCards.length === 0) {
-            alert('Tidak ada data untuk di-download!');
-            return;
-        }
-
-        var csv = [];
-        var headers = ['No', 'Status', 'Nama Lengkap', 'Nama Lapangan', 'Tempat/Tgl Lahir', 'NPA', 'Angkatan', 'NPM', 'Fakultas', 'Golongan Darah', 'Alamat', 'Telepon', 'Tanggal Bergabung'];
-        csv.push(headers.join(','));
-
-        dataCards.forEach(function(card, index) {
-            var row = [];
-
-            // No
-            var no = index + 1;
-            row.push(no);
-
-            // Status (sabha1)
-            var statusEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap span:first-child');
-            var status = statusEl ? statusEl.textContent.trim() : '-';
-            row.push(status);
-
-            // Nama Lengkap (sabha2)
-            var namaEl = card.querySelector('h5');
-            var nama = namaEl ? namaEl.textContent.trim() : '-';
-            row.push(nama);
-
-            // Nama Lapangan (sabha3)
-            var lapanganEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:first-child span');
-            var lapangan = lapanganEl ? lapanganEl.textContent.trim().replace('Nama Lapangan:', '').trim() : '-';
-            row.push(lapangan);
-
-            // Tempat/Tgl Lahir (sabha4)
-            var lahirEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(2) span');
-            var lahir = lahirEl ? lahirEl.textContent.trim().replace('Tempat/Tgl Lahir:', '').trim() : '-';
-            row.push(lahir);
-
-            // NPA (sabha5)
-            var npaEl = card.querySelector('.d-flex.align-items-center.gap-3 .d-flex.flex-wrap.gap-12 span:first-child strong');
-            var npa = npaEl ? npaEl.textContent.trim() : '-';
-            row.push(npa);
-
-            // Angkatan (sabha6)
-            var angkatanEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(3) span');
-            var angkatan = angkatanEl ? angkatanEl.textContent.trim().replace('Angkatan:', '').trim() : '-';
-            row.push(angkatan);
-
-            // NPM (sabha7)
-            var npmEl = card.querySelector('.d-flex.align-items-center.gap-3 .d-flex.flex-wrap.gap-12 span:last-child strong');
-            var npm = npmEl ? npmEl.textContent.trim() : '-';
-            row.push(npm);
-
-            // Fakultas (sabha8)
-            var fakultasEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(4) span');
-            var fakultas = fakultasEl ? fakultasEl.textContent.trim().replace('Fakultas:', '').trim() : '-';
-            row.push(fakultas);
-
-            // Golongan Darah (sabha9)
-            var goldarEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:first-child span');
-            var goldar = goldarEl ? goldarEl.textContent.trim().replace('Golongan Darah:', '').trim() : '-';
-            row.push(goldar);
-
-            // Alamat (sabha10)
-            var alamatEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:nth-child(2) span');
-            var alamat = alamatEl ? alamatEl.textContent.trim().replace('Alamat:', '').trim() : '-';
-            row.push(alamat);
-
-            // Telepon (sabha11)
-            var teleponEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:nth-child(3) span');
-            var telepon = teleponEl ? teleponEl.textContent.trim().replace('Telepon:', '').trim() : '-';
-            row.push(telepon);
-
-            // Tanggal Bergabung
-            var dateEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:last-child span');
-            var date = dateEl ? dateEl.textContent.trim().replace('Bergabung:', '').trim() : '-';
-            row.push(date);
-
-            csv.push(row.join(','));
+    // Close modal klik di luar
+    document.querySelectorAll('.modal').forEach(function(modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                var bsModal = bootstrap.Modal.getInstance(this);
+                if (bsModal) bsModal.hide();
+            }
         });
+    });
+});
 
-        var blob = new Blob(['\uFEFF' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
-        var link = document.createElement('a');
-        var url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', 'keanggotaan_' + new Date().toISOString().slice(0,10) + '.csv');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+// Download CSV (sudah include sabha13 & sabha14)
+function exportToCSV() {
+    var dataCards = document.querySelectorAll('#dataContainer .card');
+    if (dataCards.length === 0) {
+        alert('Tidak ada data untuk di-download!');
+        return;
     }
+
+    var csv = [];
+    var headers = ['No', 'Status', 'Nama Lengkap', 'Nama Lapangan', 'Tempat/Tgl Lahir', 'NPA', 'Angkatan Pendidikan', 'NPM', 'Fakultas', 'Golongan Darah', 'Alamat', 'Telepon', 'Tanggal Pendidikan', 'Tanggal Pelantikan', 'Tanggal Bergabung'];
+    csv.push(headers.join(','));
+
+    dataCards.forEach(function(card, index) {
+        var row = [];
+        // No
+        row.push(index + 1);
+
+        // Status
+        var statusEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap span:first-child');
+        row.push(statusEl ? statusEl.textContent.trim() : '-');
+
+        // Nama Lengkap
+        var namaEl = card.querySelector('h5');
+        row.push(namaEl ? namaEl.textContent.trim() : '-');
+
+        // Nama Lapangan (sabha3)
+        var lapanganEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:first-child span');
+        row.push(lapanganEl ? lapanganEl.textContent.trim().replace('Nama Lapangan:', '').trim() : '-');
+
+        // Tempat/Tgl Lahir (sabha4)
+        var lahirEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(2) span');
+        row.push(lahirEl ? lahirEl.textContent.trim().replace('Tempat/Tgl Lahir:', '').trim() : '-');
+
+        // NPA (sabha5)
+        var npaEl = card.querySelector('.d-flex.align-items-center.gap-3 .d-flex.flex-wrap.gap-12 span:first-child strong');
+        row.push(npaEl ? npaEl.textContent.trim() : '-');
+
+        // Angkatan Pendidikan (sabha6)
+        var angkatanEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(3) span');
+        row.push(angkatanEl ? angkatanEl.textContent.trim().replace('Angkatan Pendidikan:', '').trim() : '-');
+
+        // NPM (sabha7)
+        var npmEl = card.querySelector('.d-flex.align-items-center.gap-3 .d-flex.flex-wrap.gap-12 span:last-child strong');
+        row.push(npmEl ? npmEl.textContent.trim() : '-');
+
+        // Fakultas (sabha8)
+        var fakultasEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(4) span');
+        row.push(fakultasEl ? fakultasEl.textContent.trim().replace('Fakultas:', '').trim() : '-');
+
+        // Golongan Darah (sabha9)
+        var goldarEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:first-child span');
+        row.push(goldarEl ? goldarEl.textContent.trim().replace('Golongan Darah:', '').trim() : '-');
+
+        // Alamat (sabha10)
+        var alamatEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:nth-child(2) span');
+        row.push(alamatEl ? alamatEl.textContent.trim().replace('Alamat:', '').trim() : '-');
+
+        // Telepon (sabha11)
+        var teleponEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:nth-child(3) span');
+        row.push(teleponEl ? teleponEl.textContent.trim().replace('Telepon:', '').trim() : '-');
+
+        // Tanggal Pendidikan (sabha13)
+        var tglPendidikanEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(5) span');
+        row.push(tglPendidikanEl ? tglPendidikanEl.textContent.trim().replace('Tanggal Pendidikan:', '').trim() : '-');
+
+        // Tanggal Pelantikan (sabha14)
+        var tglPelantikanEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(6) span');
+        row.push(tglPelantikanEl ? tglPelantikanEl.textContent.trim().replace('Tanggal Pelantikan:', '').trim() : '-');
+
+        // Tanggal Bergabung
+        var dateEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:last-child span');
+        row.push(dateEl ? dateEl.textContent.trim().replace('Bergabung:', '').trim() : '-');
+
+        csv.push(row.join(','));
+    });
+
+    var blob = new Blob(['\uFEFF' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement('a');
+    var url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'keanggotaan_' + new Date().toISOString().slice(0,10) + '.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
 </script>
 @endpush

@@ -1,73 +1,5 @@
 @include('00_semarang.00_include.01_header')
-    <!-- ============================================================
-    NAVBAR
-    ============================================================ -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
-                <img src="/assets/newtheme/gambar/sabha.png" alt="Logo" class="logo-img" />
-                <span class="logo-text">Sabhagiriwana'17</span>
-            </a>
-
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-            <ul class="nav-menu" id="navMenu">
-                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-
-                <li class="nav-item has-dropdown">
-                    <a href="#" class="nav-link">
-                        Sabhagiriwana17 <i class="fas fa-chevron-down"></i>
-                    </a>
-                    <ul class="dropdown">
-                        <li><a href="/sekapursirih"><i class="fas fa-comment-dots"></i> Sekapur Sirih</a></li>
-                        <li><a href="/kepengurusan"><i class="fas fa-sitemap"></i> Kepengurusan</a></li>
-                        <li><a href="/peraturan"><i class="fas fa-gavel"></i> Peraturan</a></li>
-                        <li><a href="/atribut"><i class="fas fa-id-badge"></i> Atribut</a></li>
-                        <li><a href="#divisi-s17"><i class="fas fa-layer-group"></i> Divisi S'17</a></li>
-                        <li><a href="#keanggotaan"><i class="fas fa-user-friends"></i> Keanggotaan</a></li>
-                        <li><a href="#kesekretariatan"><i class="fas fa-briefcase"></i> Kesekretariatan</a></li>
-                        <li><a href="#prestasi"><i class="fas fa-trophy"></i> Prestasi</a></li>
-                        <li><a href="#posko"><i class="fas fa-map-marker-alt"></i> Posko</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item has-dropdown">
-                    <a href="#" class="nav-link">
-                        Event <i class="fas fa-chevron-down"></i>
-                    </a>
-                    <ul class="dropdown">
-                        <li><a href="#snoc"><i class="fas fa-mountain"></i> SNOC</a></li>
-                        <li><a href="#nwct"><i class="fas fa-tree"></i> NWCT</a></li>
-                        <li><a href="#llbs"><i class="fas fa-hiking"></i> LLBS</a></li>
-                        <li><a href="#diklat"><i class="fas fa-chalkboard-teacher"></i> DIKLAT</a></li>
-                        <li><a href="#famgath"><i class="fas fa-users"></i> FAMGATH</a></li>
-                        <li><a href="#mubes"><i class="fas fa-landmark"></i> MUBES</a></li>
-                        <li><a href="#rua"><i class="fas fa-comments"></i> RUA</a></li>
-                        <li><a href="#ultah"><i class="fas fa-birthday-cake"></i> ULTAH</a></li>
-                        <li><a href="#sabha-peduli"><i class="fas fa-hands-helping"></i> SABHA PEDULI</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item has-dropdown">
-                    <a href="#" class="nav-link">
-                        Berita <i class="fas fa-chevron-down"></i>
-                    </a>
-                    <ul class="dropdown">
-                        <li><a href="#berita-terbaru"><i class="fas fa-newspaper"></i> Berita</a></li>
-                        <li><a href="#artikel"><i class="fas fa-file-alt"></i> Artikel</a></li>
-                        <li><a href="#pengumuman"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
-                        <li><a href="#liputan"><i class="fas fa-camera"></i> Liputan Khusus</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item"><a href="/login" class="nav-link btn-login-nav">Login</a></li>
-            </ul>
-        </div>
-    </nav>
+@include('00_semarang.00_include.05_headermenu')
 
     <!-- ============================================================
     RUNNING BANNER
@@ -259,7 +191,7 @@
     <!-- ============================================================
     BEAUTIFUL WORDS
     ============================================================ -->
-    <section class="beautiful-words-section" id="tentang">
+    {{-- <section class="beautiful-words-section" id="tentang">
         <div class="section-container">
             <div class="bw-left">
                 <div class="bw-image-container">
@@ -290,7 +222,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- ============================================================
     KABAR TERBARU
@@ -535,85 +467,150 @@
     <!-- ============================================================
     DOKUMENTASI GALERI
     ============================================================ -->
-    <section class="gallery-section" id="dokumentasi">
-        <div class="section-header">
-            <h2 class="section-title">Dokumentasi Kegiatan</h2>
-            <p class="section-subtitle">Momen-momen berharga dari petualangan kami</p>
-        </div>
-        <div class="gallery-container">
-            <div class="gallery-item large">
-                <img src="/assets/newtheme/images/pegunungan1.jpg" alt="Team Photo">
-                <div class="gallery-overlay">
-                    <div class="gallery-info">
-                        <h4>Ekspedisi Tim Sabhagiriwana</h4>
-                        <p>Base Camp Expedition 2024</p>
+{{-- ============================================================
+    DOKUMENTASI KEGIATAN (PUBLIK - DARI $datadok)
+    ============================================================ --}}
+
+<section class="gallery-section" id="dokumentasi">
+    <div class="section-header">
+        <h2 class="section-title">📸 Dokumentasi Kegiatan</h2>
+        {{-- <p class="section-subtitle" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin-top: 4px; text-align: center;">
+            Momen-momen berharga dari petualangan dan kebersamaan Sabhagiriwana'17
+        </p> --}}
+    </div>
+
+    <div class="gallery-container" style="max-width: 1200px; margin: 0 auto; padding: 20px 24px 40px;">
+
+        @php
+            // Kumpulkan semua foto dari semua data (sabha2 - sabha8)
+            $allPhotos = [];
+            foreach ($datadok as $item) {
+                for ($i = 2; $i <= 8; $i++) {
+                    $field = 'sabha' . $i;
+                    if (!empty($item->$field) && file_exists(public_path($item->$field))) {
+                        $allPhotos[] = asset($item->$field);
+                    }
+                }
+            }
+
+            // Jika TIDAK ADA foto dari database, pakai DEFAULT GAMBAR
+            if (empty($allPhotos)) {
+                $defaultImages = [
+                    '/assets/newtheme/images/pegunungan1.jpg',
+                    '/assets/newtheme/images/pegunungan2.jpg',
+                    '/assets/newtheme/images/pegunungan3.jpg',
+                    '/assets/newtheme/images/pegunungan4.jpg',
+                    '/assets/newtheme/images/pegunungan5.jpg',
+                    '/assets/newtheme/images/pegunungan6.jpg',
+                ];
+                // Ambil 8 gambar default
+                $allPhotos = array_slice($defaultImages, 0, 8);
+            }
+
+            // Batasi maksimal 8 foto (biar rapi)
+            $allPhotos = array_slice($allPhotos, 0, 8);
+        @endphp
+
+        @if(count($allPhotos) > 0)
+            <div class="gallery-grid" style="
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 16px;
+            ">
+                @foreach ($allPhotos as $key => $photo)
+                    <div class="gallery-item" style="
+                        position: relative;
+                        overflow: hidden;
+                        border-radius: 14px;
+                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                        aspect-ratio: 1/1;
+                        background: #f0f2f5;
+                        cursor: pointer;
+                    ">
+                        <a href="{{ $photo }}" target="_blank" style="display: block; width: 100%; height: 100%;">
+                            <img src="{{ $photo }}" alt="Dokumentasi {{ $loop->iteration }}" style="
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                transition: transform 0.5s ease;
+                            " loading="lazy">
+                        </a>
+                        <div style="
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
+                            padding: 8px 12px;
+                            background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+                            color: white;
+                            font-family: 'Poppins', sans-serif;
+                            font-size: 11px;
+                            font-weight: 500;
+                            text-align: center;
+                            opacity: 0;
+                            transition: opacity 0.3s ease;
+                        ">
+                            <i class="mdi mdi-camera"></i> Dokumentasi
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
-            <div class="gallery-item">
-                <img src="/assets/newtheme/images/pegunungan2.jpg" alt="Rock Climbing">
-                <div class="gallery-overlay">
-                    <div class="gallery-info">
-                        <h4>Technical Climbing</h4>
-                        <p>Advanced Rock Course</p>
-                    </div>
+        @else
+            <div style="text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.85); border-radius: 20px; border: 2px dashed #e0e4ea;">
+                <div style="font-size: 56px; color: #b0b8c4; margin-bottom: 16px;">
+                    <i class="mdi mdi-image-off"></i>
                 </div>
+                <h3 style="font-family: 'Poppins', sans-serif; font-weight: 500; color: #5a6a7a; font-size: 18px; margin: 0;">
+                    Belum Ada Dokumentasi
+                </h3>
+                <p style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #b0b8c4; margin-top: 8px;">
+                    Silakan cek kembali nanti untuk melihat dokumentasi kegiatan kami.
+                </p>
             </div>
-            <div class="gallery-item wide">
-                <img src="/assets/newtheme/images/pegunungan3.jpg" alt="Sunrise Panorama">
-                <div class="gallery-overlay">
-                    <div class="gallery-info">
-                        <h4>Golden Hour</h4>
-                        <p>Mountain Sunrise View</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item tall">
-                <img src="/assets/newtheme/images/pegunungan4.jpg" alt="Rappelling">
-                <div class="gallery-overlay">
-                    <div class="gallery-info">
-                        <h4>Descent Training</h4>
-                        <p>Rappelling Workshop</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="/assets/newtheme/images/pegunungan5.jpg" alt="Wildflowers">
-                <div class="gallery-overlay">
-                    <div class="gallery-info">
-                        <h4>Alpine Meadow</h4>
-                        <p>Spring Season</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item wide">
-                <img src="/assets/newtheme/images/event4.jpg" alt="Night Camping">
-                <div class="gallery-overlay">
-                    <div class="gallery-info">
-                        <h4>Under The Stars</h4>
-                        <p>Night Photography</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="/assets/newtheme/images/event5.jpg" alt="River Crossing">
-                <div class="gallery-overlay">
-                    <div class="gallery-info">
-                        <h4>River Trekking</h4>
-                        <p>Water Adventure</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item tall">
-                <img src="/assets/newtheme/images/event4.jpg" alt="Summit Victory">
-                <div class="gallery-overlay">
-                    <div class="gallery-info">
-                        <h4>Summit Success</h4>
-                        <p>Peak Achievement</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        @endif
+
+    </div>
+</section>
+
+<style>
+    /* ============================================================
+       GALLERY HOVER EFFECT
+    ============================================================ */
+    .gallery-item {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .gallery-item:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.10);
+        z-index: 2;
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.06);
+    }
+
+    .gallery-item:hover .gallery-item-caption {
+        opacity: 1 !important;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+        .gallery-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+            gap: 12px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .gallery-grid {
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important;
+            gap: 10px !important;
+        }
+    }
+</style>
 
     @include('00_semarang.00_include.02_footer')

@@ -63,6 +63,11 @@
                             <i class="mdi mdi-trophy"></i> Prestasi
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/08dokkegiatan">
+                            <i class="mdi mdi-trophy"></i> Dokumentasi <br> Kegiatan
+                        </a>
+                    </li>
                     {{-- <li class="nav-item">
                         <a class="nav-link" href="#posko">
                             <i class="mdi mdi-map-marker"></i> Posko
@@ -84,22 +89,22 @@
             <div class="collapse" id="event">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="#snoc">
+                        <a class="nav-link" href="/09snoc">
                             <i class="mdi mdi-mountain"></i> SNOC
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#nwct">
+                        <a class="nav-link" href="/10nwct">
                             <i class="mdi mdi-tree"></i> NWCT
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#llbs">
+                        <a class="nav-link" href="/11llbs">
                             <i class="mdi mdi-hiking"></i> LLBS
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#diklat">
+                        <a class="nav-link" href="/12diklat">
                             <i class="mdi mdi-school"></i> DIKLAT
                         </a>
                     </li>

@@ -219,3 +219,58 @@ Isian Konten
 
 
   @include('backend.00_dashboard.05_footer')
+
+
+
+
+
+  {{-- =========================================== --}}
+  @include('00_semarang.00_include.01_header')
+@include('00_semarang.00_include.05_headermenu')
+
+{{-- ============================================================
+    RUNNING BANNER
+    ============================================================ --}}
+<div class="running-banner">
+    <div class="banner-track">
+        <div class="banner-content">
+            <span class="banner-icon"><i class="fas fa-mountain"></i></span>
+            <span class="banner-text">
+                Selamat datang, wahai jiwa-jiwa pengembara — di sini langkah berpadu dengan semesta,
+                angin berbisik menjadi sahabat, dan setiap jejak pulang membawa makna.
+            </span>
+            <span class="banner-icon"><i class="fas fa-tree"></i></span>
+            <span class="banner-text">
+                Sabhagiriwana'17 — Jejak Petualangan, Cinta Alam, dan Persaudaraan Abadi.
+            </span>
+            <span class="banner-icon"><i class="fas fa-campground"></i></span>
+            <span class="banner-text">
+                #Sabhagiriwana17 #PencintaAlam #PetualangSejati
+            </span>
+            <span class="banner-icon"><i class="fas fa-mountain"></i></span>
+        </div>
+        <div class="banner-content">
+            <span class="banner-icon"><i class="fas fa-mountain"></i></span>
+            <span class="banner-text">
+                Selamat datang, wahai jiwa-jiwa pengembara — di sini langkah berpadu dengan semesta,
+                angin berbisik menjadi sahabat, dan setiap jejak pulang membawa makna.
+            </span>
+            <span class="banner-icon"><i class="fas fa-tree"></i></span>
+            <span class="banner-text">
+                Sabhagiriwana'17 — Jejak Petualangan, Cinta Alam, dan Persaudaraan Abadi.
+            </span>
+            <span class="banner-icon"><i class="fas fa-campground"></i></span>
+            <span class="banner-text">
+                #Sabhagiriwana17 #PencintaAlam #PetualangSejati
+            </span>
+            <span class="banner-icon"><i class="fas fa-mountain"></i></span>
+        </div>
+    </div>
+</div>
+
+DISINI ISIAN KONETENNYA DENGAN foreach data->
+keluarkan disini kontennya bro 
+
+@include('00_semarang.00_include.02_footer')
+
+  {{-- =========================================== --}}

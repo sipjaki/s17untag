@@ -1,88 +1,147 @@
 @include('00_semarang.00_include.01_header')
-<body>
-    <!-- Mountain Background Layer -->
-    <div class="mountain-bg"></div>
-    <div class="mountain-overlay"></div>
+@include('00_semarang.00_include.05_headermenu')
 
-@include('00_semarang.00_include.03_menunavigator')
+{{-- ============================================================
+    RUNNING BANNER
+    ============================================================ --}}
+<div class="running-banner">
+    <div class="banner-track">
+        <div class="banner-content">
+            <span class="banner-icon"><i class="fas fa-mountain"></i></span>
+            <span class="banner-text">
+                Selamat datang, wahai jiwa-jiwa pengembara — di sini langkah berpadu dengan semesta,
+                angin berbisik menjadi sahabat, dan setiap jejak pulang membawa makna.
+            </span>
+            <span class="banner-icon"><i class="fas fa-tree"></i></span>
+            <span class="banner-text">
+                Sabhagiriwana'17 — Jejak Petualangan, Cinta Alam, dan Persaudaraan Abadi.
+            </span>
+            <span class="banner-icon"><i class="fas fa-campground"></i></span>
+            <span class="banner-text">
+                #Sabhagiriwana17 #PencintaAlam #PetualangSejati
+            </span>
+            <span class="banner-icon"><i class="fas fa-mountain"></i></span>
+        </div>
+        <div class="banner-content">
+            <span class="banner-icon"><i class="fas fa-mountain"></i></span>
+            <span class="banner-text">
+                Selamat datang, wahai jiwa-jiwa pengembara — di sini langkah berpadu dengan semesta,
+                angin berbisik menjadi sahabat, dan setiap jejak pulang membawa makna.
+            </span>
+            <span class="banner-icon"><i class="fas fa-tree"></i></span>
+            <span class="banner-text">
+                Sabhagiriwana'17 — Jejak Petualangan, Cinta Alam, dan Persaudaraan Abadi.
+            </span>
+            <span class="banner-icon"><i class="fas fa-campground"></i></span>
+            <span class="banner-text">
+                #Sabhagiriwana17 #PencintaAlam #PetualangSejati
+            </span>
+            <span class="banner-icon"><i class="fas fa-mountain"></i></span>
+        </div>
+    </div>
+</div>
 
-@include('00_semarang.00_include.04_katakataindah')
-
-<section class="news-slider-section" id="beranda">
+{{-- ============================================================
+    KONTEN PERATURAN (PUBLIK)
+    ============================================================ --}}
+<section class="news-slider-section" id="peraturan">
     <div class="section-header">
-        <h2 class="section-title">Kepengurusan</h2>
+        <h2 class="section-title">Peraturan & Kebijakan</h2>
+        <p class="section-subtitle" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin-top: 4px; text-align: center;">
+            Dokumen resmi peraturan dan kebijakan Sabhagiriwana'17
+        </p>
     </div>
 
     <div class="kabar-scroll-container">
         <div class="kabar-wrapper">
+            <div style="max-width: 1000px; margin: 0 auto; padding: 20px 24px 40px;">
 
-<div class="kabar-paragraf">
+                @forelse ($data as $index => $item)
+                    <div style="
+                        background: rgba(255, 255, 255, 0.92);
+                        backdrop-filter: blur(4px);
+                        border-radius: 16px;
+                        padding: 24px 28px;
+                        margin-bottom: 28px;
+                        border: 1px solid rgba(0, 0, 0, 0.03);
+                        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.02);
+                        transition: all 0.3s ease;
+                    ">
+                        {{-- Header Card --}}
+                        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px;">
+                            <div>
+                                <span style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #c62828; font-size: 13px; background: rgba(198,40,40,0.06); padding: 4px 14px; border-radius: 30px; display: inline-block; margin-bottom: 6px;">
+                                    #{{ $loop->iteration }}
+                                </span>
+                                <h3 style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; margin: 0; font-size: 18px; word-break: break-word;">
+                                    {{ $item->sabha1 ?? 'Peraturan' }}
+                                </h3>
+                            </div>
+                            <span style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #b0b8c4;">
+                                <i class="mdi mdi-calendar"></i>
+                                {{ $item->created_at ? $item->created_at->format('d M Y') : '-' }}
+                            </span>
+                        </div>
 
-    <!-- KIRI : PDF PERATURAN -->
-    <div class="kabar-kiri">
-        <h2>Peraturan Organisasi</h2>
-        <p>
-            Berikut merupakan dokumen resmi Peraturan Dasar dan
-            Peraturan Rumah Tangga MAPALA Sabhagiriwana S'17
-            yang menjadi landasan dalam menjalankan seluruh
-            aktivitas organisasi.
-        </p>
+                        {{-- Body --}}
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px;">
 
-        <iframe
-            src="/assets/pdf/peraturan-mapala.pdf"
-            width="100%"
-            height="500px"
-            style="border:1px solid #ccc; border-radius:8px;">
-        </iframe>
+                            {{-- Kiri: PDF --}}
+                            <div style="background: #f8fafc; border-radius: 12px; padding: 16px 20px; border: 1px solid #e8ecf1; display: flex; flex-direction: column; justify-content: center;">
+                                <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(198,40,40,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <i class="mdi mdi-file-pdf" style="font-size: 26px; color: #c62828;"></i>
+                                    </div>
+                                    <div style="flex: 1; min-width: 0;">
+                                        <p style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #b0b8c4; margin: 0; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Berkas PDF</p>
+                                        @if($item->sabha2 && file_exists(public_path($item->sabha2)))
+                                            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 4px;">
+                                                <a href="{{ asset($item->sabha2) }}" target="_blank" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #c62828; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+                                                    <i class="mdi mdi-open-in-new"></i> Lihat PDF
+                                                </a>
+                                                <a href="{{ asset($item->sabha2) }}" download style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #0d47a1; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 4px; background: rgba(13,71,161,0.06); padding: 4px 14px; border-radius: 30px;">
+                                                    <i class="mdi mdi-download"></i> Download
+                                                </a>
+                                            </div>
+                                        @else
+                                            <span style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #b0b8c4;">
+                                                <i class="mdi mdi-close-circle"></i> Belum ada file
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
 
-        <!-- Alternatif tombol download -->
-        <div style="margin-top:15px;">
-            <a href="/assets/pdf/peraturan-mapala.pdf"
-               target="_blank"
-               class="btn-download">
-               Download Peraturan (PDF)
-            </a>
+                            {{-- Kanan: Keterangan --}}
+                            <div style="background: #f8fafc; border-radius: 12px; padding: 16px 20px; border: 1px solid #e8ecf1; display: flex; align-items: center;">
+                                <div style="display: flex; gap: 12px;">
+                                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(13,71,161,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <i class="mdi mdi-information" style="font-size: 20px; color: #0d47a1;"></i>
+                                    </div>
+                                    <div style="flex: 1; min-width: 0;">
+                                        <p style="font-family: 'Poppins', sans-serif; font-size: 11px; color: #b0b8c4; margin: 0; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Keterangan</p>
+                                        <p style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #1a1a2e; margin: 0; word-break: break-word; line-height: 1.6;">
+                                            {{ $item->sabha3 ?? '-' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.85); border-radius: 20px; border: 2px dashed #e0e4ea;">
+                        <div style="font-size: 56px; color: #b0b8c4; margin-bottom: 16px;">
+                            <i class="mdi mdi-file-document-outline"></i>
+                        </div>
+                        <h3 style="font-family: 'Poppins', sans-serif; font-weight: 500; color: #5a6a7a; font-size: 18px; margin: 0;">Belum Ada Data Peraturan</h3>
+                        <p style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #b0b8c4; margin-top: 8px;">Silakan cek kembali nanti.</p>
+                    </div>
+                @endforelse
+
+            </div>
         </div>
     </div>
-
-
-    <!-- KANAN : PARAGRAF PENJELASAN -->
-    <div class="kabar-kanan">
-        <h2>Tentang Peraturan Organisasi</h2>
-
-        <p>
-            Peraturan organisasi disusun sebagai pedoman utama dalam
-            menjaga stabilitas, arah gerak, dan nilai-nilai luhur
-            MAPALA Sabhagiriwana S'17. Setiap anggota dan pengurus
-            wajib memahami serta melaksanakan ketentuan yang telah
-            ditetapkan demi terciptanya organisasi yang tertib dan profesional.
-        </p>
-
-        <p>
-            Dokumen ini memuat aturan mengenai struktur kepengurusan,
-            hak dan kewajiban anggota, mekanisme musyawarah,
-            sistem kaderisasi, hingga tata kelola kegiatan
-            kepecintaalaman. Seluruh isi peraturan disusun
-            berdasarkan prinsip demokrasi, tanggung jawab,
-            serta semangat persaudaraan.
-        </p>
-
-        <p>
-            Dengan adanya peraturan yang jelas dan terstruktur,
-            diharapkan seluruh aktivitas organisasi dapat berjalan
-            secara terarah, transparan, dan akuntabel.
-            Peraturan ini juga menjadi bentuk komitmen bersama
-            dalam menjaga nama baik organisasi serta menjunjung
-            tinggi nilai cinta alam dan pengabdian kepada masyarakat.
-        </p>
-    </div>
-
-</div>
-
-
-</div>
-    </div>
 </section>
-
 
 @include('00_semarang.00_include.02_footer')
