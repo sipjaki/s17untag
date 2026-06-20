@@ -15,7 +15,7 @@ return new class extends Migration
           $table->id();
 
             $table->foreignId('sabhaakses_id')->nullable();
-            $table->string('sabha1')->nullable();
+            $table->text('sabha1')->nullable();
             $table->string('sabha2')->nullable();
             $table->string('sabha3')->nullable();
             $table->string('sabha4')->nullable();

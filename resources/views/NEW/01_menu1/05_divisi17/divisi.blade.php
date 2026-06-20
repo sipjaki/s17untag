@@ -47,9 +47,9 @@
 <section class="news-slider-section" id="divisi">
     <div class="section-header">
         <h2 class="section-title">Divisi Sabhagiriwana'17</h2>
-        <p class="section-subtitle" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin-top: 4px; text-align: center;">
+        {{-- <p class="section-subtitle" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin-top: 4px; text-align: center;">
             Struktur divisi dan dokumen pendukung Sabhagiriwana'17
-        </p>
+        </p> --}}
     </div>
 
     <div class="kabar-scroll-container">

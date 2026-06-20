@@ -12,9 +12,9 @@
                     <h4 class="card-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 2px; font-size: 22px; color: #1a1a2e;">
                         🏔️ Agenda Event LLBS
                     </h4>
-                    <p class="card-description" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin: 0;">
+                    {{-- <p class="card-description" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin: 0;">
                         Kelola agenda event LLBS Sabhagiriwana'17
-                    </p>
+                    </p> --}}
                 </div>
                 <button class="btn btn-primary" style="background: #c62828; border: none; border-radius: 12px; padding: 10px 24px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; white-space: nowrap; box-shadow: 0 4px 12px rgba(198,40,40,0.2);" data-bs-toggle="modal" data-bs-target="#tambahModal">
                     <i class="mdi mdi-plus"></i> Tambah Agenda

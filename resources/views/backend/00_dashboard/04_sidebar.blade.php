@@ -109,27 +109,27 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#famgath">
+                        <a class="nav-link" href="/13fam">
                             <i class="mdi mdi-account-group"></i> FAMGATH
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#mubes">
+                        <a class="nav-link" href="/14mubes">
                             <i class="mdi mdi-bank"></i> MUBES
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#rua">
+                        <a class="nav-link" href="/15rua">
                             <i class="mdi mdi-forum"></i> RUA
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#ultah">
+                        <a class="nav-link" href="/16ultah">
                             <i class="mdi mdi-cake"></i> ULTAH
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#sabha-peduli">
+                        <a class="nav-link" href="/17peduli">
                             <i class="mdi mdi-hand-heart"></i> SABHA PEDULI
                         </a>
                     </li>
@@ -149,25 +149,25 @@
             <div class="collapse" id="berita">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="#berita-terbaru">
+                        <a class="nav-link" href="/18berita">
                             <i class="mdi mdi-newspaper-variant"></i> Berita
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#artikel">
+                        <a class="nav-link" href="/19artikel">
                             <i class="mdi mdi-file-document"></i> Artikel
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#pengumuman">
+                        <a class="nav-link" href="/20pengumuman">
                             <i class="mdi mdi-bullhorn"></i> Pengumuman
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="#liputan">
                             <i class="mdi mdi-camera"></i> Liputan Khusus
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </li>

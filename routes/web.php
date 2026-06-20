@@ -333,6 +333,54 @@ Route::delete('/12diklat/{id}', [BerandaController::class, 'diklatdelete'])->mid
 Route::post('/diklatcreate', [BerandaController::class, 'diklatcreate'])->middleware('auth')->name('diklat.create');
 Route::put('/diklatupdate/{id}', [BerandaController::class, 'diklatupdate'])->middleware('auth')->name('diklat.update');
 
+// MENU 13 FAMGAHTERING  ===========================
+Route::get('/13fam', [BerandaController::class, 'adminfam'])->middleware('auth')->name('13fam.index');
+Route::delete('/13fam/{id}', [BerandaController::class, 'famdelete'])->middleware('auth')->name('13fam.destroy');
+Route::post('/famcreate', [BerandaController::class, 'famcreate'])->middleware('auth')->name('fam.create');
+Route::put('/famupdate/{id}', [BerandaController::class, 'famupdate'])->middleware('auth')->name('fam.update');
+
+// MENU 14 MUBERS  ===========================
+Route::get('/14mubes', [BerandaController::class, 'adminmubes'])->middleware('auth')->name('14mubes.index');
+Route::delete('/14mubes/{id}', [BerandaController::class, 'mubesdelete'])->middleware('auth')->name('14mubes.destroy');
+Route::post('/mubescreate', [BerandaController::class, 'mubescreate'])->middleware('auth')->name('mubes.create');
+Route::put('/mubesupdate/{id}', [BerandaController::class, 'mubesupdate'])->middleware('auth')->name('mubes.update');
+
+// MENU 15 RUA  ===========================
+Route::get('/15rua', [BerandaController::class, 'adminrua'])->middleware('auth')->name('15rua.index');
+Route::delete('/15rua/{id}', [BerandaController::class, 'ruadelete'])->middleware('auth')->name('15rua.destroy');
+Route::post('/ruacreate', [BerandaController::class, 'ruacreate'])->middleware('auth')->name('rua.create');
+Route::put('/ruaupdate/{id}', [BerandaController::class, 'ruaupdate'])->middleware('auth')->name('rua.update');
+
+// MENU 16 ULTAH  ===========================
+Route::get('/16ultah', [BerandaController::class, 'adminultah'])->middleware('auth')->name('16ultah.index');
+Route::delete('/16ultah/{id}', [BerandaController::class, 'ultahdelete'])->middleware('auth')->name('16ultah.destroy');
+Route::post('/ultahcreate', [BerandaController::class, 'ultahcreate'])->middleware('auth')->name('ultah.create');
+Route::put('/ultahupdate/{id}', [BerandaController::class, 'ultahupdate'])->middleware('auth')->name('ultah.update');
+
+// MENU 17 PEDULI  ===========================
+Route::get('/17peduli', [BerandaController::class, 'adminpeduli'])->middleware('auth')->name('17peduli.index');
+Route::delete('/17peduli/{id}', [BerandaController::class, 'pedulidelete'])->middleware('auth')->name('17peduli.destroy');
+Route::post('/pedulicreate', [BerandaController::class, 'pedulicreate'])->middleware('auth')->name('peduli.create');
+Route::put('/peduliupdate/{id}', [BerandaController::class, 'peduliupdate'])->middleware('auth')->name('peduli.update');
+
+// MENU 18 BERITA   ===========================
+Route::get('/18berita', [BerandaController::class, 'adminberita'])->middleware('auth')->name('18berita.index');
+Route::delete('/18berita/{id}', [BerandaController::class, 'beritadelete'])->middleware('auth')->name('18berita.destroy');
+Route::post('/beritacreate', [BerandaController::class, 'beritacreate'])->middleware('auth')->name('berita.create');
+Route::put('/beritaupdate/{id}', [BerandaController::class, 'beritaupdate'])->middleware('auth')->name('berita.update');
+
+// MENU 19 ARTIKEL    ===========================
+Route::get('/19artikel', [BerandaController::class, 'adminartikel'])->middleware('auth')->name('19artikel.index');
+Route::delete('/19artikel/{id}', [BerandaController::class, 'artikeldelete'])->middleware('auth')->name('19artikel.destroy');
+Route::post('/artikelcreate', [BerandaController::class, 'artikelcreate'])->middleware('auth')->name('artikel.create');
+Route::put('/artikelupdate/{id}', [BerandaController::class, 'artikelupdate'])->middleware('auth')->name('artikel.update');
+
+// MENU 20 PENGUMUMAN    ===========================
+Route::get('/20pengumuman', [BerandaController::class, 'adminpengumuman'])->middleware('auth')->name('20pengumuman.index');
+Route::delete('/20pengumuman/{id}', [BerandaController::class, 'pengumumandelete'])->middleware('auth')->name('20pengumuman.destroy');
+Route::post('/pengumumancreate', [BerandaController::class, 'pengumumancreate'])->middleware('auth')->name('pengumuman.create');
+Route::put('/pengumumanupdate/{id}', [BerandaController::class, 'pengumumanupdate'])->middleware('auth')->name('pengumuman.update');
+
 
 
 // PEMBAHARUAN BARU APLIKASI SNOC UNTAG SEMARANG
@@ -353,5 +401,29 @@ Route::get('/keanggotaan', [PublicController::class, 'keanggotaan'])->name('kean
 
 Route::get('/prestasi', [PublicController::class, 'prestasi'])->name('prestasi');
 
+// MENU INDUK 2
+Route::get('/snoc', [PublicController::class, 'publicsnoc'])->name('snoc');
+
+Route::get('/nwct', [PublicController::class, 'publicnwct'])->name('nwct');
+
+Route::get('/llbs', [PublicController::class, 'publicllbs'])->name('llbs');
+
+Route::get('/diklat', [PublicController::class, 'publicdiklat'])->name('diklat');
+
+Route::get('/fam', [PublicController::class, 'publicfam'])->name('fam');
+
+Route::get('/mubes', [PublicController::class, 'publicmubes'])->name('mubes');
+
+Route::get('/rua', [PublicController::class, 'publicrua'])->name('rua');
+
+Route::get('/ultah', [PublicController::class, 'publicultah'])->name('ultah');
+
+Route::get('/sabhapeduli', [PublicController::class, 'publicpeduli'])->name('sabhapeduli');
+
+
+// MENU INDUK 3
+Route::get('/berita', [PublicController::class, 'publicberita'])->name('berita');
+
+Route::get('/artikel', [PublicController::class, 'publicartikel'])->name('artikel');
 
         require __DIR__.'/auth.php';

@@ -4,12 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\beranda;
 use App\Models\sabha1;
+use App\Models\sabha10;
+use App\Models\sabha11;
+use App\Models\sabha12;
+use App\Models\sabha13;
+use App\Models\sabha14;
+use App\Models\sabha15;
+use App\Models\sabha16;
+use App\Models\sabha17;
+use App\Models\sabha18;
+use App\Models\sabha19;
 use App\Models\sabha2;
 use App\Models\sabha3;
 use App\Models\sabha4;
 use App\Models\sabha5;
 use App\Models\sabha7;
 use App\Models\sabha8;
+use App\Models\sabha9;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -99,12 +110,146 @@ class PublicController extends Controller
     {
         $data = sabha7::all();
         return view('NEW.01_menu1.07_prestasi.prestasi', [
-            'title' => 'Prestasi| Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'title' => 'Prestasi | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
             'user' => Auth::user(), // kirim data user login
             'data' => $data, // kirim data user login
 
             ]);
     }
 
+
+    // MENU INDUK 2 PUBLIC VIEW
+    public function publicsnoc()
+    {
+        $data = sabha9::all();
+        return view('NEW.02_menu2.01_snoc.01_publicsnoc', [
+            'title' => 'Snoc | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'SNOC',
+
+            ]);
+    }
+
+    public function publicnwct()
+    {
+        $data = sabha10::all();
+        return view('NEW.02_menu2.01_snoc.01_publicsnoc', [
+            'title' => 'NWCT | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'NWCT',
+
+            ]);
+    }
+
+    public function publicllbs()
+    {
+        $data = sabha11::all();
+        return view('NEW.02_menu2.01_snoc.01_publicsnoc', [
+            'title' => 'LLBS | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'LLBS',
+
+            ]);
+    }
+
+    public function publicdiklat()
+    {
+        $data = sabha12::all();
+        return view('NEW.02_menu2.01_snoc.01_publicsnoc', [
+            'title' => 'DIKLAT | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'Diklat',
+
+            ]);
+    }
+
+    public function publicfam()
+    {
+        $data = sabha13::all();
+        return view('NEW.02_menu2.01_snoc.01_publicsnoc', [
+            'title' => 'Family Gathering | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'Family Gathering',
+
+            ]);
+    }
+
+    public function publicmubes()
+    {
+        $data = sabha14::all();
+        return view('NEW.02_menu2.01_snoc.01_publicsnoc', [
+            'title' => 'Mubes | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'Mubes',
+
+            ]);
+    }
+
+    public function publicrua()
+    {
+        $data = sabha15::all();
+        return view('NEW.02_menu2.01_snoc.01_publicsnoc', [
+            'title' => 'RUA | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'RUA',
+
+            ]);
+    }
+
+    public function publicultah()
+    {
+        $data = sabha16::all();
+        return view('NEW.02_menu2.01_snoc.01_publicsnoc', [
+            'title' => 'Ultah | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'Ultah',
+
+            ]);
+    }
+
+    public function publicpeduli()
+    {
+        $data = sabha17::all();
+        return view('NEW.02_menu2.01_snoc.01_publicsnoc', [
+            'title' => 'Sabha Peduli | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'Sabha Peduli',
+
+            ]);
+    }
+
+    // MENU INDUK 3 PUBLIC VIEW
+    public function publicberita()
+    {
+        $data = sabha18::all();
+        return view('NEW.03_berita.01_berita.01_publicsberita', [
+            'title' => 'Berita | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'SNOC',
+
+            ]);
+    }
+
+    public function publicartikel()
+    {
+        $data = sabha19::all();
+        return view('NEW.03_berita.02_artikel.01_publicartikel', [
+            'title' => 'Artikel | Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
+            'user' => Auth::user(), // kirim data user login
+            'data' => $data, // kirim data user login
+            'judul' => 'SNOC',
+
+            ]);
+    }
 
 }

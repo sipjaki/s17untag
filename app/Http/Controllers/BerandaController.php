@@ -7,7 +7,15 @@ use App\Models\sabha1;
 use App\Models\sabha10;
 use App\Models\sabha11;
 use App\Models\sabha12;
+use App\Models\sabha13;
+use App\Models\sabha14;
+use App\Models\sabha15;
+use App\Models\sabha16;
+use App\Models\sabha17;
+use App\Models\sabha18;
+use App\Models\sabha19;
 use App\Models\sabha2;
+use App\Models\sabha20;
 use App\Models\sabha3;
 use App\Models\sabha4;
 use App\Models\sabha5;
@@ -2024,4 +2032,1106 @@ public function diklatdelete($id)
     }
 }
 
+// MENU 13 FAMILY GATHERING
+
+    public function adminfam(Request $request)
+            {
+                $search = $request->search;
+                $perPage = $request->per_page ?? 5;
+
+                $data = sabha13::when($search, function($q) use ($search) {
+                    return $q->where('sabha1', 'LIKE', "%$search%")
+                            ->orWhere('sabha2', 'LIKE', "%$search%")
+                            ->orWhere('sabha3', 'LIKE', "%$search%")
+                            ->orWhere('sabha4', 'LIKE', "%$search%")
+                            ->orWhere('sabha5', 'LIKE', "%$search%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($perPage)
+                ->appends(['search' => $search, 'per_page' => $perPage]);
+
+                return view('backend.02_event.05_fam.01_adminfam', [
+                    'title' => 'Sabhagiriwana17 | family gathering',
+                    'user'  => Auth::user(),
+                    'data'  => $data,
+                ]);
+            }
+
+
+
+public function famcreate(Request $request)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'nullable|string',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    try {
+        $dataInput = [
+            'sabha1' => $request->sabha1,
+            'sabha2' => $request->sabha2,
+        ];
+
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_snoc'), $filename);
+                $dataInput[$field] = 'foto_snoc/' . $filename;
+            } else {
+                $dataInput[$field] = null;
+            }
+        }
+
+        sabha13::create($dataInput);
+
+        return redirect()->route('13fam.index')
+            ->with('success', 'Agenda Family Gathering berhasil ditambahkan!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
     }
+}
+
+public function famupdate(Request $request, $id)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'nullable|string',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    try {
+        $data = sabha13::findOrFail($id);
+        $data->sabha1 = $request->sabha1;
+        $data->sabha2 = $request->sabha2;
+
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                if ($data->$field && file_exists(public_path($data->$field))) {
+                    unlink(public_path($data->$field));
+                }
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_snoc'), $filename);
+                $data->$field = 'foto_snoc/' . $filename;
+            }
+        }
+        $data->save();
+
+        return redirect()->route('13fam.index')
+            ->with('warning', 'Agenda Family Gathering berhasil diperbarui!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+    }
+}
+
+public function famdelete($id)
+{
+    try {
+        $data = sabha13::findOrFail($id);
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($data->$field && file_exists(public_path($data->$field))) {
+                unlink(public_path($data->$field));
+            }
+        }
+        $data->delete();
+
+        return redirect()->route('13fam.index')
+            ->with('error', 'Agenda Family Gathering berhasil dihapus!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+    }
+}
+
+// MENU 14 MUSYAWARAH BESAR
+
+    public function adminmubes(Request $request)
+            {
+                $search = $request->search;
+                $perPage = $request->per_page ?? 5;
+
+                $data = sabha14::when($search, function($q) use ($search) {
+                    return $q->where('sabha1', 'LIKE', "%$search%")
+                            ->orWhere('sabha2', 'LIKE', "%$search%")
+                            ->orWhere('sabha3', 'LIKE', "%$search%")
+                            ->orWhere('sabha4', 'LIKE', "%$search%")
+                            ->orWhere('sabha5', 'LIKE', "%$search%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($perPage)
+                ->appends(['search' => $search, 'per_page' => $perPage]);
+
+                return view('backend.02_event.06_mubes.01_adminmubes', [
+                    'title' => 'Sabhagiriwana17 | mubes',
+                    'user'  => Auth::user(),
+                    'data'  => $data,
+                ]);
+            }
+
+
+
+public function mubescreate(Request $request)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'nullable|string',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    try {
+        $dataInput = [
+            'sabha1' => $request->sabha1,
+            'sabha2' => $request->sabha2,
+        ];
+
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_snoc'), $filename);
+                $dataInput[$field] = 'foto_snoc/' . $filename;
+            } else {
+                $dataInput[$field] = null;
+            }
+        }
+
+        sabha14::create($dataInput);
+
+        return redirect()->route('14mubes.index')
+            ->with('success', 'Agenda Mubes berhasil ditambahkan!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
+    }
+}
+
+public function mubesupdate(Request $request, $id)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'nullable|string',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    try {
+        $data = sabha14::findOrFail($id);
+        $data->sabha1 = $request->sabha1;
+        $data->sabha2 = $request->sabha2;
+
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                if ($data->$field && file_exists(public_path($data->$field))) {
+                    unlink(public_path($data->$field));
+                }
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_snoc'), $filename);
+                $data->$field = 'foto_snoc/' . $filename;
+            }
+        }
+        $data->save();
+
+        return redirect()->route('14mubes.index')
+            ->with('warning', 'Agenda Mubes berhasil diperbarui!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+    }
+}
+
+public function mubesdelete($id)
+{
+    try {
+        $data = sabha14::findOrFail($id);
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($data->$field && file_exists(public_path($data->$field))) {
+                unlink(public_path($data->$field));
+            }
+        }
+        $data->delete();
+
+        return redirect()->route('14mubes.index')
+            ->with('error', 'Agenda Mubes berhasil dihapus!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+    }
+}
+
+
+// MENU 15 RUA
+
+    public function adminrua(Request $request)
+            {
+                $search = $request->search;
+                $perPage = $request->per_page ?? 5;
+
+                $data = sabha15::when($search, function($q) use ($search) {
+                    return $q->where('sabha1', 'LIKE', "%$search%")
+                            ->orWhere('sabha2', 'LIKE', "%$search%")
+                            ->orWhere('sabha3', 'LIKE', "%$search%")
+                            ->orWhere('sabha4', 'LIKE', "%$search%")
+                            ->orWhere('sabha5', 'LIKE', "%$search%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($perPage)
+                ->appends(['search' => $search, 'per_page' => $perPage]);
+
+                return view('backend.02_event.07_rua.01_adminrua', [
+                    'title' => 'Sabhagiriwana17 | rua',
+                    'user'  => Auth::user(),
+                    'data'  => $data,
+                ]);
+            }
+
+
+
+public function ruacreate(Request $request)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'nullable|string',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    try {
+        $dataInput = [
+            'sabha1' => $request->sabha1,
+            'sabha2' => $request->sabha2,
+        ];
+
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_snoc'), $filename);
+                $dataInput[$field] = 'foto_snoc/' . $filename;
+            } else {
+                $dataInput[$field] = null;
+            }
+        }
+
+        sabha15::create($dataInput);
+
+        return redirect()->route('15rua.index')
+            ->with('success', 'Agenda Rua berhasil ditambahkan!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
+    }
+}
+
+public function ruaupdate(Request $request, $id)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'nullable|string',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    try {
+        $data = sabha15::findOrFail($id);
+        $data->sabha1 = $request->sabha1;
+        $data->sabha2 = $request->sabha2;
+
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                if ($data->$field && file_exists(public_path($data->$field))) {
+                    unlink(public_path($data->$field));
+                }
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_snoc'), $filename);
+                $data->$field = 'foto_snoc/' . $filename;
+            }
+        }
+        $data->save();
+
+        return redirect()->route('15rua.index')
+            ->with('warning', 'Agenda Rua berhasil diperbarui!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+    }
+}
+
+public function ruadelete($id)
+{
+    try {
+        $data = sabha15::findOrFail($id);
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($data->$field && file_exists(public_path($data->$field))) {
+                unlink(public_path($data->$field));
+            }
+        }
+        $data->delete();
+
+        return redirect()->route('15rua.index')
+            ->with('error', 'Agenda Rua berhasil dihapus!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+    }
+}
+
+// MENU 16 ULTAH
+
+    public function adminultah(Request $request)
+            {
+                $search = $request->search;
+                $perPage = $request->per_page ?? 5;
+
+                $data = sabha16::when($search, function($q) use ($search) {
+                    return $q->where('sabha1', 'LIKE', "%$search%")
+                            ->orWhere('sabha2', 'LIKE', "%$search%")
+                            ->orWhere('sabha3', 'LIKE', "%$search%")
+                            ->orWhere('sabha4', 'LIKE', "%$search%")
+                            ->orWhere('sabha5', 'LIKE', "%$search%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($perPage)
+                ->appends(['search' => $search, 'per_page' => $perPage]);
+
+                return view('backend.02_event.08_ultah.01_adminultah', [
+                    'title' => 'Sabhagiriwana17 | ultah',
+                    'user'  => Auth::user(),
+                    'data'  => $data,
+                ]);
+            }
+
+
+
+public function ultahcreate(Request $request)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'nullable|string',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    try {
+        $dataInput = [
+            'sabha1' => $request->sabha1,
+            'sabha2' => $request->sabha2,
+        ];
+
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_snoc'), $filename);
+                $dataInput[$field] = 'foto_snoc/' . $filename;
+            } else {
+                $dataInput[$field] = null;
+            }
+        }
+
+        sabha16::create($dataInput);
+
+        return redirect()->route('16ultah.index')
+            ->with('success', 'Agenda Ultah berhasil ditambahkan!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
+    }
+}
+
+public function ultahupdate(Request $request, $id)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'nullable|string',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    try {
+        $data = sabha16::findOrFail($id);
+        $data->sabha1 = $request->sabha1;
+        $data->sabha2 = $request->sabha2;
+
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                if ($data->$field && file_exists(public_path($data->$field))) {
+                    unlink(public_path($data->$field));
+                }
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_snoc'), $filename);
+                $data->$field = 'foto_snoc/' . $filename;
+            }
+        }
+        $data->save();
+
+        return redirect()->route('16ultah.index')
+            ->with('warning', 'Agenda Ultah berhasil diperbarui!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+    }
+}
+
+public function ultahdelete($id)
+{
+    try {
+        $data = sabha16::findOrFail($id);
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($data->$field && file_exists(public_path($data->$field))) {
+                unlink(public_path($data->$field));
+            }
+        }
+        $data->delete();
+
+        return redirect()->route('16ultah.index')
+            ->with('error', 'Agenda Ultah berhasil dihapus!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+    }
+}
+
+// MENU 17 PEDULI
+
+    public function adminpeduli(Request $request)
+            {
+                $search = $request->search;
+                $perPage = $request->per_page ?? 5;
+
+                $data = sabha17::when($search, function($q) use ($search) {
+                    return $q->where('sabha1', 'LIKE', "%$search%")
+                            ->orWhere('sabha2', 'LIKE', "%$search%")
+                            ->orWhere('sabha3', 'LIKE', "%$search%")
+                            ->orWhere('sabha4', 'LIKE', "%$search%")
+                            ->orWhere('sabha5', 'LIKE', "%$search%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($perPage)
+                ->appends(['search' => $search, 'per_page' => $perPage]);
+
+                return view('backend.02_event.09_peduli.01_adminpeduli', [
+                    'title' => 'Sabhagiriwana17 | sabha peduli',
+                    'user'  => Auth::user(),
+                    'data'  => $data,
+                ]);
+            }
+
+
+
+public function pedulicreate(Request $request)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'nullable|string',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    try {
+        $dataInput = [
+            'sabha1' => $request->sabha1,
+            'sabha2' => $request->sabha2,
+        ];
+
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_snoc'), $filename);
+                $dataInput[$field] = 'foto_snoc/' . $filename;
+            } else {
+                $dataInput[$field] = null;
+            }
+        }
+
+        sabha17::create($dataInput);
+
+        return redirect()->route('17peduli.index')
+            ->with('success', 'Agenda Sabha Peduli berhasil ditambahkan!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
+    }
+}
+
+public function peduliupdate(Request $request, $id)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'nullable|string',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    try {
+        $data = sabha17::findOrFail($id);
+        $data->sabha1 = $request->sabha1;
+        $data->sabha2 = $request->sabha2;
+
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($request->hasFile($field)) {
+                if ($data->$field && file_exists(public_path($data->$field))) {
+                    unlink(public_path($data->$field));
+                }
+                $file = $request->file($field);
+                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $file->move(public_path('foto_snoc'), $filename);
+                $data->$field = 'foto_snoc/' . $filename;
+            }
+        }
+        $data->save();
+
+        return redirect()->route('17peduli.index')
+            ->with('warning', 'Agenda Sabha Peduli berhasil diperbarui!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+    }
+}
+
+public function pedulidelete($id)
+{
+    try {
+        $data = sabha17::findOrFail($id);
+        for ($i = 3; $i <= 7; $i++) {
+            $field = 'sabha' . $i;
+            if ($data->$field && file_exists(public_path($data->$field))) {
+                unlink(public_path($data->$field));
+            }
+        }
+        $data->delete();
+
+        return redirect()->route('17peduli.index')
+            ->with('error', 'Agenda Sabha Peduli berhasil dihapus!');
+
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+    }
+}
+
+// MENU 18 BERITA
+
+    public function adminberita(Request $request)
+            {
+                $search = $request->search;
+                $perPage = $request->per_page ?? 5;
+
+                $data = sabha18::when($search, function($q) use ($search) {
+                    return $q->where('sabha1', 'LIKE', "%$search%")
+                            ->orWhere('sabha2', 'LIKE', "%$search%")
+                            ->orWhere('sabha3', 'LIKE', "%$search%")
+                            ->orWhere('sabha4', 'LIKE', "%$search%")
+                            ->orWhere('sabha5', 'LIKE', "%$search%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($perPage)
+                ->appends(['search' => $search, 'per_page' => $perPage]);
+
+                return view('backend.03_berita.01_berita.01_adminberita', [
+                    'title' => 'Sabhagiriwana17 | Berita ',
+                    'user'  => Auth::user(),
+                    'data'  => $data,
+                ]);
+            }
+
+    public function beritacreate(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'sabha1' => 'required|string|max:255', // Judul wajib
+            'sabha2' => 'nullable|string', // Paragraf 1
+            'sabha3' => 'nullable|string', // Paragraf 2
+            'sabha4' => 'nullable|string', // Paragraf 3
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // 20MB
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
+
+        try {
+            // Data awal: judul + 3 paragraf
+            $dataInput = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+                'sabha3' => $request->sabha3,
+                'sabha4' => $request->sabha4,
+            ];
+
+            // Proses upload 5 foto (sabha5 - sabha9)
+            for ($i = 5; $i <= 9; $i++) {
+                $field = 'sabha' . $i;
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_berita'), $filename);
+                    $dataInput[$field] = 'foto_berita/' . $filename;
+                } else {
+                    $dataInput[$field] = null;
+                }
+            }
+
+            // Simpan ke database
+            sabha18::create($dataInput);
+
+            return redirect()->route('18berita.index')
+                ->with('success', 'Berita berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Mengupdate data berita (UPDATE)
+     * Route: PUT /beritaupdate/{id}
+     * Name: berita.update
+     */
+    public function beritaupdate(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'sabha1' => 'required|string|max:255',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|string',
+            'sabha4' => 'nullable|string',
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
+
+        try {
+            $data = sabha18::findOrFail($id);
+
+            // Update judul + 3 paragraf
+            $data->sabha1 = $request->sabha1;
+            $data->sabha2 = $request->sabha2;
+            $data->sabha3 = $request->sabha3;
+            $data->sabha4 = $request->sabha4;
+
+            // Proses upload 5 foto (sabha5 - sabha9)
+            for ($i = 5; $i <= 9; $i++) {
+                $field = 'sabha' . $i;
+                if ($request->hasFile($field)) {
+                    // Hapus foto lama jika ada
+                    if ($data->$field && file_exists(public_path($data->$field))) {
+                        unlink(public_path($data->$field));
+                    }
+                    // Upload foto baru
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_berita'), $filename);
+                    $data->$field = 'foto_berita/' . $filename;
+                }
+                // Jika tidak ada file baru, biarkan field tetap dengan nilai lama
+            }
+
+            $data->save();
+
+            return redirect()->route('18berita.index')
+                ->with('warning', 'Berita berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Gagal memperbarui data: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Menghapus data berita (DELETE)
+     * Route: DELETE /18berita/{id}
+     * Name: 18berita.destroy
+     */
+    public function beritadelete($id)
+    {
+        try {
+            $data = sabha18::findOrFail($id);
+
+            // Hapus semua foto yang ada (sabha5 - sabha9)
+            for ($i = 5; $i <= 9; $i++) {
+                $field = 'sabha' . $i;
+                if ($data->$field && file_exists(public_path($data->$field))) {
+                    unlink(public_path($data->$field));
+                }
+            }
+
+            $data->delete();
+
+            return redirect()->route('18berita.index')
+                ->with('error', 'Berita berhasil dihapus!');
+
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
+    }
+
+
+// MENU 19 ARTIKEL
+
+    public function adminartikel(Request $request)
+            {
+                $search = $request->search;
+                $perPage = $request->per_page ?? 5;
+
+                $data = sabha19::when($search, function($q) use ($search) {
+                    return $q->where('sabha1', 'LIKE', "%$search%")
+                            ->orWhere('sabha2', 'LIKE', "%$search%")
+                            ->orWhere('sabha3', 'LIKE', "%$search%")
+                            ->orWhere('sabha4', 'LIKE', "%$search%")
+                            ->orWhere('sabha5', 'LIKE', "%$search%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($perPage)
+                ->appends(['search' => $search, 'per_page' => $perPage]);
+
+                return view('backend.03_berita.02_artikel.01_adminartikel', [
+                    'title' => 'Sabhagiriwana17 | Artikel ',
+                    'user'  => Auth::user(),
+                    'data'  => $data,
+                ]);
+            }
+
+    public function artikelcreate(Request $request)
+    {
+        $request->validate([
+            'sabha1' => 'required|string|max:255',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|file|max:51200', // 50MB
+            'sabha4' => 'nullable|file|max:51200',
+        ], [
+            'sabha1.required' => 'Judul artikel wajib diisi!',
+            'sabha3.max' => 'Ukuran file 1 maksimal 50MB!',
+            'sabha4.max' => 'Ukuran file 2 maksimal 50MB!',
+        ]);
+
+        try {
+            $data = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+            ];
+
+            // Upload sabha3
+            if ($request->hasFile('sabha3')) {
+                $file = $request->file('sabha3');
+                $filename = time() . '_artikel1_' . preg_replace('/[^a-zA-Z0-9._-]/', '', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('foto_artikel'), $filename);
+                $data['sabha3'] = 'foto_artikel/' . $filename;
+            }
+
+            // Upload sabha4
+            if ($request->hasFile('sabha4')) {
+                $file = $request->file('sabha4');
+                $filename = time() . '_artikel2_' . preg_replace('/[^a-zA-Z0-9._-]/', '', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('foto_artikel'), $filename);
+                $data['sabha4'] = 'foto_artikel/' . $filename;
+            }
+
+            sabha19::create($data);
+
+            return redirect()->route('19artikel.index')
+                ->with('success', 'Artikel berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Gagal menyimpan: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Mengupdate artikel yang sudah ada
+     * Route: PUT /artikelupdate/{id}
+     * Name: artikel.update
+     */
+    public function artikelupdate(Request $request, $id)
+    {
+        $request->validate([
+            'sabha1' => 'required|string|max:255',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|file|max:51200',
+            'sabha4' => 'nullable|file|max:51200',
+        ], [
+            'sabha1.required' => 'Judul artikel wajib diisi!',
+            'sabha3.max' => 'Ukuran file 1 maksimal 50MB!',
+            'sabha4.max' => 'Ukuran file 2 maksimal 50MB!',
+        ]);
+
+        try {
+            $artikel = sabha19::findOrFail($id);
+
+            $artikel->sabha1 = $request->sabha1;
+            $artikel->sabha2 = $request->sabha2;
+
+            // Upload sabha3 (ganti file)
+            if ($request->hasFile('sabha3')) {
+                if ($artikel->sabha3 && file_exists(public_path($artikel->sabha3))) {
+                    unlink(public_path($artikel->sabha3));
+                }
+                $file = $request->file('sabha3');
+                $filename = time() . '_artikel1_' . preg_replace('/[^a-zA-Z0-9._-]/', '', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('foto_artikel'), $filename);
+                $artikel->sabha3 = 'foto_artikel/' . $filename;
+            }
+
+            // Upload sabha4 (ganti file)
+            if ($request->hasFile('sabha4')) {
+                if ($artikel->sabha4 && file_exists(public_path($artikel->sabha4))) {
+                    unlink(public_path($artikel->sabha4));
+                }
+                $file = $request->file('sabha4');
+                $filename = time() . '_artikel2_' . preg_replace('/[^a-zA-Z0-9._-]/', '', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('foto_artikel'), $filename);
+                $artikel->sabha4 = 'foto_artikel/' . $filename;
+            }
+
+            $artikel->save();
+
+            return redirect()->route('19artikel.index')
+                ->with('warning', 'Artikel berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Gagal memperbarui: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Menghapus artikel beserta file-file terkait
+     * Route: DELETE /19artikel/{id}
+     * Name: 19artikel.destroy
+     */
+    public function artikeldelete($id)
+    {
+        try {
+            $artikel = sabha19::findOrFail($id);
+
+            // Hapus file
+            if ($artikel->sabha3 && file_exists(public_path($artikel->sabha3))) {
+                unlink(public_path($artikel->sabha3));
+            }
+            if ($artikel->sabha4 && file_exists(public_path($artikel->sabha4))) {
+                unlink(public_path($artikel->sabha4));
+            }
+
+            $artikel->delete();
+
+            return redirect()->route('19artikel.index')
+                ->with('error', 'Artikel berhasil dihapus!');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Gagal menghapus: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Download file artikel (sabha3 atau sabha4)
+     * Route: GET /artikel/download/{id}/{fileType}
+     * Name: artikel.download
+     */
+    public function artikeldownload($id, $fileType)
+    {
+        try {
+            $artikel = sabha19::findOrFail($id);
+            $field = $fileType === '1' ? 'sabha3' : 'sabha4';
+
+            if (!$artikel->$field || !file_exists(public_path($artikel->$field))) {
+                return back()->with('error', 'File tidak ditemukan!');
+            }
+
+            $filePath = public_path($artikel->$field);
+            $fileName = basename($filePath);
+
+            return response()->download($filePath, $fileName);
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal download: ' . $e->getMessage());
+        }
+    }
+
+
+
+    // MENU 20 PENGUMUMAN
+
+    public function adminpengumuman(Request $request)
+            {
+                $search = $request->search;
+                $perPage = $request->per_page ?? 5;
+
+                $data = sabha20::when($search, function($q) use ($search) {
+                    return $q->where('sabha1', 'LIKE', "%$search%")
+                            ->orWhere('sabha2', 'LIKE', "%$search%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($perPage)
+                ->appends(['search' => $search, 'per_page' => $perPage]);
+
+                return view('backend.03_berita.03_pengumuman.01_adminpengumuman', [
+                    'title' => 'Sabhagiriwana17 | Pengumuman ',
+                    'user'  => Auth::user(),
+                    'data'  => $data,
+                ]);
+            }
+
+    public function pengumumancreate(Request $request)
+    {
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|file|max:51200', // 50MB
+        ], [
+            'sabha1.required' => 'Judul pengumuman wajib diisi!',
+            'sabha2.max' => 'Ukuran file maksimal 50MB!',
+        ]);
+
+        try {
+            $data = [
+                'sabha1' => $request->sabha1,
+            ];
+
+            // Upload sabha2
+            if ($request->hasFile('sabha2')) {
+                $file = $request->file('sabha2');
+                $filename = time() . '_pengumuman_' . preg_replace('/[^a-zA-Z0-9._-]/', '', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('foto_pengumuman'), $filename);
+                $data['sabha2'] = 'foto_pengumuman/' . $filename;
+            }
+
+            sabha20::create($data);
+
+            return redirect()->route('20pengumuman.index')
+                ->with('success', 'Pengumuman berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Gagal menyimpan: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Mengupdate pengumuman
+     * Route: PUT /pengumumanupdate/{id}
+     * Name: pengumuman.update
+     */
+    public function pengumumanupdate(Request $request, $id)
+    {
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|file|max:51200',
+        ], [
+            'sabha1.required' => 'Judul pengumuman wajib diisi!',
+            'sabha2.max' => 'Ukuran file maksimal 50MB!',
+        ]);
+
+        try {
+            $pengumuman = sabha20::findOrFail($id);
+
+            $pengumuman->sabha1 = $request->sabha1;
+
+            // Upload sabha2 (ganti file)
+            if ($request->hasFile('sabha2')) {
+                // Hapus file lama jika ada
+                if ($pengumuman->sabha2 && file_exists(public_path($pengumuman->sabha2))) {
+                    unlink(public_path($pengumuman->sabha2));
+                }
+                $file = $request->file('sabha2');
+                $filename = time() . '_pengumuman_' . preg_replace('/[^a-zA-Z0-9._-]/', '', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('foto_pengumuman'), $filename);
+                $pengumuman->sabha2 = 'foto_pengumuman/' . $filename;
+            }
+
+            $pengumuman->save();
+
+            return redirect()->route('20pengumuman.index')
+                ->with('warning', 'Pengumuman berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Gagal memperbarui: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Menghapus pengumuman
+     * Route: DELETE /20pengumuman/{id}
+     * Name: 20pengumuman.destroy
+     */
+    public function pengumumandelete($id)
+    {
+        try {
+            $pengumuman = sabha20::findOrFail($id);
+
+            // Hapus file jika ada
+            if ($pengumuman->sabha2 && file_exists(public_path($pengumuman->sabha2))) {
+                unlink(public_path($pengumuman->sabha2));
+            }
+
+            $pengumuman->delete();
+
+            return redirect()->route('20pengumuman.index')
+                ->with('error', 'Pengumuman berhasil dihapus!');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Gagal menghapus: ' . $e->getMessage());
+        }
+    }
+}
+
+
+

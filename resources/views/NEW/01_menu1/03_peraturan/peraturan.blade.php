@@ -47,9 +47,9 @@
 <section class="news-slider-section" id="peraturan">
     <div class="section-header">
         <h2 class="section-title">Peraturan & Kebijakan</h2>
-        <p class="section-subtitle" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin-top: 4px; text-align: center;">
+        {{-- <p class="section-subtitle" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin-top: 4px; text-align: center;">
             Dokumen resmi peraturan dan kebijakan Sabhagiriwana'17
-        </p>
+        </p> --}}
     </div>
 
     <div class="kabar-scroll-container">

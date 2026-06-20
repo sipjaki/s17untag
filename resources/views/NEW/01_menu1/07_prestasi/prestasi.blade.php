@@ -47,9 +47,9 @@
 <section class="news-slider-section" id="prestasi">
     <div class="section-header">
         <h2 class="section-title">🏆 Prestasi Sabhagiriwana'17</h2>
-        <p class="section-subtitle" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin-top: 4px; text-align: center;">
+        {{-- <p class="section-subtitle" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin-top: 4px; text-align: center;">
             Jejak prestasi dan penghargaan yang telah diraih
-        </p>
+        </p> --}}
     </div>
 
     <div class="kabar-scroll-container">

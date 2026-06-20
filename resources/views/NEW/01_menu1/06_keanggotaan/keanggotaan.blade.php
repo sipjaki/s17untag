@@ -47,9 +47,9 @@
 <section class="news-slider-section" id="keanggotaan">
     <div class="section-header">
         <h2 class="section-title">Statistik Keanggotaan</h2>
-        <p class="section-subtitle" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin-top: 4px; text-align: center;">
+        {{-- <p class="section-subtitle" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin-top: 4px; text-align: center;">
             Data anggota berdasarkan status dan angkatan pendidikan
-        </p>
+        </p> --}}
     </div>
 
     <div class="kabar-scroll-container">
