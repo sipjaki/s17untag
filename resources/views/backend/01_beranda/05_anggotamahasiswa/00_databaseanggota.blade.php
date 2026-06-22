@@ -174,7 +174,7 @@
                                         <div style="display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 6px 12px; border-radius: 8px;">
                                             <i class="mdi mdi-calendar" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px); width: 20px;"></i>
                                             <span style="font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); color: #5a6a7a;">
-                                                <strong style="color: #1a1a2e;">Angkatan (Contoh : Kabut Rimba)):</strong> {{ $item->sabha6 ?? '-' }}
+                                                <strong style="color: #1a1a2e;">Angkatan :</strong> {{ $item->sabha6 ?? '-' }}
                                             </span>
                                         </div>
                                         <!-- Fakultas (sabha8) -->
