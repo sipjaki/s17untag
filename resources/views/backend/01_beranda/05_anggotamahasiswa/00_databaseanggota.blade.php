@@ -174,7 +174,7 @@
                                         <div style="display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 6px 12px; border-radius: 8px;">
                                             <i class="mdi mdi-calendar" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px); width: 20px;"></i>
                                             <span style="font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); color: #5a6a7a;">
-                                                <strong style="color: #1a1a2e;">Angkatan Pendidikan:</strong> {{ $item->sabha6 ?? '-' }}
+                                                <strong style="color: #1a1a2e;">Angkatan (Contoh : Kabut Rimba)):</strong> {{ $item->sabha6 ?? '-' }}
                                             </span>
                                         </div>
                                         <!-- Fakultas (sabha8) -->
@@ -470,7 +470,7 @@
                         <!-- Angkatan Pendidikan (sabha6) -->
                         <div class="col-12 col-md-6">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
-                                <i class="mdi mdi-calendar" style="color: #0d47a1;"></i> Angkatan Pendidikan
+                                <i class="mdi mdi-calendar" style="color: #0d47a1;"></i> Angkatan (Contoh : Kabut Rimba)
                             </label>
                             <input type="text" class="form-control" name="sabha6" placeholder="Contoh: Kalajengking" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
@@ -626,7 +626,7 @@
                         <!-- Angkatan Pendidikan (sabha6) -->
                         <div class="col-12 col-md-6">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
-                                <i class="mdi mdi-calendar" style="color: #0d47a1;"></i> Angkatan Pendidikan
+                                <i class="mdi mdi-calendar" style="color: #0d47a1;"></i> Angkatan (Contoh : Kabut Rimba)
                             </label>
                             <input type="text" class="form-control" name="sabha6" value="{{ $item->sabha6 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>

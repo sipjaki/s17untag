@@ -269,8 +269,9 @@ Isian Konten
 </div>
 
 DISINI ISIAN KONETENNYA DENGAN foreach data->
-keluarkan disini kontennya bro 
+keluarkan disini kontennya bro
 
 @include('00_semarang.00_include.02_footer')
 
   {{-- =========================================== --}}
+

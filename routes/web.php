@@ -363,6 +363,8 @@ Route::delete('/17peduli/{id}', [BerandaController::class, 'pedulidelete'])->mid
 Route::post('/pedulicreate', [BerandaController::class, 'pedulicreate'])->middleware('auth')->name('peduli.create');
 Route::put('/peduliupdate/{id}', [BerandaController::class, 'peduliupdate'])->middleware('auth')->name('peduli.update');
 
+
+
 // MENU 18 BERITA   ===========================
 Route::get('/18berita', [BerandaController::class, 'adminberita'])->middleware('auth')->name('18berita.index');
 Route::delete('/18berita/{id}', [BerandaController::class, 'beritadelete'])->middleware('auth')->name('18berita.destroy');
