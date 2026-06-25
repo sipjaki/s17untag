@@ -19,8 +19,10 @@
                         petualangan dan pendidikan lingkungan.
                     </p>
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@sabhagiriwana17?si=ebPUoMoF4fncVFHT" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/sabhagiriwana17?igsh=MXdrdDlhZ29jOTdtdg==" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@sabhagiriwana17?_r=1&_t=ZS-97QN3iVt2Kw" class="social-link" target="_blank"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.facebook.com/share/18hJ84qFBv/" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
                     </div>
                 </div>
 

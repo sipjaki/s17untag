@@ -1,12 +1,15 @@
 {{-- ============================================================
      DATA KEPENGURUSAN (CARD ELEGAN - RESPONSIF)
+     DENGAN CUSTOM BUTTON (btn-biru, btn-merah, dll)
      ============================================================ --}}
+
+@include('backend.00_dashboard.08_style')
 
 <div class="col-12">
     <div class="card" style="border-radius: 16px; border: none; box-shadow: 0 2px 12px rgba(0,0,0,0.05);">
         <div class="card-body" style="padding: clamp(16px, 2vw, 24px);">
 
-            <!-- Judul & Tombol Tambah -->
+            {{-- HEADER --}}
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div>
                     <h4 class="card-title" style="font-family: 'Poppins', sans-serif; font-weight: 600; margin-bottom: 2px; font-size: clamp(18px, 3vw, 24px);">
@@ -16,16 +19,14 @@
                         Kelola data pengurus Sabhagiriwana'17
                     </p>
                 </div>
-                <button class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 18px); font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.5vw, 14px); white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                {{-- TOMBOL TAMBAH -> btn-biru --}}
+                <button class="btn-biru" data-bs-toggle="modal" data-bs-target="#tambahModal">
                     <i class="mdi mdi-plus"></i> Tambah Pengurus
                 </button>
             </div>
 
-            {{-- ============================================================
-                 FILTER: SEARCH, PER PAGE, DOWNLOAD
-                 ============================================================ --}}
+            {{-- FILTER: SEARCH, PER PAGE, DOWNLOAD --}}
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
-                {{-- Search Form --}}
                 <div style="flex: 1; min-width: 200px;">
                     <form method="GET" action="{{ route('02kepengurusan.index') }}" class="d-flex gap-2" id="searchForm">
                         <div class="input-group" style="border-radius: 10px; overflow: hidden; border: 1px solid #e0e4ea;">
@@ -35,20 +36,20 @@
                             <input type="text" class="form-control border-0" name="search" placeholder="Cari nama atau jabatan..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 0;">
                             <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
                         </div>
-                        <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap;">
+                        {{-- TOMBOL CARI -> btn-biru --}}
+                        {{-- <button type="submit" class="btn-biru">
                             <i class="mdi mdi-magnify"></i> Cari
-                        </button>
+                        </button> --}}
                         @if(request('search'))
-                            <a href="{{ route('02kepengurusan.index') }}" class="btn btn-outline-secondary" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 13px; white-space: nowrap;">
+                            {{-- TOMBOL RESET -> btn-silver --}}
+                            <a href="{{ route('02kepengurusan.index') }}" class="btn-silver">
                                 <i class="mdi mdi-close"></i> Reset
                             </a>
                         @endif
                     </form>
                 </div>
 
-                {{-- Per Page & Download --}}
                 <div class="d-flex flex-wrap align-items-center gap-2">
-                    {{-- Per Page --}}
                     <div style="display: flex; align-items: center; gap: 6px;">
                         <span style="font-family: 'Poppins', sans-serif; font-size: 13px; color: #5a6a7a; white-space: nowrap;">Tampil:</span>
                         <form method="GET" action="{{ route('02kepengurusan.index') }}" id="perPageForm" class="d-inline">
@@ -69,25 +70,23 @@
                         </span>
                     </div>
 
-                    {{-- Download Button --}}
-                    <button onclick="exportToCSV()" class="btn btn-success" style="background: #28a745; border: none; border-radius: 10px; padding: 8px 16px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                    {{-- TOMBOL DOWNLOAD -> btn-orange --}}
+                    <button onclick="exportToCSV()" class="btn-orange" style="display: inline-flex; align-items: center; gap: 6px;">
                         <i class="mdi mdi-download"></i> Download
                     </button>
                 </div>
             </div>
 
-            <!-- ============================================================
-                 TAMPILAN DATA CARD (GRID - RESPONSIF)
-                 ============================================================ -->
+            {{-- DATA CARDS (GRID - RESPONSIF) --}}
             <div id="dataContainer">
                 @forelse ($data as $index => $item)
                     <div class="card mb-3" style="border-radius: 16px; border: 1px solid #f0f2f5; box-shadow: 0 2px 8px rgba(0,0,0,0.02); overflow: hidden; transition: all 0.3s ease;">
                         <div class="card-body" style="padding: clamp(14px, 2vw, 20px) clamp(14px, 2vw, 20px);">
 
-                            <!-- Header: Nama + Tombol Aksi -->
+                            {{-- HEADER: Nama + Tombol Aksi --}}
                             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
                                 <div class="d-flex align-items-center gap-3">
-                                    <!-- Foto Profil -->
+                                    {{-- Foto Profil --}}
                                     <div style="width: clamp(48px, 6vw, 56px); height: clamp(48px, 6vw, 56px); border-radius: 50%; overflow: hidden; border: 3px solid #c62828; flex-shrink: 0; background: #f0f2f5;">
                                         @if($item->sabha5 && file_exists(public_path($item->sabha5)))
                                             <img src="{{ asset($item->sabha5) }}" alt="Foto" style="width: 100%; height: 100%; object-fit: cover;">
@@ -107,17 +106,18 @@
                                     </div>
                                 </div>
                                 <div class="d-flex flex-wrap gap-1">
-                                    {{-- TOMBOL EDIT PAKAI onclick --}}
-                                    <button class="btn btn-sm btn-outline-primary" onclick="openEdit('{{ $item->id }}')" style="border-radius: 8px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: clamp(3px, 0.5vw, 4px) clamp(8px, 1vw, 12px);">
+                                    {{-- TOMBOL EDIT -> btn-hijau, langsung data-bs-toggle --}}
+                                    <button class="btn-hijau" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" style="padding: clamp(3px, 0.5vw, 4px) clamp(8px, 1vw, 12px); font-size: clamp(11px, 1.2vw, 13px);">
                                         <i class="mdi mdi-pencil"></i> <span class="d-none d-sm-inline">Edit</span>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: clamp(3px, 0.5vw, 4px) clamp(8px, 1vw, 12px);" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    {{-- TOMBOL HAPUS -> btn-merah --}}
+                                    <button class="btn-merah" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" style="padding: clamp(3px, 0.5vw, 4px) clamp(8px, 1vw, 12px); font-size: clamp(11px, 1.2vw, 13px);">
                                         <i class="mdi mdi-delete"></i> <span class="d-none d-sm-inline">Hapus</span>
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- Detail (Jurusan & Keterangan) - Responsif -->
+                            {{-- DETAIL (Jurusan & Keterangan) - Responsif --}}
                             <div style="display: flex; flex-wrap: wrap; gap: clamp(8px, 1.5vw, 16px) clamp(12px, 2vw, 24px); padding-top: 8px; border-top: 1px solid #f0f2f5;">
                                 <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                                     <i class="mdi mdi-school" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px);"></i>
@@ -141,9 +141,7 @@
                         </div>
                     </div>
 
-                    {{-- ============================================================
-                         MODAL HAPUS (RESPONSIF)
-                         ============================================================ --}}
+                    {{-- MODAL DELETE --}}
                     <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-sm">
                             <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
@@ -163,15 +161,77 @@
                                     </p>
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
+                                    {{-- BATAL -> btn-silver --}}
+                                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
                                     <form action="{{ route('02kepengurusan.destroy', $item->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                                        {{-- YA, HAPUS -> btn-merah --}}
+                                        <button type="submit" class="btn-merah">
                                             <i class="mdi mdi-delete" style="margin-right: 6px;"></i> Ya, Hapus
                                         </button>
                                     </form>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- MODAL EDIT --}}
+                    <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+                                <div class="modal-header" style="border-bottom: 2px solid #0d47a1; padding: clamp(14px, 2vw, 20px) clamp(14px, 2vw, 24px);">
+                                    <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: clamp(16px, 2vw, 20px);">
+                                        <i class="mdi mdi-pencil" style="color: #0d47a1; margin-right: 10px;"></i>
+                                        Edit Pengurus
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form action="{{ route('kepengurusan.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-body" style="padding: clamp(14px, 2vw, 24px);">
+                                        <div class="row g-3">
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Nama Lengkap</label>
+                                                <input type="text" class="form-control" name="sabha1" value="{{ $item->sabha1 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Divisi / Jabatan</label>
+                                                <input type="text" class="form-control" name="sabha2" value="{{ $item->sabha2 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Jurusan</label>
+                                                <input type="text" class="form-control" name="sabha3" value="{{ $item->sabha3 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Upload Foto</label>
+                                                @if($item->sabha5 && file_exists(public_path($item->sabha5)))
+                                                    <div style="margin-bottom: 8px;">
+                                                        <img src="{{ asset($item->sabha5) }}" alt="Foto Saat Ini" style="width: clamp(60px, 8vw, 80px); height: clamp(60px, 8vw, 80px); object-fit: cover; border-radius: 10px; border: 2px solid #f0f2f5;">
+                                                        <p style="font-size: clamp(10px, 1vw, 11px); color: #7a8a9e; margin: 4px 0 0; font-family: 'Poppins', sans-serif;">Foto saat ini (kosongkan untuk tetap menggunakan foto lama)</p>
+                                                    </div>
+                                                @else
+                                                    <p style="font-size: clamp(11px, 1.1vw, 12px); color: #b0b8c4; font-family: 'Poppins', sans-serif; margin-bottom: 8px;">Belum ada foto</p>
+                                                @endif
+                                                <input type="file" class="form-control" name="sabha5" accept="image/*" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">
+                                                <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: JPG, PNG, JPEG. Maks 2MB</small>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Keterangan</label>
+                                                <textarea class="form-control" name="sabha4" rows="3" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">{{ $item->sabha4 }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
+                                        {{-- BATAL -> btn-silver --}}
+                                        <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                                        {{-- UPDATE -> btn-orange --}}
+                                        <button type="submit" class="btn-orange">
+                                            <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -191,26 +251,18 @@
                 @endforelse
             </div>
 
-            {{-- ============================================================
-                 PAGINATION (RESPONSIF + NEXT PREVIOUS)
-                 ============================================================ --}}
+            {{-- PAGINATION --}}
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-4 pt-3" style="border-top: 2px solid #f0f2f5;">
-
-                {{-- Info Kiri --}}
                 <div style="font-family: 'Poppins', sans-serif; font-size: 13px; color: #6c7a91; background: #f8fafc; padding: 8px 18px; border-radius: 30px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid #e9edf2;">
                     <i class="mdi mdi-list-ul" style="color: #4f6af5; font-size: 14px;"></i>
-                    Menampilkan
-                    <strong style="color: #1a2332; font-weight: 600;">{{ $data->firstItem() }}</strong> -
+                    Menampilkan <strong style="color: #1a2332; font-weight: 600;">{{ $data->firstItem() }}</strong> -
                     <strong style="color: #1a2332; font-weight: 600;">{{ $data->lastItem() }}</strong>
-                    dari
-                    <strong style="color: #1a2332; font-weight: 600;">{{ $data->total() }}</strong>
+                    dari <strong style="color: #1a2332; font-weight: 600;">{{ $data->total() }}</strong>
                     <span style="background: linear-gradient(135deg, #4f6af5, #7c3aed); color: white; padding: 2px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 4px;">data</span>
                 </div>
 
-                {{-- Pagination --}}
                 <nav aria-label="Page navigation">
                     <ul class="pagination pagination-nav" style="display: flex; align-items: center; gap: 6px; margin: 0; flex-wrap: wrap; justify-content: center;">
-
                         @if ($data->onFirstPage())
                             <li class="page-item disabled">
                                 <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #b8c5d6; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; opacity: 0.5; cursor: not-allowed;">
@@ -273,10 +325,8 @@
                                 </span>
                             </li>
                         @endif
-
                     </ul>
                 </nav>
-
             </div>
 
         </div>
@@ -284,7 +334,7 @@
 </div>
 
 {{-- ============================================================
-     MODAL TAMBAH DATA (RESPONSIF)
+     MODAL TAMBAH DATA
      ============================================================ --}}
 <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -324,8 +374,10 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- SIMPAN -> btn-biru --}}
+                    <button type="submit" class="btn-biru">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Simpan
                     </button>
                 </div>
@@ -335,76 +387,137 @@
 </div>
 
 {{-- ============================================================
-     MODAL EDIT DATA (RESPONSIF) - FIX
-     ============================================================ --}}
-@foreach ($data as $item)
-<div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
-            <div class="modal-header" style="border-bottom: 2px solid #0d47a1; padding: clamp(14px, 2vw, 20px) clamp(14px, 2vw, 24px);">
-                <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: clamp(16px, 2vw, 20px);">
-                    <i class="mdi mdi-pencil" style="color: #0d47a1; margin-right: 10px;"></i>
-                    Edit Pengurus
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="{{ route('kepengurusan.update', $item->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="modal-body" style="padding: clamp(14px, 2vw, 24px);">
-                    <div class="row g-3">
-                        <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Nama Lengkap</label>
-                            <input type="text" class="form-control" name="sabha1" value="{{ $item->sabha1 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Divisi / Jabatan</label>
-                            <input type="text" class="form-control" name="sabha2" value="{{ $item->sabha2 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Jurusan</label>
-                            <input type="text" class="form-control" name="sabha3" value="{{ $item->sabha3 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Upload Foto</label>
-                            @if($item->sabha5 && file_exists(public_path($item->sabha5)))
-                                <div style="margin-bottom: 8px;">
-                                    <img src="{{ asset($item->sabha5) }}" alt="Foto Saat Ini" style="width: clamp(60px, 8vw, 80px); height: clamp(60px, 8vw, 80px); object-fit: cover; border-radius: 10px; border: 2px solid #f0f2f5;">
-                                    <p style="font-size: clamp(10px, 1vw, 11px); color: #7a8a9e; margin: 4px 0 0; font-family: 'Poppins', sans-serif;">Foto saat ini (kosongkan untuk tetap menggunakan foto lama)</p>
-                                </div>
-                            @else
-                                <p style="font-size: clamp(11px, 1.1vw, 12px); color: #b0b8c4; font-family: 'Poppins', sans-serif; margin-bottom: 8px;">Belum ada foto</p>
-                            @endif
-                            <input type="file" class="form-control" name="sabha5" accept="image/*" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">
-                            <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: JPG, PNG, JPEG. Maks 2MB</small>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Keterangan</label>
-                            <textarea class="form-control" name="sabha4" rows="3" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">{{ $item->sabha4 }}</textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #0d47a1; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
-                        <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endforeach
-
-{{-- ============================================================
      STYLE & SCRIPTS
      ============================================================ --}}
 @push('styles')
 <style>
-    .pagination-nav .page-item {
-        margin: 0 2px;
+    /* ============================================================
+       BUTTON CUSTOM (sesuai permintaan)
+       ============================================================ */
+    .btn-biru {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-biru:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(13, 110, 253, 0.7);
+        transform: scale(1.02);
     }
 
+    .btn-merah {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-merah:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(220, 53, 69, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-orange {
+        background-color: #fd7e14;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(253, 126, 20, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-orange:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(253, 126, 20, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-silver {
+        background-color: #adb5bd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(173, 181, 189, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-silver:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(173, 181, 189, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-hijau {
+        background-color: #198754;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-hijau:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(25, 135, 84, 0.7);
+        transform: scale(1.02);
+    }
+
+    /* ============================================================
+       PAGINATION (tetap)
+       ============================================================ */
+    .pagination-nav .page-item { margin: 0 2px; }
     .pagination-nav .page-link {
         font-family: 'Poppins', sans-serif;
         font-size: 14px;
@@ -422,25 +535,22 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
     }
-
     .pagination-nav .page-link:hover {
         background: #f0f4ff;
         border-color: #4f6af5;
         color: #4f6af5;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(79, 106, 245, 0.15);
+        box-shadow: 0 4px 12px rgba(79,106,245,0.15);
     }
-
     .pagination-nav .page-item.active .page-link {
         background: linear-gradient(135deg, #4f6af5, #7c3aed);
         border-color: #4f6af5;
         color: #ffffff;
         font-weight: 600;
-        box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35);
+        box-shadow: 0 4px 15px rgba(79,106,245,0.35);
         transform: translateY(-2px);
         animation: pulse 2s infinite;
     }
-
     .pagination-nav .page-item.disabled .page-link {
         color: #b8c5d6;
         background: transparent;
@@ -449,7 +559,6 @@
         transform: none;
         opacity: 0.5;
     }
-
     .pagination-nav .page-item:first-child .page-link,
     .pagination-nav .page-item:last-child .page-link {
         font-size: 14px;
@@ -458,16 +567,14 @@
         background: #f8fafc;
         border: 1px solid #e9edf2;
     }
-
     .pagination-nav .page-item:first-child .page-link:hover,
     .pagination-nav .page-item:last-child .page-link:hover {
         background: #4f6af5;
         border-color: #4f6af5;
         color: white;
         transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(79, 106, 245, 0.25);
+        box-shadow: 0 4px 15px rgba(79,106,245,0.25);
     }
-
     .pagination-nav .page-item:first-child.disabled .page-link:hover,
     .pagination-nav .page-item:last-child.disabled .page-link:hover {
         background: #f8fafc;
@@ -476,79 +583,27 @@
         transform: none;
         box-shadow: none;
     }
-
     @keyframes pulse {
-        0% { box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); }
-        50% { box-shadow: 0 4px 25px rgba(79, 106, 245, 0.5); }
-        100% { box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); }
+        0% { box-shadow: 0 4px 15px rgba(79,106,245,0.35); }
+        50% { box-shadow: 0 4px 25px rgba(79,106,245,0.5); }
+        100% { box-shadow: 0 4px 15px rgba(79,106,245,0.35); }
     }
-
     @media (max-width: 768px) {
-        .pagination-nav {
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .pagination-nav .page-link {
-            font-size: 13px;
-            padding: 6px 12px;
-            min-width: 38px;
-            height: 38px;
-            border-radius: 10px;
-        }
+        .pagination-nav { justify-content: center; flex-wrap: wrap; }
+        .pagination-nav .page-link { font-size: 13px; padding: 6px 12px; min-width: 38px; height: 38px; border-radius: 10px; }
         .pagination-nav .page-item:first-child .page-link,
-        .pagination-nav .page-item:last-child .page-link {
-            padding: 6px 10px;
-            font-size: 12px;
-        }
+        .pagination-nav .page-item:last-child .page-link { padding: 6px 10px; font-size: 12px; }
     }
-
     @media (max-width: 480px) {
-        .pagination-nav .page-link {
-            font-size: 12px;
-            padding: 4px 10px;
-            min-width: 34px;
-            height: 34px;
-            border-radius: 8px;
-        }
+        .pagination-nav .page-link { font-size: 12px; padding: 4px 10px; min-width: 34px; height: 34px; border-radius: 8px; }
         .pagination-nav .page-item:first-child .page-link,
-        .pagination-nav .page-item:last-child .page-link {
-            padding: 4px 8px;
-            font-size: 11px;
-        }
+        .pagination-nav .page-item:last-child .page-link { padding: 4px 8px; font-size: 11px; }
     }
 </style>
 @endpush
 
 @push('scripts')
 <script>
-// ============================================================
-// FUNGSI BUKA MODAL EDIT - PASTI JALAN
-// ============================================================
-function openEdit(id) {
-    if (!id) {
-        alert('ID tidak ditemukan!');
-        return;
-    }
-
-    var modalElement = document.getElementById('editModal' + id);
-    if (!modalElement) {
-        alert('Modal tidak ditemukan!');
-        return;
-    }
-
-    // Hapus instance modal yang sudah ada
-    if (bootstrap.Modal.getInstance(modalElement)) {
-        bootstrap.Modal.getInstance(modalElement).dispose();
-    }
-
-    // Buat instance baru dan tampilkan
-    var myModal = new bootstrap.Modal(modalElement, {
-        backdrop: 'static',
-        keyboard: true
-    });
-    myModal.show();
-}
-
 // ============================================================
 // DOWNLOAD CSV
 // ============================================================

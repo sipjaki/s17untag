@@ -1,6 +1,9 @@
 {{-- ============================================================
      DATA BERITA & ARTIKEL (CARD ELEGAN - 3 PARAGRAF + 5 FOTO)
+     DENGAN CUSTOM BUTTON (btn-biru, btn-merah, dll)
      ============================================================ --}}
+
+@include('backend.00_dashboard.08_style')
 
 <div class="col-12">
     <div class="card" style="border-radius: 20px; border: none; box-shadow: 0 4px 24px rgba(0,0,0,0.04);">
@@ -16,7 +19,8 @@
                         Kelola berita Sabhagiriwana'17
                     </p>
                 </div>
-                <button class="btn btn-primary" style="background: #c62828; border: none; border-radius: 12px; padding: 10px 24px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; white-space: nowrap; box-shadow: 0 4px 12px rgba(198,40,40,0.2);" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                {{-- TOMBOL TAMBAH -> btn-biru --}}
+                <button class="btn-biru" data-bs-toggle="modal" data-bs-target="#tambahModal">
                     <i class="mdi mdi-plus"></i> Tambah Berita
                 </button>
             </div>
@@ -32,11 +36,13 @@
                             <input type="text" class="form-control border-0" name="search" placeholder="Cari judul berita..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 0;">
                             <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
                         </div>
-                        <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 12px; padding: 10px 20px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px;">
+                        {{-- TOMBOL CARI -> btn-biru --}}
+                        {{-- <button type="submit" class="btn-biru">
                             <i class="mdi mdi-magnify"></i> Cari
-                        </button>
+                        </button> --}}
                         @if(request('search'))
-                            <a href="{{ route('18berita.index') }}" class="btn btn-outline-secondary" style="border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 10px 20px; border-color: #e0e4ea; color: #5a6a7a;">
+                            {{-- TOMBOL RESET -> btn-silver --}}
+                            <a href="{{ route('18berita.index') }}" class="btn-silver">
                                 <i class="mdi mdi-close"></i> Reset
                             </a>
                         @endif
@@ -59,7 +65,8 @@
                             (Total: {{ $data->total() }} data)
                         </span>
                     </div>
-                    <button onclick="exportToCSV()" class="btn btn-success" style="background: #28a745; border: none; border-radius: 10px; padding: 8px 16px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                    {{-- TOMBOL DOWNLOAD -> btn-orange --}}
+                    <button onclick="exportToCSV()" class="btn-orange" style="display: inline-flex; align-items: center; gap: 6px;">
                         <i class="mdi mdi-download"></i> Download
                     </button>
                 </div>
@@ -89,10 +96,12 @@
                                     </div>
                                 </div>
                                 <div class="d-flex gap-1 flex-shrink-0">
-                                    <button class="btn btn-sm btn-outline-primary btn-edit" data-id="{{ $item->id }}" style="border-radius: 10px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 6px 14px;">
+                                    {{-- TOMBOL EDIT -> btn-hijau, langsung data-bs-toggle --}}
+                                    <button class="btn-hijau" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" style="padding: 6px 14px; font-size: 13px;">
                                         <i class="mdi mdi-pencil"></i> Edit
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $item->id }}" style="border-radius: 10px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 6px 14px;" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    {{-- TOMBOL HAPUS -> btn-merah --}}
+                                    <button class="btn-merah" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" style="padding: 6px 14px; font-size: 13px;">
                                         <i class="mdi mdi-delete"></i> Hapus
                                     </button>
                                 </div>
@@ -140,7 +149,7 @@
                             <div class="row g-3">
                                 @php
                                     $fotoFields = ['sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9'];
-                                    $fotoLabels = ['Foto 1', 'Foto 2', 'Foto 3', 'Foto 4', 'Foto 5'];
+                                    $fotoLabels = ['Foto 1 (Foto Utama)', 'Foto 2', 'Foto 3', 'Foto 4', 'Foto 5'];
                                 @endphp
                                 @foreach ($fotoFields as $key => $field)
                                     @php
@@ -192,15 +201,108 @@
                                     </p>
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 20px; gap: 8px;">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">Batal</button>
+                                    {{-- BATAL -> btn-silver --}}
+                                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
                                     <form action="{{ route('18berita.destroy', $item->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">
+                                        {{-- YA, HAPUS -> btn-merah --}}
+                                        <button type="submit" class="btn-merah">
                                             <i class="mdi mdi-delete" style="margin-right: 6px;"></i> Ya, Hapus
                                         </button>
                                     </form>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- MODAL EDIT --}}
+                    <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+                                <div class="modal-header" style="border-bottom: 2px solid #0d47a1; padding: 20px 24px;">
+                                    <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: 20px;">
+                                        <i class="mdi mdi-pencil" style="color: #0d47a1; margin-right: 10px;"></i>
+                                        Edit Berita
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form action="{{ route('berita.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-body" style="padding: 20px 24px;">
+
+                                        {{-- JUDUL (sabha1) --}}
+                                        <div class="mb-3">
+                                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                                                <i class="mdi mdi-format-title" style="color: #c62828;"></i> Judul Berita
+                                            </label>
+                                            <input type="text" class="form-control" name="sabha1" value="{{ $item->sabha1 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;" required>
+                                        </div>
+
+                                        {{-- 3 PARAGRAF --}}
+                                        <div class="row g-3">
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                                                    <i class="mdi mdi-file-document" style="color: #c62828;"></i> Paragraf 1
+                                                </label>
+                                                <textarea class="form-control" name="sabha2" rows="6" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">{{ $item->sabha2 }}</textarea>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                                                    <i class="mdi mdi-file-document" style="color: #0d47a1;"></i> Paragraf 2
+                                                </label>
+                                                <textarea class="form-control" name="sabha3" rows="6" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">{{ $item->sabha3 }}</textarea>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                                                    <i class="mdi mdi-file-document" style="color: #c62828;"></i> Paragraf 3
+                                                </label>
+                                                <textarea class="form-control" name="sabha4" rows="6" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">{{ $item->sabha4 }}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <hr style="margin: 16px 0; border-color: #f0f2f5;">
+
+                                        {{-- 5 FOTO (2 KOLOM PER BARIS + PREVIEW) --}}
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                                                    <i class="mdi mdi-camera" style="color: #c62828;"></i> Galeri Foto, Foto 1 adalah foto Utama Berita <br> (Kosongkan untuk tetap menggunakan foto lama)
+                                                </label>
+                                            </div>
+                                            @for ($i = 5; $i <= 9; $i++)
+                                                @php $field = 'sabha' . $i; @endphp
+                                                <div class="col-6">
+                                                    <div style="background: #f8fafc; border-radius: 10px; padding: 12px 16px; border: 1px solid #e8ecf1; height: 100%;">
+                                                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; display: block;">
+                                                            <i class="mdi mdi-image" style="color: #c62828;"></i> Foto {{ $i - 4 }}
+                                                        </label>
+                                                        @if($item->$field && file_exists(public_path($item->$field)))
+                                                            <div style="margin-bottom: 8px; text-align: center; background: #ffffff; padding: 4px; border-radius: 6px; border: 1px solid #f0f2f5;">
+                                                                <img src="{{ asset($item->$field) }}" alt="Foto {{ $i - 4 }}" style="width: 100%; max-height: 100px; object-fit: cover; border-radius: 4px;">
+                                                                <p style="font-size: 10px; color: #7a8a9e; margin: 4px 0 0; font-family: 'Poppins', sans-serif;">Foto saat ini</p>
+                                                            </div>
+                                                        @else
+                                                            <p style="font-size: 11px; color: #b0b8c4; font-family: 'Poppins', sans-serif; margin-bottom: 8px;">Belum ada foto</p>
+                                                        @endif
+                                                        <input type="file" class="form-control" name="{{ $field }}" accept=".jpg,.jpeg,.png,.gif,.webp" style="border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 6px 10px;">
+                                                        <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: 10px; display: block; margin-top: 4px;">Max 20MB, JPG/PNG/GIF/WEBP</small>
+                                                    </div>
+                                                </div>
+                                            @endfor
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 24px; gap: 8px;">
+                                        {{-- BATAL -> btn-silver --}}
+                                        <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                                        {{-- UPDATE -> btn-orange --}}
+                                        <button type="submit" class="btn-orange">
+                                            <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -326,7 +428,7 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                                <i class="mdi mdi-camera" style="color: #c62828;"></i> Galeri Foto (Maks 5)
+                                <i class="mdi mdi-camera" style="color: #c62828;"></i> Galeri Foto (Maks 5) <br> Foto 1 adalah Foto Utama
                             </label>
                         </div>
                         @for ($i = 5; $i <= 9; $i++)
@@ -344,8 +446,10 @@
 
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 24px; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- SIMPAN -> btn-biru --}}
+                    <button type="submit" class="btn-biru">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Simpan
                     </button>
                 </div>
@@ -355,103 +459,136 @@
 </div>
 
 {{-- ============================================================
-     MODAL EDIT (2 KOLOM PER BARIS + PREVIEW)
-     ============================================================ --}}
-@foreach ($data as $item)
-<div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
-            <div class="modal-header" style="border-bottom: 2px solid #0d47a1; padding: 20px 24px;">
-                <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: 20px;">
-                    <i class="mdi mdi-pencil" style="color: #0d47a1; margin-right: 10px;"></i>
-                    Edit Berita
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="{{ route('berita.update', $item->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="modal-body" style="padding: 20px 24px;">
-
-                    {{-- JUDUL (sabha1) --}}
-                    <div class="mb-3">
-                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                            <i class="mdi mdi-format-title" style="color: #c62828;"></i> Judul Berita
-                        </label>
-                        <input type="text" class="form-control" name="sabha1" value="{{ $item->sabha1 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;" required>
-                    </div>
-
-                    {{-- 3 PARAGRAF --}}
-                    <div class="row g-3">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                                <i class="mdi mdi-file-document" style="color: #c62828;"></i> Paragraf 1
-                            </label>
-                            <textarea class="form-control" name="sabha2" rows="6" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">{{ $item->sabha2 }}</textarea>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                                <i class="mdi mdi-file-document" style="color: #0d47a1;"></i> Paragraf 2
-                            </label>
-                            <textarea class="form-control" name="sabha3" rows="6" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">{{ $item->sabha3 }}</textarea>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                                <i class="mdi mdi-file-document" style="color: #c62828;"></i> Paragraf 3
-                            </label>
-                            <textarea class="form-control" name="sabha4" rows="6" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">{{ $item->sabha4 }}</textarea>
-                        </div>
-                    </div>
-
-                    <hr style="margin: 16px 0; border-color: #f0f2f5;">
-
-                    {{-- 5 FOTO (2 KOLOM PER BARIS + PREVIEW) --}}
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                                <i class="mdi mdi-camera" style="color: #c62828;"></i> Galeri Foto (Kosongkan untuk tetap menggunakan foto lama)
-                            </label>
-                        </div>
-                        @for ($i = 5; $i <= 9; $i++)
-                            @php $field = 'sabha' . $i; @endphp
-                            <div class="col-6">
-                                <div style="background: #f8fafc; border-radius: 10px; padding: 12px 16px; border: 1px solid #e8ecf1; height: 100%;">
-                                    <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; display: block;">
-                                        <i class="mdi mdi-image" style="color: #c62828;"></i> Foto {{ $i - 4 }}
-                                    </label>
-                                    @if($item->$field && file_exists(public_path($item->$field)))
-                                        <div style="margin-bottom: 8px; text-align: center; background: #ffffff; padding: 4px; border-radius: 6px; border: 1px solid #f0f2f5;">
-                                            <img src="{{ asset($item->$field) }}" alt="Foto {{ $i - 4 }}" style="width: 100%; max-height: 100px; object-fit: cover; border-radius: 4px;">
-                                            <p style="font-size: 10px; color: #7a8a9e; margin: 4px 0 0; font-family: 'Poppins', sans-serif;">Foto saat ini</p>
-                                        </div>
-                                    @else
-                                        <p style="font-size: 11px; color: #b0b8c4; font-family: 'Poppins', sans-serif; margin-bottom: 8px;">Belum ada foto</p>
-                                    @endif
-                                    <input type="file" class="form-control" name="{{ $field }}" accept=".jpg,.jpeg,.png,.gif,.webp" style="border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 6px 10px;">
-                                    <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: 10px; display: block; margin-top: 4px;">Max 20MB, JPG/PNG/GIF/WEBP</small>
-                                </div>
-                            </div>
-                        @endfor
-                    </div>
-
-                </div>
-                <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 24px; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #0d47a1; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">
-                        <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endforeach
-
-{{-- ============================================================
-     STYLE & SCRIPTS
+     STYLE & SCRIPTS (dengan custom button & pagination)
      ============================================================ --}}
 @push('styles')
 <style>
+    /* ============================================================
+       BUTTON CUSTOM (sesuai permintaan)
+       ============================================================ */
+    .btn-biru {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-biru:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(13, 110, 253, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-merah {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-merah:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(220, 53, 69, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-orange {
+        background-color: #fd7e14;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(253, 126, 20, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-orange:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(253, 126, 20, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-silver {
+        background-color: #adb5bd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(173, 181, 189, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-silver:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(173, 181, 189, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-hijau {
+        background-color: #198754;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-hijau:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(25, 135, 84, 0.7);
+        transform: scale(1.02);
+    }
+
+    /* ============================================================
+       FOTO FIGURA HOVER
+       ============================================================ */
     .foto-figura {
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -464,6 +601,9 @@
         transform: scale(1.04);
     }
 
+    /* ============================================================
+       PAGINATION (tetap)
+       ============================================================ */
     .pagination-nav .page-item { margin: 0 2px; }
     .pagination-nav .page-link {
         font-family: 'Poppins', sans-serif;
@@ -554,22 +694,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ============================================================
-    // BUKA MODAL EDIT
-    // ============================================================
-    document.querySelectorAll('.btn-edit').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            var id = this.dataset.id;
-            var modal = document.getElementById('editModal' + id);
-            if (modal) {
-                var bsModal = new bootstrap.Modal(modal);
-                bsModal.show();
-            }
-        });
-    });
-
-    // ============================================================
-    // TUTUP MODAL KLIK DI LUAR
+    // TUTUP MODAL KLIK DI LUAR (opsional)
     // ============================================================
     document.querySelectorAll('.modal').forEach(function(modal) {
         modal.addEventListener('click', function(e) {

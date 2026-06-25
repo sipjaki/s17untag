@@ -1244,54 +1244,75 @@ public function divisidelete($id)
     // ====================================================================================================================
     // MENU 0
     // ====================================================================================================================
-       public function adminberanda(Request $request)
-            {
-                $search = $request->search;
-                $perPage = $request->per_page ?? 5;
+     public function adminberanda(Request $request)
+{
+    $search = $request->search;
+    $perPage = $request->per_page ?? 5;
 
-                $data = beranda::when($search, function($q) use ($search) {
-                    return $q->where('sabha1', 'LIKE', "%$search%")
-                            ->orWhere('sabha2', 'LIKE', "%$search%")
-                            ->orWhere('sabha3', 'LIKE', "%$search%")
-                            ->orWhere('sabha4', 'LIKE', "%$search%")
-                            ->orWhere('sabha5', 'LIKE', "%$search%");
-                })
-                ->orderBy('created_at', 'desc')
-                ->paginate($perPage)
-                ->appends(['search' => $search, 'per_page' => $perPage]);
+    $data = beranda::when($search, function($q) use ($search) {
+        return $q->where('sabha1', 'LIKE', "%$search%")
+                ->orWhere('sabha2', 'LIKE', "%$search%")
+                ->orWhere('sabha3', 'LIKE', "%$search%")
+                ->orWhere('sabha4', 'LIKE', "%$search%")
+                ->orWhere('sabha5', 'LIKE', "%$search%")
+                // tambahkan pencarian keterangan
+                ->orWhere('sabha6', 'LIKE', "%$search%")
+                ->orWhere('sabha7', 'LIKE', "%$search%")
+                ->orWhere('sabha8', 'LIKE', "%$search%")
+                ->orWhere('sabha9', 'LIKE', "%$search%")
+                ->orWhere('sabha10', 'LIKE', "%$search%");
+    })
+    ->orderBy('created_at', 'desc')
+    ->paginate($perPage)
+    ->appends(['search' => $search, 'per_page' => $perPage]);
 
-                return view('backend.01_beranda.00_beranda.01_adminberanda', [
-                    'title' => 'Sabhagiriwana17 | Foto Beranda',
-                    'user'  => Auth::user(),
-                    'data'  => $data,
-                ]);
-            }
+    return view('backend.01_beranda.00_beranda.01_adminberanda', [
+        'title' => 'Sabhagiriwana17 | Foto Beranda',
+        'user'  => Auth::user(),
+        'data'  => $data,
+    ]);
+}
 
-            public function berandacreate(Request $request)
+           public function berandacreate(Request $request)
 {
     $request->validate([
-        'sabha1' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
-        'sabha2' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+        'sabha1'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
+        'sabha2'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
+        'sabha3'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
+        'sabha4'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
+        'sabha5'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
+        'sabha6'  => 'nullable|string|max:500',
+        'sabha7'  => 'nullable|string|max:500',
+        'sabha8'  => 'nullable|string|max:500',
+        'sabha9'  => 'nullable|string|max:500',
+        'sabha10' => 'nullable|string|max:500',
     ]);
 
     try {
-        $fotos = [];
+        // Siapkan array data
+        $data = [];
+
+        // Proses upload foto (sabha1–sabha5)
         for ($i = 1; $i <= 5; $i++) {
             $field = 'sabha' . $i;
             if ($request->hasFile($field)) {
                 $file = $request->file($field);
                 $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
                 $file->move(public_path('foto_beranda'), $filename);
-                $fotos[$field] = 'foto_beranda/' . $filename;
+                $data[$field] = 'foto_beranda/' . $filename;
             } else {
-                $fotos[$field] = null;
+                $data[$field] = null; // optional, bisa dihilangkan
             }
         }
 
-        $data = beranda::create($fotos);
+        // Tambahkan keterangan (sabha6–sabha10)
+        for ($i = 6; $i <= 10; $i++) {
+            $field = 'sabha' . $i;
+            $data[$field] = $request->input($field); // ambil dari request
+        }
+
+        // Simpan semua
+        beranda::create($data);
 
         return redirect()->route('00beranda.index')
             ->with('success', 'Foto Beranda berhasil ditambahkan!');
@@ -1306,20 +1327,26 @@ public function divisidelete($id)
 public function berandaupdate(Request $request, $id)
 {
     $request->validate([
-        'sabha1' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
-        'sabha2' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg|max:20120',
+        'sabha1'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
+        'sabha2'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
+        'sabha3'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
+        'sabha4'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
+        'sabha5'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
+        'sabha6'  => 'nullable|string|max:500',
+        'sabha7'  => 'nullable|string|max:500',
+        'sabha8'  => 'nullable|string|max:500',
+        'sabha9'  => 'nullable|string|max:500',
+        'sabha10' => 'nullable|string|max:500',
     ]);
 
     try {
         $data = beranda::findOrFail($id);
 
+        // Proses upload foto (sabha1–sabha5)
         for ($i = 1; $i <= 5; $i++) {
             $field = 'sabha' . $i;
             if ($request->hasFile($field)) {
-                // Hapus foto lama
+                // Hapus foto lama jika ada
                 if ($data->$field && file_exists(public_path($data->$field))) {
                     unlink(public_path($data->$field));
                 }
@@ -1330,10 +1357,17 @@ public function berandaupdate(Request $request, $id)
                 $data->$field = 'foto_beranda/' . $filename;
             }
         }
+
+        // Update keterangan (sabha6–sabha10)
+        for ($i = 6; $i <= 10; $i++) {
+            $field = 'sabha' . $i;
+            $data->$field = $request->input($field);
+        }
+
         $data->save();
 
         return redirect()->route('00beranda.index')
-            ->with('warning', 'Foto Beranda berhasil diperbarui!');
+            ->with('success', 'Foto Beranda berhasil diperbarui!');
 
     } catch (\Exception $e) {
         return back()
@@ -1552,84 +1586,131 @@ public function berandadelete($id)
 
 
 
-public function snoccreate(Request $request)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
+    public function snoccreate(Request $request)
+    {
+        // Validasi semua field sesuai struktur database baru
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string',
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
 
-    try {
-        $dataInput = [
-            'sabha1' => $request->sabha1,
-            'sabha2' => $request->sabha2,
-        ];
+        try {
+            // Data dasar (field teks)
+            $dataInput = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+                'sabha4' => $request->sabha4,
+                'sabha10' => $request->sabha10,
+            ];
 
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $dataInput[$field] = 'foto_snoc/' . $filename;
-            } else {
-                $dataInput[$field] = null;
-            }
-        }
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
 
-        sabha9::create($dataInput);
-
-        return redirect()->route('09snoc.index')
-            ->with('success', 'Agenda SNOC berhasil ditambahkan!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
-    }
-}
-
-public function snocupdate(Request $request, $id)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
-
-    try {
-        $data = sabha9::findOrFail($id);
-        $data->sabha1 = $request->sabha1;
-        $data->sabha2 = $request->sabha2;
-
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                if ($data->$field && file_exists(public_path($data->$field))) {
-                    unlink(public_path($data->$field));
+            // Proses upload gambar
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_snoc'), $filename);
+                    $dataInput[$field] = 'foto_snoc/' . $filename;
+                } else {
+                    $dataInput[$field] = null;
                 }
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $data->$field = 'foto_snoc/' . $filename;
             }
+
+            sabha9::create($dataInput);
+
+            return redirect()->route('09snoc.index')
+                ->with('success', 'Agenda SNOC berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
         }
-        $data->save();
-
-        return redirect()->route('09snoc.index')
-            ->with('warning', 'Agenda SNOC berhasil diperbarui!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
     }
-}
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function snocupdate(Request $request, $id)
+    {
+        // Validasi semua field sesuai struktur database baru
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string',
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
+
+        try {
+            $data = sabha9::findOrFail($id);
+
+            // Update field teks
+            $data->sabha1 = $request->sabha1;
+            $data->sabha2 = $request->sabha2;
+            $data->sabha4 = $request->sabha4;
+            $data->sabha10 = $request->sabha10;
+
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
+
+            // Proses upload gambar (jika ada file baru)
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    // Hapus file lama jika ada
+                    if ($data->$field && file_exists(public_path($data->$field))) {
+                        unlink(public_path($data->$field));
+                    }
+
+                    // Upload file baru
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_snoc'), $filename);
+                    $data->$field = 'foto_snoc/' . $filename;
+                }
+                // Jika tidak ada file baru, biarkan field tetap dengan nilai lama
+            }
+
+            $data->save();
+
+            return redirect()->route('09snoc.index')
+                ->with('success', 'Agenda SNOC berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+        }
+    }
+
+
 
 public function snocdelete($id)
 {
@@ -1678,85 +1759,129 @@ public function snocdelete($id)
             }
 
 
+ public function nwctcreate(Request $request)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Ini untuk laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
 
-public function nwctcreate(Request $request)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
+        try {
+            // Data dasar (field teks)
+            $dataInput = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+                'sabha4' => $request->sabha4,
+                'sabha10' => $request->sabha10,
+            ];
 
-    try {
-        $dataInput = [
-            'sabha1' => $request->sabha1,
-            'sabha2' => $request->sabha2,
-        ];
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
 
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $dataInput[$field] = 'foto_snoc/' . $filename;
-            } else {
-                $dataInput[$field] = null;
-            }
-        }
-
-        sabha10::create($dataInput);
-
-        return redirect()->route('10nwct.index')
-            ->with('success', 'Agenda NWCT berhasil ditambahkan!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
-    }
-}
-
-public function nwctupdate(Request $request, $id)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
-
-    try {
-        $data = sabha10::findOrFail($id);
-        $data->sabha1 = $request->sabha1;
-        $data->sabha2 = $request->sabha2;
-
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                if ($data->$field && file_exists(public_path($data->$field))) {
-                    unlink(public_path($data->$field));
+            // Proses upload gambar
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_nwct'), $filename);
+                    $dataInput[$field] = 'foto_nwct/' . $filename;
+                } else {
+                    $dataInput[$field] = null;
                 }
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $data->$field = 'foto_snoc/' . $filename;
             }
+
+            sabha10::create($dataInput);
+
+            return redirect()->route('10nwct.index')
+                ->with('success', 'Agenda NWCT berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
         }
-        $data->save();
-
-        return redirect()->route('10nwct.index')
-            ->with('warning', 'Agenda NWCT berhasil diperbarui!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
     }
-}
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function nwctupdate(Request $request, $id)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Ini untuk laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
+
+        try {
+            $data = sabha10::findOrFail($id);
+
+            // Update field teks
+            $data->sabha1 = $request->sabha1;
+            $data->sabha2 = $request->sabha2;
+            $data->sabha4 = $request->sabha4;
+            $data->sabha10 = $request->sabha10;
+
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
+
+            // Proses upload gambar (jika ada file baru)
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    // Hapus file lama jika ada
+                    if ($data->$field && file_exists(public_path($data->$field))) {
+                        unlink(public_path($data->$field));
+                    }
+
+                    // Upload file baru
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_nwct'), $filename);
+                    $data->$field = 'foto_nwct/' . $filename;
+                }
+                // Jika tidak ada file baru, biarkan field tetap dengan nilai lama
+            }
+
+            $data->save();
+
+            return redirect()->route('10nwct.index')
+                ->with('success', 'Agenda NWCT berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+        }
+    }
 
 public function nwctdelete($id)
 {
@@ -1805,85 +1930,130 @@ public function nwctdelete($id)
             }
 
 
+  public function llbscreate(Request $request)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
 
-public function llbscreate(Request $request)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
+        try {
+            // Data dasar (field teks)
+            $dataInput = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+                'sabha4' => $request->sabha4,
+                'sabha10' => $request->sabha10,
+            ];
 
-    try {
-        $dataInput = [
-            'sabha1' => $request->sabha1,
-            'sabha2' => $request->sabha2,
-        ];
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
 
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $dataInput[$field] = 'foto_snoc/' . $filename;
-            } else {
-                $dataInput[$field] = null;
-            }
-        }
-
-        sabha11::create($dataInput);
-
-        return redirect()->route('11llbs.index')
-            ->with('success', 'Agenda LLBS berhasil ditambahkan!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
-    }
-}
-
-public function llbsupdate(Request $request, $id)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
-
-    try {
-        $data = sabha11::findOrFail($id);
-        $data->sabha1 = $request->sabha1;
-        $data->sabha2 = $request->sabha2;
-
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                if ($data->$field && file_exists(public_path($data->$field))) {
-                    unlink(public_path($data->$field));
+            // Proses upload gambar
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_llbs'), $filename);
+                    $dataInput[$field] = 'foto_llbs/' . $filename;
+                } else {
+                    $dataInput[$field] = null;
                 }
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $data->$field = 'foto_snoc/' . $filename;
             }
+
+            sabha11::create($dataInput);
+
+            return redirect()->route('11llbs.index')
+                ->with('success', 'Agenda LLBS berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
         }
-        $data->save();
-
-        return redirect()->route('11llbs.index')
-            ->with('warning', 'Agenda LLBS berhasil diperbarui!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
     }
-}
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function llbsupdate(Request $request, $id)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
+
+        try {
+            $data = sabha11::findOrFail($id);
+
+            // Update field teks
+            $data->sabha1 = $request->sabha1;
+            $data->sabha2 = $request->sabha2;
+            $data->sabha4 = $request->sabha4;
+            $data->sabha10 = $request->sabha10;
+
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
+
+            // Proses upload gambar (jika ada file baru)
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    // Hapus file lama jika ada
+                    if ($data->$field && file_exists(public_path($data->$field))) {
+                        unlink(public_path($data->$field));
+                    }
+
+                    // Upload file baru
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_llbs'), $filename);
+                    $data->$field = 'foto_llbs/' . $filename;
+                }
+                // Jika tidak ada file baru, biarkan field tetap dengan nilai lama
+            }
+
+            $data->save();
+
+            return redirect()->route('11llbs.index')
+                ->with('success', 'Agenda LLBS berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+        }
+    }
+
 
 public function llbsdelete($id)
 {
@@ -1932,85 +2102,130 @@ public function llbsdelete($id)
             }
 
 
+ public function diklatcreate(Request $request)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
 
-public function diklatcreate(Request $request)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
+        try {
+            // Data dasar (field teks)
+            $dataInput = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+                'sabha4' => $request->sabha4,
+                'sabha10' => $request->sabha10,
+            ];
 
-    try {
-        $dataInput = [
-            'sabha1' => $request->sabha1,
-            'sabha2' => $request->sabha2,
-        ];
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
 
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $dataInput[$field] = 'foto_snoc/' . $filename;
-            } else {
-                $dataInput[$field] = null;
-            }
-        }
-
-        sabha12::create($dataInput);
-
-        return redirect()->route('12diklat.index')
-            ->with('success', 'Agenda Diklat berhasil ditambahkan!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
-    }
-}
-
-public function diklatupdate(Request $request, $id)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
-
-    try {
-        $data = sabha12::findOrFail($id);
-        $data->sabha1 = $request->sabha1;
-        $data->sabha2 = $request->sabha2;
-
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                if ($data->$field && file_exists(public_path($data->$field))) {
-                    unlink(public_path($data->$field));
+            // Proses upload gambar
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_diklat'), $filename);
+                    $dataInput[$field] = 'foto_diklat/' . $filename;
+                } else {
+                    $dataInput[$field] = null;
                 }
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $data->$field = 'foto_snoc/' . $filename;
             }
+
+            sabha12::create($dataInput);
+
+            return redirect()->route('12diklat.index')
+                ->with('success', 'Agenda DIKLAT berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
         }
-        $data->save();
-
-        return redirect()->route('12diklat.index')
-            ->with('warning', 'Agenda Diklat berhasil diperbarui!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
     }
-}
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function diklatupdate(Request $request, $id)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
+
+        try {
+            $data = sabha12::findOrFail($id);
+
+            // Update field teks
+            $data->sabha1 = $request->sabha1;
+            $data->sabha2 = $request->sabha2;
+            $data->sabha4 = $request->sabha4;
+            $data->sabha10 = $request->sabha10;
+
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
+
+            // Proses upload gambar (jika ada file baru)
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    // Hapus file lama jika ada
+                    if ($data->$field && file_exists(public_path($data->$field))) {
+                        unlink(public_path($data->$field));
+                    }
+
+                    // Upload file baru
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_diklat'), $filename);
+                    $data->$field = 'foto_diklat/' . $filename;
+                }
+                // Jika tidak ada file baru, biarkan field tetap dengan nilai lama
+            }
+
+            $data->save();
+
+            return redirect()->route('12diklat.index')
+                ->with('success', 'Agenda DIKLAT berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+        }
+    }
+
 
 public function diklatdelete($id)
 {
@@ -2058,85 +2273,130 @@ public function diklatdelete($id)
             }
 
 
+  public function famcreate(Request $request)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
 
-public function famcreate(Request $request)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
+        try {
+            // Data dasar (field teks)
+            $dataInput = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+                'sabha4' => $request->sabha4,
+                'sabha10' => $request->sabha10,
+            ];
 
-    try {
-        $dataInput = [
-            'sabha1' => $request->sabha1,
-            'sabha2' => $request->sabha2,
-        ];
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
 
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $dataInput[$field] = 'foto_snoc/' . $filename;
-            } else {
-                $dataInput[$field] = null;
-            }
-        }
-
-        sabha13::create($dataInput);
-
-        return redirect()->route('13fam.index')
-            ->with('success', 'Agenda Family Gathering berhasil ditambahkan!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
-    }
-}
-
-public function famupdate(Request $request, $id)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
-
-    try {
-        $data = sabha13::findOrFail($id);
-        $data->sabha1 = $request->sabha1;
-        $data->sabha2 = $request->sabha2;
-
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                if ($data->$field && file_exists(public_path($data->$field))) {
-                    unlink(public_path($data->$field));
+            // Proses upload gambar
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_fam'), $filename);
+                    $dataInput[$field] = 'foto_fam/' . $filename;
+                } else {
+                    $dataInput[$field] = null;
                 }
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $data->$field = 'foto_snoc/' . $filename;
             }
+
+            sabha13::create($dataInput);
+
+            return redirect()->route('13fam.index')
+                ->with('success', 'Agenda FAMGATHERING berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
         }
-        $data->save();
-
-        return redirect()->route('13fam.index')
-            ->with('warning', 'Agenda Family Gathering berhasil diperbarui!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
     }
-}
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function famupdate(Request $request, $id)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
+
+        try {
+            $data = sabha13::findOrFail($id);
+
+            // Update field teks
+            $data->sabha1 = $request->sabha1;
+            $data->sabha2 = $request->sabha2;
+            $data->sabha4 = $request->sabha4;
+            $data->sabha10 = $request->sabha10;
+
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
+
+            // Proses upload gambar (jika ada file baru)
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    // Hapus file lama jika ada
+                    if ($data->$field && file_exists(public_path($data->$field))) {
+                        unlink(public_path($data->$field));
+                    }
+
+                    // Upload file baru
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_fam'), $filename);
+                    $data->$field = 'foto_fam/' . $filename;
+                }
+                // Jika tidak ada file baru, biarkan field tetap dengan nilai lama
+            }
+
+            $data->save();
+
+            return redirect()->route('13fam.index')
+                ->with('success', 'Agenda FAMGATHERING berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+        }
+    }
+
 
 public function famdelete($id)
 {
@@ -2184,85 +2444,130 @@ public function famdelete($id)
             }
 
 
+ public function mubescreate(Request $request)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
 
-public function mubescreate(Request $request)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
+        try {
+            // Data dasar (field teks)
+            $dataInput = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+                'sabha4' => $request->sabha4,
+                'sabha10' => $request->sabha10,
+            ];
 
-    try {
-        $dataInput = [
-            'sabha1' => $request->sabha1,
-            'sabha2' => $request->sabha2,
-        ];
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
 
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $dataInput[$field] = 'foto_snoc/' . $filename;
-            } else {
-                $dataInput[$field] = null;
-            }
-        }
-
-        sabha14::create($dataInput);
-
-        return redirect()->route('14mubes.index')
-            ->with('success', 'Agenda Mubes berhasil ditambahkan!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
-    }
-}
-
-public function mubesupdate(Request $request, $id)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
-
-    try {
-        $data = sabha14::findOrFail($id);
-        $data->sabha1 = $request->sabha1;
-        $data->sabha2 = $request->sabha2;
-
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                if ($data->$field && file_exists(public_path($data->$field))) {
-                    unlink(public_path($data->$field));
+            // Proses upload gambar
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_mubes'), $filename);
+                    $dataInput[$field] = 'foto_mubes/' . $filename;
+                } else {
+                    $dataInput[$field] = null;
                 }
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $data->$field = 'foto_snoc/' . $filename;
             }
+
+            sabha14::create($dataInput);
+
+            return redirect()->route('14mubes.index')
+                ->with('success', 'Agenda MUBES berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
         }
-        $data->save();
-
-        return redirect()->route('14mubes.index')
-            ->with('warning', 'Agenda Mubes berhasil diperbarui!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
     }
-}
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function mubesupdate(Request $request, $id)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
+
+        try {
+            $data = sabha14::findOrFail($id);
+
+            // Update field teks
+            $data->sabha1 = $request->sabha1;
+            $data->sabha2 = $request->sabha2;
+            $data->sabha4 = $request->sabha4;
+            $data->sabha10 = $request->sabha10;
+
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
+
+            // Proses upload gambar (jika ada file baru)
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    // Hapus file lama jika ada
+                    if ($data->$field && file_exists(public_path($data->$field))) {
+                        unlink(public_path($data->$field));
+                    }
+
+                    // Upload file baru
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_mubes'), $filename);
+                    $data->$field = 'foto_mubes/' . $filename;
+                }
+                // Jika tidak ada file baru, biarkan field tetap dengan nilai lama
+            }
+
+            $data->save();
+
+            return redirect()->route('14mubes.index')
+                ->with('success', 'Agenda MUBES berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+        }
+    }
+
 
 public function mubesdelete($id)
 {
@@ -2311,85 +2616,129 @@ public function mubesdelete($id)
             }
 
 
+ public function ruacreate(Request $request)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
 
-public function ruacreate(Request $request)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
+        try {
+            // Data dasar (field teks)
+            $dataInput = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+                'sabha4' => $request->sabha4,
+                'sabha10' => $request->sabha10,
+            ];
 
-    try {
-        $dataInput = [
-            'sabha1' => $request->sabha1,
-            'sabha2' => $request->sabha2,
-        ];
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
 
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $dataInput[$field] = 'foto_snoc/' . $filename;
-            } else {
-                $dataInput[$field] = null;
-            }
-        }
-
-        sabha15::create($dataInput);
-
-        return redirect()->route('15rua.index')
-            ->with('success', 'Agenda Rua berhasil ditambahkan!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
-    }
-}
-
-public function ruaupdate(Request $request, $id)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
-
-    try {
-        $data = sabha15::findOrFail($id);
-        $data->sabha1 = $request->sabha1;
-        $data->sabha2 = $request->sabha2;
-
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                if ($data->$field && file_exists(public_path($data->$field))) {
-                    unlink(public_path($data->$field));
+            // Proses upload gambar
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_rua'), $filename);
+                    $dataInput[$field] = 'foto_rua/' . $filename;
+                } else {
+                    $dataInput[$field] = null;
                 }
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $data->$field = 'foto_snoc/' . $filename;
             }
+
+            sabha15::create($dataInput);
+
+            return redirect()->route('15rua.index')
+                ->with('success', 'Agenda RUA berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
         }
-        $data->save();
-
-        return redirect()->route('15rua.index')
-            ->with('warning', 'Agenda Rua berhasil diperbarui!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
     }
-}
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function ruaupdate(Request $request, $id)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
+
+        try {
+            $data = sabha15::findOrFail($id);
+
+            // Update field teks
+            $data->sabha1 = $request->sabha1;
+            $data->sabha2 = $request->sabha2;
+            $data->sabha4 = $request->sabha4;
+            $data->sabha10 = $request->sabha10;
+
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
+
+            // Proses upload gambar (jika ada file baru)
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    // Hapus file lama jika ada
+                    if ($data->$field && file_exists(public_path($data->$field))) {
+                        unlink(public_path($data->$field));
+                    }
+
+                    // Upload file baru
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_rua'), $filename);
+                    $data->$field = 'foto_rua/' . $filename;
+                }
+                // Jika tidak ada file baru, biarkan field tetap dengan nilai lama
+            }
+
+            $data->save();
+
+            return redirect()->route('15rua.index')
+                ->with('success', 'Agenda RUA berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+        }
+    }
 
 public function ruadelete($id)
 {
@@ -2437,85 +2786,130 @@ public function ruadelete($id)
             }
 
 
+ public function ultahcreate(Request $request)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
 
-public function ultahcreate(Request $request)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
+        try {
+            // Data dasar (field teks)
+            $dataInput = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+                'sabha4' => $request->sabha4,
+                'sabha10' => $request->sabha10,
+            ];
 
-    try {
-        $dataInput = [
-            'sabha1' => $request->sabha1,
-            'sabha2' => $request->sabha2,
-        ];
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
 
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $dataInput[$field] = 'foto_snoc/' . $filename;
-            } else {
-                $dataInput[$field] = null;
-            }
-        }
-
-        sabha16::create($dataInput);
-
-        return redirect()->route('16ultah.index')
-            ->with('success', 'Agenda Ultah berhasil ditambahkan!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
-    }
-}
-
-public function ultahupdate(Request $request, $id)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
-
-    try {
-        $data = sabha16::findOrFail($id);
-        $data->sabha1 = $request->sabha1;
-        $data->sabha2 = $request->sabha2;
-
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                if ($data->$field && file_exists(public_path($data->$field))) {
-                    unlink(public_path($data->$field));
+            // Proses upload gambar
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_ultah'), $filename);
+                    $dataInput[$field] = 'foto_ultah/' . $filename;
+                } else {
+                    $dataInput[$field] = null;
                 }
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $data->$field = 'foto_snoc/' . $filename;
             }
+
+            sabha16::create($dataInput);
+
+            return redirect()->route('16ultah.index')
+                ->with('success', 'Agenda ULTAH berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
         }
-        $data->save();
-
-        return redirect()->route('16ultah.index')
-            ->with('warning', 'Agenda Ultah berhasil diperbarui!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
     }
-}
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function ultahupdate(Request $request, $id)
+    {
+        // Validasi semua field sesuai struktur database lengkap
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string', // Laporan event (teks 5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        ]);
+
+        try {
+            $data = sabha16::findOrFail($id);
+
+            // Update field teks
+            $data->sabha1 = $request->sabha1;
+            $data->sabha2 = $request->sabha2;
+            $data->sabha4 = $request->sabha4;
+            $data->sabha10 = $request->sabha10;
+
+            // Daftar semua field gambar
+            $imageFields = [
+                'sabha3', 'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
+
+            // Proses upload gambar (jika ada file baru)
+            foreach ($imageFields as $field) {
+                if ($request->hasFile($field)) {
+                    // Hapus file lama jika ada
+                    if ($data->$field && file_exists(public_path($data->$field))) {
+                        unlink(public_path($data->$field));
+                    }
+
+                    // Upload file baru
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_ultah'), $filename);
+                    $data->$field = 'foto_ultah/' . $filename;
+                }
+                // Jika tidak ada file baru, biarkan field tetap dengan nilai lama
+            }
+
+            $data->save();
+
+            return redirect()->route('16ultah.index')
+                ->with('success', 'Agenda ULTAH berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+        }
+    }
+
 
 public function ultahdelete($id)
 {
@@ -2563,86 +2957,128 @@ public function ultahdelete($id)
             }
 
 
+ public function pedulicreate(Request $request)
+    {
+        // Validasi dengan field baru (sabha4 = laporan, sabha5-sabha9 + sabhaberkas1-sabhaberkas5 = 10 foto)
+        $request->validate([
+            'sabha1' => 'required|string', // Nama event & narasi
+            'sabha2' => 'nullable|string', // Waktu & lokasi
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Poster
+            'sabha4' => 'nullable|string', // Laporan event (5 paragraf)
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Foto 1
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Foto 2
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Foto 3
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Foto 4
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Foto 5
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Foto 6
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Foto 7
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Foto 8
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Foto 9
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480', // Foto 10
+            'sabha10' => 'nullable|string', // Keterangan tambahan
+        ]);
 
-public function pedulicreate(Request $request)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
+        try {
+            // Data awal
+            $dataInput = [
+                'sabha1' => $request->sabha1,
+                'sabha2' => $request->sabha2,
+                'sabha4' => $request->sabha4,
+                'sabha10' => $request->sabha10,
+            ];
 
-    try {
-        $dataInput = [
-            'sabha1' => $request->sabha1,
-            'sabha2' => $request->sabha2,
-        ];
+            // Daftar semua field foto (poster + 10 dokumentasi)
+            $fotoFields = [
+                'sabha3',  // Poster
+                'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
 
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $dataInput[$field] = 'foto_snoc/' . $filename;
-            } else {
-                $dataInput[$field] = null;
-            }
-        }
-
-        sabha17::create($dataInput);
-
-        return redirect()->route('17peduli.index')
-            ->with('success', 'Agenda Sabha Peduli berhasil ditambahkan!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
-    }
-}
-
-public function peduliupdate(Request $request, $id)
-{
-    $request->validate([
-        'sabha1' => 'required|string|max:255',
-        'sabha2' => 'nullable|string',
-        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-        'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
-    ]);
-
-    try {
-        $data = sabha17::findOrFail($id);
-        $data->sabha1 = $request->sabha1;
-        $data->sabha2 = $request->sabha2;
-
-        for ($i = 3; $i <= 7; $i++) {
-            $field = 'sabha' . $i;
-            if ($request->hasFile($field)) {
-                if ($data->$field && file_exists(public_path($data->$field))) {
-                    unlink(public_path($data->$field));
+            foreach ($fotoFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_snoc'), $filename);
+                    $dataInput[$field] = 'foto_snoc/' . $filename;
+                } else {
+                    $dataInput[$field] = null;
                 }
-                $file = $request->file($field);
-                $filename = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
-                $file->move(public_path('foto_snoc'), $filename);
-                $data->$field = 'foto_snoc/' . $filename;
             }
+
+            sabha17::create($dataInput);
+
+            return redirect()->route('17peduli.index')
+                ->with('success', 'Agenda SABHA PEDULI berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
         }
-        $data->save();
-
-        return redirect()->route('17peduli.index')
-            ->with('warning', 'Agenda Sabha Peduli berhasil diperbarui!');
-
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
     }
-}
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function peduliupdate(Request $request, $id)
+    {
+        // Validasi dengan field baru
+        $request->validate([
+            'sabha1' => 'required|string',
+            'sabha2' => 'nullable|string',
+            'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha4' => 'nullable|string',
+            'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha6' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha7' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha8' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha9' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabhaberkas5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+            'sabha10' => 'nullable|string',
+        ]);
+
+        try {
+            $data = sabha17::findOrFail($id);
+
+            // Update field teks
+            $data->sabha1 = $request->sabha1;
+            $data->sabha2 = $request->sabha2;
+            $data->sabha4 = $request->sabha4;
+            $data->sabha10 = $request->sabha10;
+
+            // Daftar semua field foto
+            $fotoFields = [
+                'sabha3',  // Poster
+                'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+            ];
+
+            foreach ($fotoFields as $field) {
+                if ($request->hasFile($field)) {
+                    // Hapus file lama jika ada
+                    if ($data->$field && file_exists(public_path($data->$field))) {
+                        unlink(public_path($data->$field));
+                    }
+
+                    $file = $request->file($field);
+                    $filename = time() . '_' . $field . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                    $file->move(public_path('foto_snoc'), $filename);
+                    $data->$field = 'foto_snoc/' . $filename;
+                }
+                // Jika tidak ada file baru, biarkan nilai lama tetap
+            }
+
+            $data->save();
+
+            return redirect()->route('17peduli.index')
+                ->with('warning', 'Agenda SABHA PEDULI berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
+        }
+    }
 public function pedulidelete($id)
 {
     try {

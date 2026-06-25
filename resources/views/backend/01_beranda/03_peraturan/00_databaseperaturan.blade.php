@@ -1,6 +1,9 @@
 {{-- ============================================================
      DATA PERATURAN (CARD ELEGAN - RESPONSIF)
+     DENGAN CUSTOM BUTTON (btn-biru, btn-merah, dll)
      ============================================================ --}}
+
+@include('backend.00_dashboard.08_style')
 
 <div class="col-12">
     <div class="card" style="border-radius: 16px; border: none; box-shadow: 0 2px 12px rgba(0,0,0,0.05);">
@@ -16,13 +19,14 @@
                         Kelola peraturan dan kebijakan Sabhagiriwana'17
                     </p>
                 </div>
-                <button class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 18px); font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.5vw, 14px); white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                {{-- TOMBOL TAMBAH -> btn-biru --}}
+                <button class="btn-biru" data-bs-toggle="modal" data-bs-target="#tambahModal">
                     <i class="mdi mdi-plus"></i> Tambah Peraturan
                 </button>
             </div>
 
             {{-- ============================================================
-                 SEARCH, PER PAGE, DOWNLOAD (TAMBAHAN)
+                 SEARCH, PER PAGE, DOWNLOAD
                  ============================================================ --}}
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
                 {{-- Search Form --}}
@@ -35,11 +39,13 @@
                             <input type="text" class="form-control border-0" name="search" placeholder="Cari judul, keterangan..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 0;" id="searchInput">
                             <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
                         </div>
-                        <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap;">
+                        {{-- TOMBOL CARI -> btn-biru --}}
+                        {{-- <button type="submit" class="btn-biru">
                             <i class="mdi mdi-magnify"></i> Cari
-                        </button>
+                        </button> --}}
                         @if(request('search'))
-                            <a href="{{ route('03peraturan.index') }}" class="btn btn-outline-secondary" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 13px; white-space: nowrap;">
+                            {{-- TOMBOL RESET -> btn-silver --}}
+                            <a href="{{ route('03peraturan.index') }}" class="btn-silver">
                                 <i class="mdi mdi-close"></i> Reset
                             </a>
                         @endif
@@ -69,8 +75,8 @@
                         </span>
                     </div>
 
-                    {{-- Download Button --}}
-                    <button onclick="exportToCSV()" class="btn btn-success" style="background: #28a745; border: none; border-radius: 10px; padding: 8px 16px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                    {{-- Download Button -> btn-orange --}}
+                    <button onclick="exportToCSV()" class="btn-orange" style="display: inline-flex; align-items: center; gap: 6px;">
                         <i class="mdi mdi-download"></i> Download
                     </button>
                 </div>
@@ -110,10 +116,12 @@
 
                                 <!-- Kanan: Tombol Aksi -->
                                 <div class="d-flex gap-1 flex-shrink-0">
-                                    <button class="btn btn-sm btn-outline-primary btn-edit" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: clamp(4px, 0.6vw, 6px) clamp(8px, 1vw, 14px);">
+                                    {{-- TOMBOL EDIT -> btn-hijau, langsung data-bs-toggle --}}
+                                    <button class="btn-hijau" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" style="padding: clamp(4px, 0.6vw, 6px) clamp(8px, 1vw, 14px); font-size: clamp(11px, 1.2vw, 13px);">
                                         <i class="mdi mdi-pencil"></i> <span class="d-none d-sm-inline">Edit</span>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: clamp(4px, 0.6vw, 6px) clamp(8px, 1vw, 14px);" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    {{-- TOMBOL HAPUS -> btn-merah --}}
+                                    <button class="btn-merah" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" style="padding: clamp(4px, 0.6vw, 6px) clamp(8px, 1vw, 14px); font-size: clamp(11px, 1.2vw, 13px);">
                                         <i class="mdi mdi-delete"></i> <span class="d-none d-sm-inline">Hapus</span>
                                     </button>
                                 </div>
@@ -196,11 +204,13 @@
                                     </p>
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
+                                    {{-- BATAL -> btn-silver --}}
+                                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
                                     <form action="{{ route('03peraturan.destroy', $item->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                                        {{-- YA, HAPUS -> btn-merah --}}
+                                        <button type="submit" class="btn-merah">
                                             <i class="mdi mdi-delete" style="margin-right: 6px;"></i> Ya, Hapus
                                         </button>
                                     </form>
@@ -330,7 +340,7 @@
                             <li class="page-item disabled" aria-disabled="true" aria-label="Next">
                                 <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #b8c5d6; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; opacity: 0.5; cursor: not-allowed;">
                                     Next <i class="mdi mdi-chevron-right" style="font-size: 18px;"></i>
-                                </a>
+                                </span>
                             </li>
                         @endif
 
@@ -377,8 +387,10 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- SIMPAN -> btn-biru --}}
+                    <button type="submit" class="btn-biru">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Simpan
                     </button>
                 </div>
@@ -435,8 +447,10 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #0d47a1; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- UPDATE -> btn-orange --}}
+                    <button type="submit" class="btn-orange">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
                     </button>
                 </div>
@@ -447,17 +461,137 @@
 @endforeach
 
 {{-- ============================================================
-     STYLE & SCRIPTS
+     STYLE & SCRIPTS (dengan custom button & pagination)
      ============================================================ --}}
 @push('styles')
 <style>
     /* ============================================================
-       PAGINATION STYLE
+       BUTTON CUSTOM (sesuai permintaan)
        ============================================================ */
-    .pagination-nav .page-item {
-        margin: 0 2px;
+    .btn-biru {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-biru:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(13, 110, 253, 0.7);
+        transform: scale(1.02);
     }
 
+    .btn-merah {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-merah:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(220, 53, 69, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-orange {
+        background-color: #fd7e14;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(253, 126, 20, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-orange:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(253, 126, 20, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-silver {
+        background-color: #adb5bd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(173, 181, 189, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-silver:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(173, 181, 189, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-hijau {
+        background-color: #198754;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-hijau:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(25, 135, 84, 0.7);
+        transform: scale(1.02);
+    }
+
+    /* ============================================================
+       PAGINATION (tetap)
+       ============================================================ */
+    .pagination-nav .page-item { margin: 0 2px; }
     .pagination-nav .page-link {
         font-family: 'Poppins', sans-serif;
         font-size: 14px;
@@ -475,25 +609,22 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
     }
-
     .pagination-nav .page-link:hover {
         background: #f0f4ff;
         border-color: #4f6af5;
         color: #4f6af5;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(79, 106, 245, 0.15);
+        box-shadow: 0 4px 12px rgba(79,106,245,0.15);
     }
-
     .pagination-nav .page-item.active .page-link {
         background: linear-gradient(135deg, #4f6af5, #7c3aed);
         border-color: #4f6af5;
         color: #ffffff;
         font-weight: 600;
-        box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35);
+        box-shadow: 0 4px 15px rgba(79,106,245,0.35);
         transform: translateY(-2px);
         animation: pulse 2s infinite;
     }
-
     .pagination-nav .page-item.disabled .page-link {
         color: #b8c5d6;
         background: transparent;
@@ -502,7 +633,6 @@
         transform: none;
         opacity: 0.5;
     }
-
     .pagination-nav .page-item:first-child .page-link,
     .pagination-nav .page-item:last-child .page-link {
         font-size: 14px;
@@ -511,16 +641,14 @@
         background: #f8fafc;
         border: 1px solid #e9edf2;
     }
-
     .pagination-nav .page-item:first-child .page-link:hover,
     .pagination-nav .page-item:last-child .page-link:hover {
         background: #4f6af5;
         border-color: #4f6af5;
         color: white;
         transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(79, 106, 245, 0.25);
+        box-shadow: 0 4px 15px rgba(79,106,245,0.25);
     }
-
     .pagination-nav .page-item:first-child.disabled .page-link:hover,
     .pagination-nav .page-item:last-child.disabled .page-link:hover {
         background: #f8fafc;
@@ -529,136 +657,97 @@
         transform: none;
         box-shadow: none;
     }
-
     @keyframes pulse {
-        0% { box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); }
-        50% { box-shadow: 0 4px 25px rgba(79, 106, 245, 0.5); }
-        100% { box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); }
+        0% { box-shadow: 0 4px 15px rgba(79,106,245,0.35); }
+        50% { box-shadow: 0 4px 25px rgba(79,106,245,0.5); }
+        100% { box-shadow: 0 4px 15px rgba(79,106,245,0.35); }
     }
-
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
     @media (max-width: 768px) {
-        .pagination-nav {
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .pagination-nav .page-link {
-            font-size: 13px;
-            padding: 6px 12px;
-            min-width: 38px;
-            height: 38px;
-            border-radius: 10px;
-        }
-
+        .pagination-nav { justify-content: center; flex-wrap: wrap; }
+        .pagination-nav .page-link { font-size: 13px; padding: 6px 12px; min-width: 38px; height: 38px; border-radius: 10px; }
         .pagination-nav .page-item:first-child .page-link,
-        .pagination-nav .page-item:last-child .page-link {
-            padding: 6px 10px;
-            font-size: 12px;
-        }
+        .pagination-nav .page-item:last-child .page-link { padding: 6px 10px; font-size: 12px; }
     }
-
     @media (max-width: 480px) {
-        .pagination-nav .page-link {
-            font-size: 12px;
-            padding: 4px 10px;
-            min-width: 34px;
-            height: 34px;
-            border-radius: 8px;
-        }
-
+        .pagination-nav .page-link { font-size: 12px; padding: 4px 10px; min-width: 34px; height: 34px; border-radius: 8px; }
         .pagination-nav .page-item:first-child .page-link,
-        .pagination-nav .page-item:last-child .page-link {
-            padding: 4px 8px;
-            font-size: 11px;
-        }
+        .pagination-nav .page-item:last-child .page-link { padding: 4px 8px; font-size: 11px; }
     }
 </style>
+@endpush
 
+@push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // ---- BUKA MODAL EDIT ----
-        document.querySelectorAll('.btn-edit').forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                var id = this.dataset.id;
-                var modal = document.getElementById('editModal' + id);
-                if (modal) {
-                    var bsModal = new bootstrap.Modal(modal);
-                    bsModal.show();
-                }
-            });
-        });
+document.addEventListener('DOMContentLoaded', function() {
 
-        // ---- TUTUP MODAL SAAT KLIK DI LUAR ----
-        document.querySelectorAll('.modal').forEach(function(modal) {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    var bsModal = bootstrap.Modal.getInstance(this);
-                    if (bsModal) {
-                        bsModal.hide();
-                    }
-                }
-            });
+    // ============================================================
+    // TUTUP MODAL KLIK DI LUAR (opsional)
+    // ============================================================
+    document.querySelectorAll('.modal').forEach(function(modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                var bsModal = bootstrap.Modal.getInstance(this);
+                if (bsModal) bsModal.hide();
+            }
         });
     });
 
-    // ============================================================
-    // DOWNLOAD CSV
-    // ============================================================
-    function exportToCSV() {
-        var dataCards = document.querySelectorAll('#dataContainer .card');
+});
 
-        if (dataCards.length === 0) {
-            alert('Tidak ada data untuk di-download!');
-            return;
-        }
+// ============================================================
+// DOWNLOAD CSV
+// ============================================================
+function exportToCSV() {
+    var dataCards = document.querySelectorAll('#dataContainer .card');
 
-        var csv = [];
-        var headers = ['No', 'Judul', 'File PDF', 'Keterangan', 'Tanggal Dibuat'];
-        csv.push(headers.join(','));
-
-        dataCards.forEach(function(card, index) {
-            var row = [];
-
-            // No
-            var no = index + 1;
-            row.push(no);
-
-            // Judul
-            var judulEl = card.querySelector('h5');
-            var judul = judulEl ? judulEl.textContent.trim() : '-';
-            row.push(judul);
-
-            // File PDF
-            var fileEl = card.querySelector('.col-md-6:first-child a');
-            var file = fileEl ? fileEl.textContent.trim() : 'Tidak ada file';
-            row.push(file);
-
-            // Keterangan
-            var ketEl = card.querySelector('.col-md-6:last-child p:last-child');
-            var keterangan = ketEl ? ketEl.textContent.trim() : '-';
-            row.push(keterangan);
-
-            // Tanggal
-            var dateEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap .d-flex:last-child span');
-            var date = dateEl ? dateEl.textContent.trim() : '-';
-            row.push(date);
-
-            csv.push(row.join(','));
-        });
-
-        var blob = new Blob(['\uFEFF' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
-        var link = document.createElement('a');
-        var url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', 'peraturan_' + new Date().toISOString().slice(0,10) + '.csv');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+    if (dataCards.length === 0) {
+        alert('Tidak ada data untuk di-download!');
+        return;
     }
+
+    var csv = [];
+    var headers = ['No', 'Judul', 'File PDF', 'Keterangan', 'Tanggal Dibuat'];
+    csv.push(headers.join(','));
+
+    dataCards.forEach(function(card, index) {
+        var row = [];
+
+        // No
+        var no = index + 1;
+        row.push(no);
+
+        // Judul
+        var judulEl = card.querySelector('h5');
+        var judul = judulEl ? judulEl.textContent.trim() : '-';
+        row.push(judul);
+
+        // File PDF
+        var fileEl = card.querySelector('.col-md-6:first-child a');
+        var file = fileEl ? fileEl.textContent.trim() : 'Tidak ada file';
+        row.push(file);
+
+        // Keterangan
+        var ketEl = card.querySelector('.col-md-6:last-child p:last-child');
+        var keterangan = ketEl ? ketEl.textContent.trim() : '-';
+        row.push(keterangan);
+
+        // Tanggal
+        var dateEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap .d-flex:last-child span');
+        var date = dateEl ? dateEl.textContent.trim() : '-';
+        row.push(date);
+
+        csv.push(row.join(','));
+    });
+
+    var blob = new Blob(['\uFEFF' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement('a');
+    var url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'peraturan_' + new Date().toISOString().slice(0,10) + '.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
 </script>
 @endpush

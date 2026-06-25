@@ -1,6 +1,9 @@
 {{-- ============================================================
      DATA PENGUMUMAN (JUDUL + FILE)
+     DENGAN CUSTOM BUTTON (btn-biru, btn-merah, dll)
      ============================================================ --}}
+
+@include('backend.00_dashboard.08_style')
 
 <div class="col-12">
     <div class="card" style="border-radius: 20px; border: none; box-shadow: 0 4px 24px rgba(0,0,0,0.04);">
@@ -16,7 +19,8 @@
                         Kelola pengumuman Sabhagiriwana'17
                     </p>
                 </div>
-                <button class="btn btn-primary" style="background: #c62828; border: none; border-radius: 12px; padding: 10px 24px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; white-space: nowrap; box-shadow: 0 4px 12px rgba(198,40,40,0.2);" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                {{-- TOMBOL TAMBAH -> btn-biru --}}
+                <button class="btn-biru" data-bs-toggle="modal" data-bs-target="#tambahModal">
                     <i class="mdi mdi-plus"></i> Tambah Pengumuman
                 </button>
             </div>
@@ -32,11 +36,13 @@
                             <input type="text" class="form-control border-0" name="search" placeholder="Cari pengumuman..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 0;">
                             <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
                         </div>
-                        <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 12px; padding: 10px 20px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px;">
+                        {{-- TOMBOL CARI -> btn-biru --}}
+                        {{-- <button type="submit" class="btn-biru">
                             <i class="mdi mdi-magnify"></i> Cari
-                        </button>
+                        </button> --}}
                         @if(request('search'))
-                            <a href="{{ route('20pengumuman.index') }}" class="btn btn-outline-secondary" style="border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 10px 20px; border-color: #e0e4ea; color: #5a6a7a;">
+                            {{-- TOMBOL RESET -> btn-silver --}}
+                            <a href="{{ route('20pengumuman.index') }}" class="btn-silver">
                                 <i class="mdi mdi-close"></i> Reset
                             </a>
                         @endif
@@ -59,31 +65,12 @@
                             (Total: {{ $data->total() }} data)
                         </span>
                     </div>
-                    <button onclick="exportToCSV()" class="btn btn-success" style="background: #28a745; border: none; border-radius: 10px; padding: 8px 16px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                    {{-- TOMBOL DOWNLOAD -> btn-orange --}}
+                    <button onclick="exportToCSV()" class="btn-orange" style="display: inline-flex; align-items: center; gap: 6px;">
                         <i class="mdi mdi-download"></i> Download
                     </button>
                 </div>
             </div>
-
-            {{-- ALERT --}}
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" style="border-radius: 12px; font-family: 'Poppins', sans-serif;" role="alert">
-                    <i class="mdi mdi-check-circle" style="margin-right: 8px;"></i> {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
-            @if(session('warning'))
-                <div class="alert alert-warning alert-dismissible fade show" style="border-radius: 12px; font-family: 'Poppins', sans-serif;" role="alert">
-                    <i class="mdi mdi-alert" style="margin-right: 8px;"></i> {{ session('warning') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" style="border-radius: 12px; font-family: 'Poppins', sans-serif;" role="alert">
-                    <i class="mdi mdi-alert-circle" style="margin-right: 8px;"></i> {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
 
             {{-- DATA CARDS --}}
             <div id="dataContainer">
@@ -109,10 +96,12 @@
                                     </div>
                                 </div>
                                 <div class="d-flex gap-1 flex-shrink-0">
-                                    <button class="btn btn-sm btn-outline-primary btn-edit" data-id="{{ $item->id }}" style="border-radius: 10px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 6px 14px;">
+                                    {{-- TOMBOL EDIT -> btn-hijau, langsung data-bs-toggle --}}
+                                    <button class="btn-hijau" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" style="padding: 6px 14px; font-size: 13px;">
                                         <i class="mdi mdi-pencil"></i> Edit
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $item->id }}" style="border-radius: 10px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 6px 14px;" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    {{-- TOMBOL HAPUS -> btn-merah --}}
+                                    <button class="btn-merah" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" style="padding: 6px 14px; font-size: 13px;">
                                         <i class="mdi mdi-delete"></i> Hapus
                                     </button>
                                 </div>
@@ -156,7 +145,8 @@
                                         <span style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #1a1a2e; word-break: break-all; flex: 1;">
                                             {{ basename($item->sabha2) }}
                                         </span>
-                                        <a href="{{ asset($item->sabha2) }}" target="_blank" class="btn btn-sm btn-primary" style="border-radius: 8px; padding: 6px 16px; font-family: 'Poppins', sans-serif; font-size: 12px; background: #0d47a1; color: #fff; border: none;">
+                                        {{-- TOMBOL LIHAT -> btn-biru kecil --}}
+                                        <a href="{{ asset($item->sabha2) }}" target="_blank" class="btn-biru" style="padding: 4px 12px; font-size: 12px; border-radius: 8px; text-decoration: none;">
                                             <i class="mdi mdi-eye"></i> Lihat
                                         </a>
                                     </div>
@@ -195,15 +185,77 @@
                                     </p>
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 20px; gap: 8px;">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">Batal</button>
+                                    {{-- BATAL -> btn-silver --}}
+                                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
                                     <form action="{{ route('20pengumuman.destroy', $item->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">
+                                        {{-- YA, HAPUS -> btn-merah --}}
+                                        <button type="submit" class="btn-merah">
                                             <i class="mdi mdi-delete" style="margin-right: 6px;"></i> Ya, Hapus
                                         </button>
                                     </form>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- MODAL EDIT --}}
+                    <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+                                <div class="modal-header" style="border-bottom: 2px solid #0d47a1; padding: 20px 24px;">
+                                    <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: 20px;">
+                                        <i class="mdi mdi-pencil" style="color: #0d47a1; margin-right: 10px;"></i>
+                                        Edit Pengumuman
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form action="{{ route('pengumuman.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-body" style="padding: 20px 24px;">
+
+                                        {{-- JUDUL (sabha1) --}}
+                                        <div class="mb-3">
+                                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                                                <i class="mdi mdi-format-title" style="color: #c62828;"></i> Judul / Isi Pengumuman <span style="color: #c62828;">*</span>
+                                            </label>
+                                            <textarea class="form-control" name="sabha1" rows="4" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;" required>{{ $item->sabha1 }}</textarea>
+                                        </div>
+
+                                        {{-- FILE (sabha2) --}}
+                                        <div class="mb-3">
+                                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                                                <i class="mdi mdi-file" style="color: #0d47a1;"></i> File
+                                            </label>
+                                            @if($item->sabha2)
+                                                <div style="margin-bottom: 8px; background: #f8fafc; border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border: 1px solid #e9edf2;">
+                                                    <i class="mdi mdi-file" style="color: #0d47a1;"></i>
+                                                    <span style="font-family: 'Poppins', sans-serif; font-size: 13px; color: #1a1a2e; word-break: break-all; flex: 1;">
+                                                        {{ basename($item->sabha2) }}
+                                                    </span>
+                                                    <a href="{{ asset($item->sabha2) }}" target="_blank" class="btn-biru" style="padding: 2px 8px; font-size: 11px; border-radius: 6px; text-decoration: none;">
+                                                        <i class="mdi mdi-eye"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            <input type="file" class="form-control" name="sabha2" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 12px;">
+                                            <small style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #888;">
+                                                <i class="mdi mdi-information-outline"></i> Kosongkan jika tidak ingin mengganti file
+                                            </small>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 24px; gap: 8px;">
+                                        {{-- BATAL -> btn-silver --}}
+                                        <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                                        {{-- UPDATE -> btn-orange --}}
+                                        <button type="submit" class="btn-orange">
+                                            <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -314,8 +366,10 @@
 
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 24px; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- SIMPAN -> btn-biru --}}
+                    <button type="submit" class="btn-biru">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Simpan
                     </button>
                 </div>
@@ -325,72 +379,136 @@
 </div>
 
 {{-- ============================================================
-     MODAL EDIT (JUDUL + FILE)
-     ============================================================ --}}
-@foreach ($data as $item)
-<div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
-            <div class="modal-header" style="border-bottom: 2px solid #0d47a1; padding: 20px 24px;">
-                <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: 20px;">
-                    <i class="mdi mdi-pencil" style="color: #0d47a1; margin-right: 10px;"></i>
-                    Edit Pengumuman
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="{{ route('pengumuman.update', $item->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="modal-body" style="padding: 20px 24px;">
-
-                    {{-- JUDUL (sabha1) --}}
-                    <div class="mb-3">
-                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                            <i class="mdi mdi-format-title" style="color: #c62828;"></i> Judul / Isi Pengumuman <span style="color: #c62828;">*</span>
-                        </label>
-                        <textarea class="form-control" name="sabha1" rows="4" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;" required>{{ $item->sabha1 }}</textarea>
-                    </div>
-
-                    {{-- FILE (sabha2) --}}
-                    <div class="mb-3">
-                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                            <i class="mdi mdi-file" style="color: #0d47a1;"></i> File
-                        </label>
-                        @if($item->sabha2)
-                            <div style="margin-bottom: 8px; background: #f8fafc; border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border: 1px solid #e9edf2;">
-                                <i class="mdi mdi-file" style="color: #0d47a1;"></i>
-                                <span style="font-family: 'Poppins', sans-serif; font-size: 13px; color: #1a1a2e; word-break: break-all; flex: 1;">
-                                    {{ basename($item->sabha2) }}
-                                </span>
-                                <a href="{{ asset($item->sabha2) }}" target="_blank" class="btn btn-sm btn-outline-primary" style="border-radius: 6px; padding: 2px 8px; font-family: 'Poppins', sans-serif; font-size: 11px;">
-                                    <i class="mdi mdi-eye"></i>
-                                </a>
-                            </div>
-                        @endif
-                        <input type="file" class="form-control" name="sabha2" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 12px;">
-                        <small style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #888;">
-                            <i class="mdi mdi-information-outline"></i> Kosongkan jika tidak ingin mengganti file
-                        </small>
-                    </div>
-
-                </div>
-                <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 24px; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #0d47a1; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">
-                        <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endforeach
-
-{{-- ============================================================
-     STYLE & SCRIPTS
+     STYLE & SCRIPTS (dengan custom button & pagination)
      ============================================================ --}}
 @push('styles')
 <style>
+    /* ============================================================
+       BUTTON CUSTOM (sesuai permintaan)
+       ============================================================ */
+    .btn-biru {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-biru:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(13, 110, 253, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-merah {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-merah:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(220, 53, 69, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-orange {
+        background-color: #fd7e14;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(253, 126, 20, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-orange:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(253, 126, 20, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-silver {
+        background-color: #adb5bd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(173, 181, 189, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-silver:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(173, 181, 189, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-hijau {
+        background-color: #198754;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-hijau:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(25, 135, 84, 0.7);
+        transform: scale(1.02);
+    }
+
+    /* ============================================================
+       PAGINATION (tetap)
+       ============================================================ */
     .pagination-nav .page-item { margin: 0 2px; }
     .pagination-nav .page-link {
         font-family: 'Poppins', sans-serif;
@@ -503,20 +621,9 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    // BUKA MODAL EDIT
-    document.querySelectorAll('.btn-edit').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            var id = this.dataset.id;
-            var modal = document.getElementById('editModal' + id);
-            if (modal) {
-                var bsModal = new bootstrap.Modal(modal);
-                bsModal.show();
-            }
-        });
-    });
-
-    // TUTUP MODAL KLIK DI LUAR
+    // ============================================================
+    // TUTUP MODAL KLIK DI LUAR (opsional)
+    // ============================================================
     document.querySelectorAll('.modal').forEach(function(modal) {
         modal.addEventListener('click', function(e) {
             if (e.target === this) {
@@ -538,7 +645,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+// ============================================================
 // EXPORT CSV
+// ============================================================
 function exportToCSV() {
     var dataCards = document.querySelectorAll('#dataContainer .card');
     if (dataCards.length === 0) {

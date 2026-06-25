@@ -1,6 +1,8 @@
 {{-- ============================================================
-     DATA SEKAPUR SIRIH (LENGKAP + RESPONSIF) - FIX EDIT MODAL
+     DATA SEKAPUR SIRIH (LENGKAP + RESPONSIF) - MODAL EDIT PAKAI data-bs-toggle
      ============================================================ --}}
+
+@include('backend.00_dashboard.08_style')
 
 <div class="col-12">
     <div class="card" style="border-radius: 16px; border: none; box-shadow: 0 2px 12px rgba(0,0,0,0.05);">
@@ -16,7 +18,8 @@
                         Kelola konten Sekapur Sirih Sabhagiriwana'17
                     </p>
                 </div>
-                <button class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.5vw, 14px); white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                {{-- TOMBOL TAMBAH DATA -> btn-biru --}}
+                <button class="btn-biru" data-bs-toggle="modal" data-bs-target="#tambahModal">
                     <i class="mdi mdi-plus"></i> Tambah Data
                 </button>
             </div>
@@ -32,11 +35,12 @@
                             <input type="text" class="form-control border-0" name="search" placeholder="Cari data..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 0;">
                             <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
                         </div>
-                        <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap;">
+                        {{-- Tombol Cari tidak perlu karena pakai enter, tapi tetap bisa pakai btn-biru --}}
+                        {{-- <button type="submit" class="btn-biru">
                             <i class="mdi mdi-magnify"></i> Cari
-                        </button>
+                        </button> --}}
                         @if(request('search'))
-                            <a href="{{ route('01sekapursirih.index') }}" class="btn btn-outline-secondary" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 13px; white-space: nowrap;">
+                            <a href="{{ route('01sekapursirih.index') }}" class="btn-silver">
                                 <i class="mdi mdi-close"></i> Reset
                             </a>
                         @endif
@@ -64,7 +68,7 @@
                         </span>
                     </div>
 
-                    <button onclick="exportToCSV()" class="btn btn-success" style="background: #28a745; border: none; border-radius: 10px; padding: 8px 16px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                    <button onclick="exportToCSV()" class="btn-orange" style="display: inline-flex; align-items: center; gap: 6px;">
                         <i class="mdi mdi-download"></i> Download
                     </button>
                 </div>
@@ -86,11 +90,12 @@
                                     </span>
                                 </div>
                                 <div class="d-flex flex-wrap gap-1">
-                                    {{-- TOMBOL EDIT - PAKAI onclick LANGSUNG --}}
-                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="editData('{{ $item->id }}')" style="border-radius: 8px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: 4px 12px;">
+                                    {{-- TOMBOL EDIT -> btn-hijau, pakai data-bs-toggle langsung --}}
+                                    <button type="button" class="btn-hijau" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
                                         <i class="mdi mdi-pencil"></i> Edit
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: 4px 12px;" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    {{-- TOMBOL HAPUS -> btn-merah --}}
+                                    <button type="button" class="btn-merah" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
                                         <i class="mdi mdi-delete"></i> Hapus
                                     </button>
                                 </div>
@@ -149,11 +154,11 @@
                                     </p>
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(12px, 1.5vw, 16px) clamp(16px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
+                                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
                                     <form action="{{ route('01sekapursirih.destroy', $item->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                                        <button type="submit" class="btn-merah">
                                             <i class="mdi mdi-delete" style="margin-right: 6px;"></i>
                                             Ya, Hapus
                                         </button>
@@ -198,8 +203,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(12px, 1.5vw, 16px) clamp(16px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                                        <button type="submit" class="btn btn-primary" style="background: #0d47a1; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                                        <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn-orange">
                                             <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
                                         </button>
                                     </div>
@@ -314,7 +319,7 @@
             <div class="modal-header" style="border-bottom: 2px solid #c62828; padding: clamp(16px, 2vw, 20px) clamp(16px, 2vw, 24px);">
                 <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: clamp(16px, 2vw, 20px);">
                     <i class="mdi mdi-plus" style="color: #c62828; margin-right: 10px;"></i>
-                    Tambah Sekapur Sirih
+                    Sejarah Sabhagiriwana S'17
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -341,8 +346,8 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(12px, 1.5vw, 16px) clamp(16px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn-biru">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Simpan
                     </button>
                 </div>
@@ -356,6 +361,132 @@
      ============================================================ --}}
 @push('styles')
 <style>
+    /* ============================================================
+       BUTTON CUSTOM (sesuai permintaan) - sudah di 08_style, tapi kita tambahkan lagi untuk jaga-jaga
+       ============================================================ */
+    .btn-biru {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-biru:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(13, 110, 253, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-merah {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-merah:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(220, 53, 69, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-orange {
+        background-color: #fd7e14;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(253, 126, 20, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-orange:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(253, 126, 20, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-silver {
+        background-color: #adb5bd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(173, 181, 189, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-silver:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(173, 181, 189, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-hijau {
+        background-color: #198754;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-hijau:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(25, 135, 84, 0.7);
+        transform: scale(1.02);
+    }
+
+    /* ============================================================
+       PAGINATION STYLE (tetap)
+       ============================================================ */
     .pagination-nav .page-item {
         margin: 0 2px;
     }
@@ -477,41 +608,7 @@
 @push('scripts')
 <script>
 // ============================================================
-// EDIT MODAL - PAKAI FUNGSI GLOBAL (PASTI JALAN)
-// ============================================================
-function editData(id) {
-    if (!id) {
-        alert('ID tidak ditemukan!');
-        return;
-    }
-
-    var modal = document.getElementById('editModal' + id);
-    if (!modal) {
-        alert('Modal tidak ditemukan!');
-        return;
-    }
-
-    // Pake jQuery kalo ada
-    if (typeof $ !== 'undefined') {
-        $(modal).modal('show');
-        return;
-    }
-
-    // Fallback pake Bootstrap vanilla
-    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-        var myModal = new bootstrap.Modal(modal);
-        myModal.show();
-        return;
-    }
-
-    // Kalo ga ada Bootstrap sama sekali, pake cara manual
-    modal.style.display = 'block';
-    modal.classList.add('show');
-    document.body.classList.add('modal-open');
-}
-
-// ============================================================
-// DOWNLOAD CSV
+// EKSPORT CSV (tetap)
 // ============================================================
 function exportToCSV() {
     var dataCards = document.querySelectorAll('#dataContainer .card');

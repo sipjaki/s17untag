@@ -275,3 +275,8 @@ keluarkan disini kontennya bro
 
   {{-- =========================================== --}}
 
+
+
+  /assets/newtheme/gambar/sabha.png
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores totam quisquam maxime, repellat facilis quos perspiciatis dolorum ipsa aliquam. Deleniti est molestiae itaque nulla sapiente repudiandae, deserunt corporis repellendus animi labore provident quia! Laudantium maxime iste dicta nemo porro, ea cum molestiae natus itaque obcaecati maiores nihil deserunt error minima.

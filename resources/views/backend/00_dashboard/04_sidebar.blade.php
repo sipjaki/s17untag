@@ -1,4 +1,203 @@
- <nav class="sidebar sidebar-offcanvas" id="sidebar">
+<style>
+    /* ============================================================
+     SIDEBAR - PERCANTIKAN TAMBAHAN
+     ============================================================ */
+
+/* --- Sidebar wrapper --- */
+.sidebar {
+    background: #ffffff;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.04);
+    border-right: 1px solid #f0ebe6;
+}
+
+/* --- Menu item --- */
+.sidebar .nav-item {
+    margin-bottom: 2px;
+}
+
+.sidebar .nav-link {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #2d2d3f;
+    padding: 12px 20px;
+    border-radius: 10px;
+    margin: 0 8px;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+/* --- Ikon menu --- */
+.sidebar .nav-link .menu-icon {
+    font-size: 20px;
+    width: 28px;
+    text-align: center;
+    color: #6c7a91;
+    transition: all 0.25s ease;
+}
+
+/* --- Hover effect --- */
+.sidebar .nav-link:hover {
+    background: #f5f0eb;
+    transform: translateX(4px);
+    color: #B71C1C;
+}
+
+.sidebar .nav-link:hover .menu-icon {
+    color: #B71C1C;
+    transform: scale(1.1);
+}
+
+/* --- Active state (saat halaman aktif) --- */
+.sidebar .nav-link.active {
+    background: linear-gradient(135deg, rgba(183,28,28,0.06), rgba(26,35,126,0.06));
+    color: #B71C1C;
+    font-weight: 600;
+    border-left: 4px solid #B71C1C;
+    border-radius: 10px 0 0 10px;
+}
+
+.sidebar .nav-link.active .menu-icon {
+    color: #B71C1C;
+}
+
+/* --- Sub-menu (collapse) --- */
+.sidebar .sub-menu {
+    padding-left: 12px;
+    margin-top: 4px;
+}
+
+.sidebar .sub-menu .nav-link {
+    font-size: 13px;
+    padding: 8px 16px 8px 44px;
+    font-weight: 400;
+    color: #4a4a5a;
+    border-left: 2px solid transparent;
+    border-radius: 8px;
+    margin: 0 8px;
+}
+
+.sidebar .sub-menu .nav-link i {
+    font-size: 16px;
+    width: 24px;
+    text-align: center;
+    color: #8d9aaa;
+    transition: all 0.2s;
+}
+
+.sidebar .sub-menu .nav-link:hover {
+    background: #f5f0eb;
+    color: #B71C1C;
+    border-left-color: #B71C1C;
+    transform: translateX(4px);
+}
+
+.sidebar .sub-menu .nav-link:hover i {
+    color: #B71C1C;
+}
+
+/* --- Active sub-menu --- */
+.sidebar .sub-menu .nav-link.active {
+    background: rgba(183,28,28,0.05);
+    color: #B71C1C;
+    font-weight: 500;
+    border-left-color: #B71C1C;
+}
+
+.sidebar .sub-menu .nav-link.active i {
+    color: #B71C1C;
+}
+
+/* --- Category header --- */
+.sidebar .nav-category {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #a0aec0;
+    padding: 20px 20px 8px 24px;
+    margin-top: 8px;
+    border-top: 1px solid #f0ebe6;
+}
+
+.sidebar .nav-category:first-of-type {
+    border-top: none;
+    padding-top: 12px;
+}
+
+/* --- Menu arrow (chevron) --- */
+.sidebar .menu-arrow {
+    margin-left: auto;
+    font-size: 13px;
+    color: #b0b8c4;
+    transition: transform 0.3s ease;
+}
+
+.sidebar .nav-link[aria-expanded="true"] .menu-arrow {
+    transform: rotate(180deg);
+    color: #B71C1C;
+}
+
+/* --- Collapse transition --- */
+.sidebar .collapse {
+    transition: all 0.3s ease;
+}
+
+/* --- Scrollbar sidebar --- */
+.sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: #f5f0eb;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: #d7ccc8;
+    border-radius: 10px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #bcaaa4;
+}
+
+/* ============================================================
+     RESPONSIVE - SIDEBAR
+     ============================================================ */
+@media (max-width: 992px) {
+    .sidebar .nav-link {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+    .sidebar .sub-menu .nav-link {
+        padding: 6px 12px 6px 36px;
+        font-size: 12px;
+    }
+    .sidebar .nav-link .menu-icon {
+        font-size: 18px;
+        width: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar .nav-link {
+        padding: 8px 12px;
+        font-size: 12px;
+        margin: 0 4px;
+    }
+    .sidebar .sub-menu .nav-link {
+        padding: 6px 10px 6px 28px;
+        font-size: 11px;
+    }
+    .sidebar .nav-link .menu-icon {
+        font-size: 16px;
+        width: 20px;
+    }
+    .sidebar .nav-category {
+        font-size: 10px;
+        padding: 16px 16px 6px 18px;
+    }
+}
+</style>
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
     <li class="nav-item">
       <a class="nav-link" href="/dashboard">

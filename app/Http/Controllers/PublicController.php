@@ -15,6 +15,7 @@ use App\Models\sabha17;
 use App\Models\sabha18;
 use App\Models\sabha19;
 use App\Models\sabha2;
+use App\Models\sabha20;
 use App\Models\sabha3;
 use App\Models\sabha4;
 use App\Models\sabha5;
@@ -31,14 +32,21 @@ class PublicController extends Controller
     public function index()
     {
         $datadok = sabha8::all();
+        $databerita = sabha18::all();
+        $dataartikel = sabha19::all();
+        $datapengumuman = sabha20::all();
         $data1 = beranda::all();
         $data2 = sabha1::all();
+
         return view('NEW.01_halamanutama.newhalamanbaru', [
             'title' => 'Sabhagiriwana17 | Universitas 17 Agustus 1945 Semarang | UNTAG',
             'user' => Auth::user(), // kirim data user login
             'data1' => $data1, // kirim data user login
             'data2' => $data2, // kirim data user login
             'datadok' => $datadok, // kirim data user login
+            'dataartikel' => $dataartikel, // kirim data user login
+            'databerita' => $databerita, // kirim data user login
+            'datapengumuman' => $datapengumuman, // kirim data user login
         ]);
 
     }

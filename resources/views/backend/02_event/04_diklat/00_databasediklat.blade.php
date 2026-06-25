@@ -1,6 +1,8 @@
 {{-- ============================================================
-     DATA AGENDA EVENT DIKLAT (CARD ELEGAN - 5 FOTO)
+     DATA AGENDA EVENT DIKLAT (DENGAN STRUKTUR DATABASE BARU)
      ============================================================ --}}
+
+@include('backend.00_dashboard.08_style')
 
 <div class="col-12">
     <div class="card" style="border-radius: 20px; border: none; box-shadow: 0 4px 24px rgba(0,0,0,0.04);">
@@ -12,11 +14,12 @@
                     <h4 class="card-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 2px; font-size: 22px; color: #1a1a2e;">
                         📚 Agenda Event DIKLAT
                     </h4>
-                    {{-- <p class="card-description" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin: 0;">
+                    <p class="card-description" style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #7a8a9e; margin: 0;">
                         Kelola agenda event DIKLAT Sabhagiriwana'17
-                    </p> --}}
+                    </p>
                 </div>
-                <button class="btn btn-primary" style="background: #c62828; border: none; border-radius: 12px; padding: 10px 24px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; white-space: nowrap; box-shadow: 0 4px 12px rgba(198,40,40,0.2);" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                {{-- TOMBOL TAMBAH -> btn-biru --}}
+                <button class="btn-biru" data-bs-toggle="modal" data-bs-target="#tambahModal">
                     <i class="mdi mdi-plus"></i> Tambah Agenda
                 </button>
             </div>
@@ -29,14 +32,16 @@
                             <span class="input-group-text bg-white border-0" style="padding: 0 14px;">
                                 <i class="mdi mdi-magnify" style="color: #7a8a9e; font-size: 18px;"></i>
                             </span>
-                            <input type="text" class="form-control border-0" name="search" placeholder="Cari judul agenda..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 0;">
+                            <input type="text" class="form-control border-0" name="search" placeholder="Cari nama event..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 0;">
                             <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
                         </div>
-                        <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 12px; padding: 10px 20px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px;">
+                        {{-- TOMBOL CARI -> btn-biru --}}
+                        {{-- <button type="submit" class="btn-biru">
                             <i class="mdi mdi-magnify"></i> Cari
-                        </button>
+                        </button> --}}
                         @if(request('search'))
-                            <a href="{{ route('12diklat.index') }}" class="btn btn-outline-secondary" style="border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 10px 20px; border-color: #e0e4ea; color: #5a6a7a;">
+                            {{-- TOMBOL RESET -> btn-silver --}}
+                            <a href="{{ route('12diklat.index') }}" class="btn-silver">
                                 <i class="mdi mdi-close"></i> Reset
                             </a>
                         @endif
@@ -59,7 +64,8 @@
                             (Total: {{ $data->total() }} data)
                         </span>
                     </div>
-                    <button onclick="exportToCSV()" class="btn btn-success" style="background: #28a745; border: none; border-radius: 10px; padding: 8px 16px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                    {{-- TOMBOL DOWNLOAD -> btn-orange --}}
+                    <button onclick="exportToCSV()" class="btn-orange" style="display: inline-flex; align-items: center; gap: 6px;">
                         <i class="mdi mdi-download"></i> Download
                     </button>
                 </div>
@@ -71,7 +77,7 @@
                     <div class="card mb-4" style="border-radius: 16px; border: 1px solid #f0f2f5; box-shadow: 0 2px 8px rgba(0,0,0,0.02); overflow: hidden; transition: all 0.3s ease; background: #ffffff;">
                         <div class="card-body" style="padding: 20px 24px;">
 
-                            {{-- HEADER --}}
+                            {{-- HEADER CARD --}}
                             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
                                 <div>
                                     <div class="d-flex align-items-center gap-3 flex-wrap">
@@ -79,20 +85,27 @@
                                             #{{ $data->firstItem() + $index }}
                                         </span>
                                         <h5 style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; margin: 0; font-size: 16px; word-break: break-word;">
-                                            {{ $item->sabha1 ?? 'Judul Agenda' }}
+                                            {{ Str::limit($item->sabha1 ?? 'Event', 60) }}
                                         </h5>
                                     </div>
-                                    <div style="margin-top: 4px;">
+                                    <div style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 12px;">
                                         <span style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #b0b8c4;">
                                             <i class="mdi mdi-calendar"></i> {{ $item->created_at ? $item->created_at->format('d M Y') : '-' }}
                                         </span>
+                                        @if($item->sabha2)
+                                            <span style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #7a8a9e;">
+                                                <i class="mdi mdi-map-marker"></i> {{ Str::limit($item->sabha2, 30) }}
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="d-flex gap-1 flex-shrink-0">
-                                    <button class="btn btn-sm btn-outline-primary btn-edit" data-id="{{ $item->id }}" style="border-radius: 10px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 6px 14px;">
+                                    {{-- TOMBOL EDIT -> btn-hijau, langsung data-bs-toggle --}}
+                                    <button class="btn-hijau" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" style="padding: 6px 14px; font-size: 13px;">
                                         <i class="mdi mdi-pencil"></i> Edit
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $item->id }}" style="border-radius: 10px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 6px 14px;" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    {{-- TOMBOL HAPUS -> btn-merah --}}
+                                    <button class="btn-merah" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" style="padding: 6px 14px; font-size: 13px;">
                                         <i class="mdi mdi-delete"></i> Hapus
                                     </button>
                                 </div>
@@ -101,52 +114,128 @@
                             {{-- DIVIDER --}}
                             <hr style="margin: 10px 0; border-color: #f0f2f5;">
 
-                            {{-- KETERANGAN --}}
-                            @if($item->sabha2)
+                            {{-- ============================================================
+                                 NAMA EVENT & NARASI (sabha1)
+                                 ============================================================ --}}
+                            @if($item->sabha1)
                                 <div style="background: #f8fafc; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; border-left: 4px solid #c62828;">
-                                    <p style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #1a1a2e; margin: 0; line-height: 1.7; word-break: break-word;">
-                                        {{ $item->sabha2 }}
+                                    <p style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #1a1a2e; margin: 0; line-height: 1.7; white-space: pre-wrap; word-break: break-word;">
+                                        {{ $item->sabha1 }}
                                     </p>
                                 </div>
                             @endif
 
-                            {{-- 5 FOTO dengan FIGURA --}}
-                            <div class="row g-3">
-                                @php
-                                    $fotoFields = ['sabha3', 'sabha4', 'sabha5', 'sabha6', 'sabha7'];
-                                    $fotoLabels = ['Foto 1', 'Foto 2', 'Foto 3', 'Foto 4', 'Foto 5'];
-                                @endphp
-                                @foreach ($fotoFields as $key => $field)
-                                    @php
-                                        $foto = $item->$field;
-                                    @endphp
-                                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                                        <div class="foto-figura" style="background: #ffffff; border-radius: 12px; padding: 8px 8px 12px 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border: 1px solid #f0f2f5; text-align: center; transition: all 0.3s ease; height: 100%;">
-                                            <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; background: #f0f2f5;">
-                                                @if($foto && file_exists(public_path($foto)))
-                                                    <a href="{{ asset($foto) }}" target="_blank" style="display: block; width: 100%; height: 100%;">
-                                                        <img src="{{ asset($foto) }}" alt="{{ $fotoLabels[$key] }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
-                                                    </a>
-                                                @else
-                                                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #f0f2f5; color: #b0b8c4;">
-                                                        <i class="mdi mdi-image" style="font-size: 32px;"></i>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                            <div style="margin-top: 6px;">
-                                                <span style="font-family: 'Poppins', sans-serif; font-size: 10px; color: #b0b8c4; letter-spacing: 0.3px;">
-                                                    <i class="mdi mdi-camera"></i> {{ $fotoLabels[$key] }}
-                                                </span>
+                            {{-- ============================================================
+                                 WAKTU & LOKASI (sabha2)
+                                 ============================================================ --}}
+                            @if($item->sabha2)
+                                <div style="background: #f8fafc; border-radius: 10px; padding: 10px 16px; margin-bottom: 16px; border-left: 4px solid #0d47a1; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                    <i class="mdi mdi-calendar-clock" style="color: #0d47a1; font-size: 18px;"></i>
+                                    <span style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #1a1a2e;">
+                                        {{ $item->sabha2 }}
+                                    </span>
+                                </div>
+                            @endif
+
+                            {{-- ============================================================
+                                 POSTER (sabha3)
+                                 ============================================================ --}}
+                            @if($item->sabha3 && file_exists(public_path($item->sabha3)))
+                                <div style="margin-bottom: 16px; text-align: center; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e8ecf1;">
+                                    <p style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #7a8a9e; margin-bottom: 8px; font-weight: 600;">
+                                        <i class="mdi mdi-poster"></i> POSTER KEGIATAN
+                                    </p>
+                                    <a href="{{ asset($item->sabha3) }}" target="_blank">
+                                        <img src="{{ asset($item->sabha3) }}" alt="Poster" style="max-width: 100%; max-height: 300px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                                    </a>
+                                </div>
+                            @endif
+
+                            {{-- ============================================================
+                                 LAPORAN EVENT (sabha4) - 5 PARAGRAF
+                                 ============================================================ --}}
+                            @if($item->sabha4)
+                                <div style="background: #f8fafc; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; border-left: 4px solid #c62828;">
+                                    <p style="font-family: 'Poppins', sans-serif; font-weight: 600; color: #c62828; font-size: 13px; margin: 0 0 6px 0;">
+                                        <i class="mdi mdi-file-document"></i> LAPORAN EVENT
+                                    </p>
+                                    <div style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #1a1a2e; line-height: 1.8; white-space: pre-wrap; word-break: break-word;">
+                                        {{ $item->sabha4 }}
+                                    </div>
+                                </div>
+                            @endif
+
+                            {{-- ============================================================
+                                 DOKUMENTASI 10 FOTO (sabha5-sabha9 + sabhaberkas1-sabhaberkas5)
+                                 ============================================================ --}}
+                            @php
+                                $fotoFields = [
+                                    'sabha5', 'sabha6', 'sabha7', 'sabha8', 'sabha9',
+                                    'sabhaberkas1', 'sabhaberkas2', 'sabhaberkas3', 'sabhaberkas4', 'sabhaberkas5'
+                                ];
+                                $fotoLabels = ['Foto 1', 'Foto 2', 'Foto 3', 'Foto 4', 'Foto 5',
+                                                'Foto 6', 'Foto 7', 'Foto 8', 'Foto 9', 'Foto 10'];
+                                $hasAnyFoto = false;
+                                foreach ($fotoFields as $f) {
+                                    if ($item->$f && file_exists(public_path($item->$f))) { $hasAnyFoto = true; break; }
+                                }
+                            @endphp
+
+                            @if($hasAnyFoto)
+                                <hr style="margin: 10px 0; border-color: #f0f2f5;">
+                                <p style="font-family: 'Poppins', sans-serif; font-weight: 600; color: #0d47a1; font-size: 13px; margin-bottom: 10px;">
+                                    <i class="mdi mdi-camera"></i> DOKUMENTASI KEGIATAN
+                                </p>
+                                <div class="row g-3">
+                                    @foreach ($fotoFields as $key => $field)
+                                        @php
+                                            $foto = $item->$field;
+                                        @endphp
+                                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                                            <div class="foto-figura" style="background: #ffffff; border-radius: 12px; padding: 8px 8px 12px 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border: 1px solid #f0f2f5; text-align: center; transition: all 0.3s ease; height: 100%;">
+                                                <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; background: #f0f2f5;">
+                                                    @if($foto && file_exists(public_path($foto)))
+                                                        <a href="{{ asset($foto) }}" target="_blank" style="display: block; width: 100%; height: 100%;">
+                                                            <img src="{{ asset($foto) }}" alt="{{ $fotoLabels[$key] }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
+                                                        </a>
+                                                    @else
+                                                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #f0f2f5; color: #b0b8c4;">
+                                                            <i class="mdi mdi-image" style="font-size: 32px;"></i>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div style="margin-top: 6px;">
+                                                    <span style="font-family: 'Poppins', sans-serif; font-size: 10px; color: #b0b8c4; letter-spacing: 0.3px;">
+                                                        <i class="mdi mdi-camera"></i> {{ $fotoLabels[$key] }}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
-                            </div>
+                                    @endforeach
+                                </div>
+                            @endif
+
+                            {{-- ============================================================
+                                 KETERANGAN TAMBAHAN (sabha10)
+                                 ============================================================ --}}
+                            @if($item->sabha10)
+                                <hr style="margin: 10px 0; border-color: #f0f2f5;">
+                                <div style="background: #f8fafc; border-radius: 10px; padding: 12px 16px; border-left: 4px solid #fd7e14;">
+                                    <p style="font-family: 'Poppins', sans-serif; font-weight: 600; color: #fd7e14; font-size: 13px; margin: 0 0 4px 0;">
+                                        <i class="mdi mdi-information"></i> KETERANGAN TAMBAHAN
+                                    </p>
+                                    <p style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #1a1a2e; margin: 0; line-height: 1.7; white-space: pre-wrap; word-break: break-word;">
+                                        {{ $item->sabha10 }}
+                                    </p>
+                                </div>
+                            @endif
 
                         </div>
                     </div>
 
-                    {{-- MODAL DELETE --}}
+                    {{-- ============================================================
+                         MODAL DELETE
+                         ============================================================ --}}
                     <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-sm">
                             <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
@@ -162,15 +251,17 @@
                                         Apakah Anda yakin ingin menghapus agenda ini?
                                     </p>
                                     <p style="font-size: 13px; color: #7a8a9e; margin: 0; font-family: 'Poppins', sans-serif; word-break: break-word;">
-                                        Judul: <strong>{{ $item->sabha1 ?? 'Data' }}</strong>
+                                        Event: <strong>{{ Str::limit($item->sabha1 ?? 'Data', 50) }}</strong>
                                     </p>
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 20px; gap: 8px;">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">Batal</button>
+                                    {{-- BATAL -> btn-silver --}}
+                                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
                                     <form action="{{ route('12diklat.destroy', $item->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">
+                                        {{-- YA, HAPUS -> btn-merah --}}
+                                        <button type="submit" class="btn-merah">
                                             <i class="mdi mdi-delete" style="margin-right: 6px;"></i> Ya, Hapus
                                         </button>
                                     </form>
@@ -248,7 +339,7 @@
 </div>
 
 {{-- ============================================================
-     MODAL TAMBAH (SEDERHANA - 3 KOLOM, HANYA INPUT FILE)
+     MODAL TAMBAH (SESUAI STRUKTUR DATABASE BARU)
      ============================================================ --}}
 <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -264,41 +355,89 @@
                 @csrf
                 <div class="modal-body" style="padding: 20px 24px;">
 
-                    {{-- JUDUL --}}
+                    {{-- 1. NAMA EVENT & NARASI (sabha1) --}}
                     <div class="mb-3">
                         <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                            <i class="mdi mdi-format-title" style="color: #c62828;"></i> Judul Agenda
+                            <i class="mdi mdi-format-title" style="color: #c62828;"></i> Nama Event & Narasi
                         </label>
-                        <input type="text" class="form-control" name="sabha1" placeholder="Masukkan judul agenda" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;" required>
+                        <textarea class="form-control" name="sabha1" rows="6" placeholder="Masukkan nama event dan narasi singkat tentang lomba..." style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;" required></textarea>
+                        <small style="font-family: 'Poppins', sans-serif; color: #888; font-size: 12px;">Isi nama event di awal, lalu lanjutkan dengan narasi.</small>
                     </div>
 
-                    {{-- KETERANGAN --}}
+                    {{-- 2. WAKTU & LOKASI (sabha2) --}}
                     <div class="mb-3">
                         <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                            <i class="mdi mdi-information" style="color: #0d47a1;"></i> Keterangan
+                            <i class="mdi mdi-calendar-clock" style="color: #0d47a1;"></i> Waktu & Lokasi Kegiatan
                         </label>
-                        <textarea class="form-control" name="sabha2" rows="3" placeholder="Masukkan keterangan agenda..." style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;"></textarea>
+                        <input type="text" class="form-control" name="sabha2" placeholder="Tanggal, tempat, koordinat (contoh: 25-26 Jan 2025, Lapangan Merdeka, -6.1234, 106.1234)" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">
                     </div>
 
-                    {{-- 5 FOTO (3 KOLOM) --}}
+                    {{-- 3. POSTER (sabha3) --}}
+                    <div class="mb-3">
+                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                            <i class="mdi mdi-poster" style="color: #c62828;"></i> Poster Kegiatan
+                        </label>
+                        <input type="file" class="form-control" name="sabha3" accept=".jpg,.jpeg,.png,.gif,.webp" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 12px;">
+                        <small style="font-family: 'Poppins', sans-serif; color: #888; font-size: 12px;">Upload poster kegiatan (max 20MB, JPG/PNG/GIF/WEBP)</small>
+                    </div>
+
+                    {{-- 4. LAPORAN EVENT (sabha4) - 5 paragraf --}}
+                    <div class="mb-3">
+                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                            <i class="mdi mdi-file-document" style="color: #c62828;"></i> Laporan Event (5 paragraf)
+                        </label>
+                        <textarea class="form-control" name="sabha4" rows="10" placeholder="Isi laporan event (5 paragraf)&#10;Paragraf 1: ...&#10;Paragraf 2: ...&#10;Paragraf 3: ...&#10;Paragraf 4: ...&#10;Paragraf 5: ..." style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;"></textarea>
+                        <small style="font-family: 'Poppins', sans-serif; color: #888; font-size: 12px;">Pisahkan paragraf dengan baris baru (enter).</small>
+                    </div>
+
+                    {{-- 5. DOKUMENTASI 10 FOTO --}}
+                    <hr style="margin: 16px 0; border-color: #f0f2f5;">
+                    <p style="font-family: 'Poppins', sans-serif; font-weight: 600; color: #0d47a1; font-size: 14px;">
+                        <i class="mdi mdi-camera"></i> Dokumentasi (10 Foto)
+                    </p>
                     <div class="row g-3">
-                        @for ($i = 3; $i <= 7; $i++)
-                            <div class="col-4">
-                                <div style="background: #f8fafc; border-radius: 10px; padding: 12px; border: 1px solid #e8ecf1;">
-                                    <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; display: block;">
-                                        <i class="mdi mdi-camera" style="color: #c62828;"></i> Foto {{ $i - 2 }}
+                        @php
+                            $fotoFields = [
+                                'sabha5' => 'Foto 1',
+                                'sabha6' => 'Foto 2',
+                                'sabha7' => 'Foto 3',
+                                'sabha8' => 'Foto 4',
+                                'sabha9' => 'Foto 5',
+                                'sabhaberkas1' => 'Foto 6',
+                                'sabhaberkas2' => 'Foto 7',
+                                'sabhaberkas3' => 'Foto 8',
+                                'sabhaberkas4' => 'Foto 9',
+                                'sabhaberkas5' => 'Foto 10',
+                            ];
+                        @endphp
+                        @foreach ($fotoFields as $field => $label)
+                            <div class="col-6 col-md-3 col-lg-2">
+                                <div style="background: #f8fafc; border-radius: 10px; padding: 10px; border: 1px solid #e8ecf1; height: 100%;">
+                                    <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 12px; display: block;">
+                                        <i class="mdi mdi-image" style="color: #c62828;"></i> {{ $label }}
                                     </label>
-                                    <input type="file" class="form-control" name="sabha{{ $i }}" accept=".jpg,.jpeg,.png,.gif,.webp" style="border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 6px 10px;">
-                                    <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: 10px; display: block; margin-top: 4px;">Max 20MB, JPG/PNG/GIF/WEBP</small>
+                                    <input type="file" class="form-control" name="{{ $field }}" accept=".jpg,.jpeg,.png,.gif,.webp" style="border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 4px 8px;">
+                                    <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: 10px; display: block; margin-top: 4px;">Max 20MB</small>
                                 </div>
                             </div>
-                        @endfor
+                        @endforeach
+                    </div>
+
+                    {{-- 6. KETERANGAN TAMBAHAN (sabha10) --}}
+                    <hr style="margin: 16px 0; border-color: #f0f2f5;">
+                    <div class="mb-3">
+                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                            <i class="mdi mdi-information" style="color: #fd7e14;"></i> Keterangan Tambahan
+                        </label>
+                        <textarea class="form-control" name="sabha10" rows="4" placeholder="Tambahkan keterangan lain jika ada..." style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;"></textarea>
                     </div>
 
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 24px; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- SIMPAN -> btn-biru --}}
+                    <button type="submit" class="btn-biru">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Simpan
                     </button>
                 </div>
@@ -308,7 +447,7 @@
 </div>
 
 {{-- ============================================================
-     MODAL EDIT (SEDERHANA - 3 KOLOM, HANYA INPUT FILE)
+     MODAL EDIT (SESUAI STRUKTUR DATABASE BARU)
      ============================================================ --}}
 @foreach ($data as $item)
 <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
@@ -326,42 +465,101 @@
                 @method('PUT')
                 <div class="modal-body" style="padding: 20px 24px;">
 
-                    {{-- JUDUL --}}
+                    {{-- 1. NAMA EVENT & NARASI (sabha1) --}}
                     <div class="mb-3">
                         <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                            <i class="mdi mdi-format-title" style="color: #c62828;"></i> Judul Agenda
+                            <i class="mdi mdi-format-title" style="color: #c62828;"></i> Nama Event & Narasi
                         </label>
-                        <input type="text" class="form-control" name="sabha1" value="{{ $item->sabha1 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;" required>
+                        <textarea class="form-control" name="sabha1" rows="6" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;" required>{{ $item->sabha1 }}</textarea>
                     </div>
 
-                    {{-- KETERANGAN --}}
+                    {{-- 2. WAKTU & LOKASI (sabha2) --}}
                     <div class="mb-3">
                         <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
-                            <i class="mdi mdi-information" style="color: #0d47a1;"></i> Keterangan
+                            <i class="mdi mdi-calendar-clock" style="color: #0d47a1;"></i> Waktu & Lokasi Kegiatan
                         </label>
-                        <textarea class="form-control" name="sabha2" rows="3" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">{{ $item->sabha2 }}</textarea>
+                        <input type="text" class="form-control" name="sabha2" value="{{ $item->sabha2 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">
                     </div>
 
-                    {{-- 5 FOTO (3 KOLOM) --}}
-                    <div class="row g-3">
-                        @for ($i = 3; $i <= 7; $i++)
-                            @php $field = 'sabha' . $i; @endphp
-                            <div class="col-4">
-                                <div style="background: #f8fafc; border-radius: 10px; padding: 12px; border: 1px solid #e8ecf1;">
-                                    <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; display: block;">
-                                        <i class="mdi mdi-camera" style="color: #c62828;"></i> Foto {{ $i - 2 }}
-                                    </label>
-                                    <input type="file" class="form-control" name="{{ $field }}" accept=".jpg,.jpeg,.png,.gif,.webp" style="border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 6px 10px;">
-                                    <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: 10px; display: block; margin-top: 4px;">Kosongkan untuk tetap menggunakan foto lama</small>
+                    {{-- 3. POSTER (sabha3) --}}
+                    <div class="mb-3">
+                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                            <i class="mdi mdi-poster" style="color: #c62828;"></i> Poster Kegiatan
+                        </label>
+                        @if($item->sabha3 && file_exists(public_path($item->sabha3)))
+                            <div style="margin-bottom: 8px; padding: 8px; background: #f8fafc; border-radius: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                <img src="{{ asset($item->sabha3) }}" alt="Poster saat ini" style="max-height: 80px; border-radius: 6px;">
+                                <div>
+                                    <a href="{{ asset($item->sabha3) }}" target="_blank" class="btn-biru" style="padding: 2px 12px; font-size: 12px; text-decoration: none;">Lihat</a>
+                                    <p style="font-size: 11px; color: #7a8a9e; margin: 4px 0 0;">Kosongkan untuk tetap menggunakan poster lama</p>
                                 </div>
                             </div>
-                        @endfor
+                        @endif
+                        <input type="file" class="form-control" name="sabha3" accept=".jpg,.jpeg,.png,.gif,.webp" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 12px;">
+                        <small style="font-family: 'Poppins', sans-serif; color: #888; font-size: 12px;">Upload poster baru (max 20MB)</small>
+                    </div>
+
+                    {{-- 4. LAPORAN EVENT (sabha4) --}}
+                    <div class="mb-3">
+                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                            <i class="mdi mdi-file-document" style="color: #c62828;"></i> Laporan Event (5 paragraf)
+                        </label>
+                        <textarea class="form-control" name="sabha4" rows="10" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">{{ $item->sabha4 }}</textarea>
+                    </div>
+
+                    {{-- 5. DOKUMENTASI 10 FOTO --}}
+                    <hr style="margin: 16px 0; border-color: #f0f2f5;">
+                    <p style="font-family: 'Poppins', sans-serif; font-weight: 600; color: #0d47a1; font-size: 14px;">
+                        <i class="mdi mdi-camera"></i> Dokumentasi (10 Foto) – Kosongkan untuk tetap menggunakan foto lama
+                    </p>
+                    <div class="row g-3">
+                        @php
+                            $fotoFields = [
+                                'sabha5' => 'Foto 1',
+                                'sabha6' => 'Foto 2',
+                                'sabha7' => 'Foto 3',
+                                'sabha8' => 'Foto 4',
+                                'sabha9' => 'Foto 5',
+                                'sabhaberkas1' => 'Foto 6',
+                                'sabhaberkas2' => 'Foto 7',
+                                'sabhaberkas3' => 'Foto 8',
+                                'sabhaberkas4' => 'Foto 9',
+                                'sabhaberkas5' => 'Foto 10',
+                            ];
+                        @endphp
+                        @foreach ($fotoFields as $field => $label)
+                            <div class="col-6 col-md-3 col-lg-2">
+                                <div style="background: #f8fafc; border-radius: 10px; padding: 10px; border: 1px solid #e8ecf1; height: 100%;">
+                                    <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 12px; display: block;">
+                                        <i class="mdi mdi-image" style="color: #c62828;"></i> {{ $label }}
+                                    </label>
+                                    @if($item->$field && file_exists(public_path($item->$field)))
+                                        <div style="margin-bottom: 6px;">
+                                            <img src="{{ asset($item->$field) }}" alt="{{ $label }}" style="width: 100%; max-height: 60px; object-fit: cover; border-radius: 4px;">
+                                        </div>
+                                    @endif
+                                    <input type="file" class="form-control" name="{{ $field }}" accept=".jpg,.jpeg,.png,.gif,.webp" style="border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 13px; padding: 4px 8px;">
+                                    <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: 10px; display: block; margin-top: 4px;">Max 20MB</small>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    {{-- 6. KETERANGAN TAMBAHAN (sabha10) --}}
+                    <hr style="margin: 16px 0; border-color: #f0f2f5;">
+                    <div class="mb-3">
+                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;">
+                            <i class="mdi mdi-information" style="color: #fd7e14;"></i> Keterangan Tambahan
+                        </label>
+                        <textarea class="form-control" name="sabha10" rows="4" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; padding: 10px 14px;">{{ $item->sabha10 }}</textarea>
                     </div>
 
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: 12px 24px; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #0d47a1; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: 8px 24px; font-size: 14px;">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- UPDATE -> btn-orange --}}
+                    <button type="submit" class="btn-orange">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
                     </button>
                 </div>
@@ -478,22 +676,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ============================================================
-    // BUKA MODAL EDIT
-    // ============================================================
-    document.querySelectorAll('.btn-edit').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            var id = this.dataset.id;
-            var modal = document.getElementById('editModal' + id);
-            if (modal) {
-                var bsModal = new bootstrap.Modal(modal);
-                bsModal.show();
-            }
-        });
-    });
-
-    // ============================================================
-    // TUTUP MODAL KLIK DI LUAR
+    // TUTUP MODAL KLIK DI LUAR (opsional)
     // ============================================================
     document.querySelectorAll('.modal').forEach(function(modal) {
         modal.addEventListener('click', function(e) {
@@ -517,7 +700,7 @@ function exportToCSV() {
     }
 
     var csv = [];
-    var headers = ['No', 'Judul', 'Keterangan', 'Foto 1', 'Foto 2', 'Foto 3', 'Foto 4', 'Foto 5', 'Tanggal Dibuat'];
+    var headers = ['No', 'Nama Event', 'Waktu & Lokasi', 'Poster', 'Laporan', 'Foto 1', 'Foto 2', 'Foto 3', 'Foto 4', 'Foto 5', 'Foto 6', 'Foto 7', 'Foto 8', 'Foto 9', 'Foto 10', 'Keterangan Tambahan', 'Tanggal Dibuat'];
     csv.push(headers.join(','));
 
     dataCards.forEach(function(card, index) {
@@ -525,22 +708,38 @@ function exportToCSV() {
         var no = index + 1;
         row.push(no);
 
+        // Nama Event (sabha1) - ambil dari h5
         var judul = card.querySelector('h5');
         row.push(judul ? judul.textContent.trim() : '-');
 
-        var ket = card.querySelector('.border-left-4');
-        row.push(ket ? ket.textContent.trim() : '-');
+        // Waktu & Lokasi (sabha2)
+        var waktu = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap .d-flex.flex-wrap.gap-12 span:last-child');
+        row.push(waktu ? waktu.textContent.trim() : '-');
 
+        // Poster (sabha3)
+        var poster = card.querySelector('.mb-3 a img') ? 'Ada' : 'Tidak Ada';
+        row.push(poster);
+
+        // Laporan (sabha4)
+        var laporan = card.querySelector('.border-left-4 .font-14');
+        row.push(laporan ? laporan.textContent.trim() : '-');
+
+        // 10 Foto
         var fotoDivs = card.querySelectorAll('.row.g-3 .foto-figura img');
         var fotoStatus = [];
         fotoDivs.forEach(function(img) {
             fotoStatus.push(img ? 'Ada' : 'Tidak Ada');
         });
-        while (fotoStatus.length < 5) {
+        while (fotoStatus.length < 10) {
             fotoStatus.push('-');
         }
         row.push(...fotoStatus);
 
+        // Keterangan Tambahan (sabha10)
+        var ket = card.querySelector('.border-left-4 .font-14:last-child');
+        row.push(ket ? ket.textContent.trim() : '-');
+
+        // Tanggal Dibuat
         var date = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap .d-flex:last-child span');
         row.push(date ? date.textContent.trim() : '-');
 

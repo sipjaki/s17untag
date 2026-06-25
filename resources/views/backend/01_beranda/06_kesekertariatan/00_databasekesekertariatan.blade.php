@@ -1,6 +1,9 @@
 {{-- ============================================================
      DATA INVENTARIS BARANG (CARD ELEGAN - RESPONSIF)
+     DENGAN CUSTOM BUTTON (btn-biru, btn-merah, dll)
      ============================================================ --}}
+
+@include('backend.00_dashboard.08_style')
 
 <div class="col-12">
     <div class="card" style="border-radius: 16px; border: none; box-shadow: 0 2px 12px rgba(0,0,0,0.05);">
@@ -16,13 +19,14 @@
                         Kelola data inventaris barang Sabhagiriwana'17
                     </p>
                 </div>
-                <button class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 18px); font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.5vw, 14px); white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                {{-- TOMBOL TAMBAH -> btn-biru --}}
+                <button class="btn-biru" data-bs-toggle="modal" data-bs-target="#tambahModal">
                     <i class="mdi mdi-plus"></i> Tambah Barang
                 </button>
             </div>
 
             {{-- ============================================================
-                 SEARCH, PER PAGE, DOWNLOAD (TAMBAHAN)
+                 SEARCH, PER PAGE, DOWNLOAD
                  ============================================================ --}}
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
                 {{-- Search Form --}}
@@ -35,11 +39,13 @@
                             <input type="text" class="form-control border-0" name="search" placeholder="Cari kode, nama, klasifikasi..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 0;" id="searchInput">
                             <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
                         </div>
-                        <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap;">
+                        {{-- TOMBOL CARI -> btn-biru --}}
+                        {{-- <button type="submit" class="btn-biru">
                             <i class="mdi mdi-magnify"></i> Cari
-                        </button>
+                        </button> --}}
                         @if(request('search'))
-                            <a href="{{ route('06kesekertariatan.index') }}" class="btn btn-outline-secondary" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 13px; white-space: nowrap;">
+                            {{-- TOMBOL RESET -> btn-silver --}}
+                            <a href="{{ route('06kesekertariatan.index') }}" class="btn-silver">
                                 <i class="mdi mdi-close"></i> Reset
                             </a>
                         @endif
@@ -69,8 +75,8 @@
                         </span>
                     </div>
 
-                    {{-- Download Button --}}
-                    <button onclick="exportToCSV()" class="btn btn-success" style="background: #28a745; border: none; border-radius: 10px; padding: 8px 16px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                    {{-- TOMBOL DOWNLOAD -> btn-orange --}}
+                    <button onclick="exportToCSV()" class="btn-orange" style="display: inline-flex; align-items: center; gap: 6px;">
                         <i class="mdi mdi-download"></i> Download
                     </button>
                 </div>
@@ -112,10 +118,12 @@
 
                                 <!-- Kanan: Tombol Aksi -->
                                 <div class="d-flex gap-1 flex-shrink-0">
-                                    <button class="btn btn-sm btn-outline-primary btn-edit" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: clamp(10px, 1.1vw, 13px); padding: clamp(4px, 0.6vw, 6px) clamp(6px, 0.8vw, 12px);">
+                                    {{-- TOMBOL EDIT -> btn-hijau, langsung data-bs-toggle --}}
+                                    <button class="btn-hijau" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" style="padding: clamp(4px, 0.6vw, 6px) clamp(6px, 0.8vw, 12px); font-size: clamp(10px, 1.1vw, 13px);">
                                         <i class="mdi mdi-pencil"></i> <span class="d-none d-sm-inline">Edit</span>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: clamp(10px, 1.1vw, 13px); padding: clamp(4px, 0.6vw, 6px) clamp(6px, 0.8vw, 12px);" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    {{-- TOMBOL HAPUS -> btn-merah --}}
+                                    <button class="btn-merah" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" style="padding: clamp(4px, 0.6vw, 6px) clamp(6px, 0.8vw, 12px); font-size: clamp(10px, 1.1vw, 13px);">
                                         <i class="mdi mdi-delete"></i> <span class="d-none d-sm-inline">Hapus</span>
                                     </button>
                                 </div>
@@ -284,11 +292,13 @@
                                     </p>
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
+                                    {{-- BATAL -> btn-silver --}}
+                                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
                                     <form action="{{ route('06kesekertariatan.destroy', $item->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                                        {{-- YA, HAPUS -> btn-merah --}}
+                                        <button type="submit" class="btn-merah">
                                             <i class="mdi mdi-delete" style="margin-right: 6px;"></i> Ya, Hapus
                                         </button>
                                     </form>
@@ -579,8 +589,10 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- SIMPAN -> btn-biru --}}
+                    <button type="submit" class="btn-biru">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Simpan
                     </button>
                 </div>
@@ -762,8 +774,10 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #0d47a1; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- UPDATE -> btn-orange --}}
+                    <button type="submit" class="btn-orange">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
                     </button>
                 </div>
@@ -774,10 +788,133 @@
 @endforeach
 
 {{-- ============================================================
-     STYLE & SCRIPTS
+     STYLE & SCRIPTS (hanya untuk pagination & export)
      ============================================================ --}}
 @push('styles')
 <style>
+    /* ============================================================
+       BUTTON CUSTOM (fallback jika 08_style tidak ada)
+       ============================================================ */
+    .btn-biru {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-biru:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(13, 110, 253, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-merah {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-merah:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(220, 53, 69, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-orange {
+        background-color: #fd7e14;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(253, 126, 20, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-orange:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(253, 126, 20, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-silver {
+        background-color: #adb5bd;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(173, 181, 189, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-silver:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(173, 181, 189, 0.7);
+        transform: scale(1.02);
+    }
+
+    .btn-hijau {
+        background-color: #198754;
+        color: #ffffff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+    }
+    .btn-hijau:hover {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 25px rgba(25, 135, 84, 0.7);
+        transform: scale(1.02);
+    }
+
     /* ============================================================
        PAGINATION STYLE
        ============================================================ */
@@ -903,129 +1040,116 @@
         }
     }
 </style>
+@endpush
 
+@push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // ---- BUKA MODAL EDIT ----
-        document.querySelectorAll('.btn-edit').forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                var id = this.dataset.id;
-                var modal = document.getElementById('editModal' + id);
-                if (modal) {
-                    var bsModal = new bootstrap.Modal(modal);
-                    bsModal.show();
-                }
-            });
-        });
-
-        // ---- TUTUP MODAL SAAT KLIK DI LUAR ----
-        document.querySelectorAll('.modal').forEach(function(modal) {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    var bsModal = bootstrap.Modal.getInstance(this);
-                    if (bsModal) {
-                        bsModal.hide();
-                    }
-                }
-            });
+document.addEventListener('DOMContentLoaded', function() {
+    // Tutup modal klik di luar
+    document.querySelectorAll('.modal').forEach(function(modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                var bsModal = bootstrap.Modal.getInstance(this);
+                if (bsModal) bsModal.hide();
+            }
         });
     });
+});
 
-    // ============================================================
-    // DOWNLOAD CSV
-    // ============================================================
-    function exportToCSV() {
-        var dataCards = document.querySelectorAll('#dataContainer .card');
+// ============================================================
+// DOWNLOAD CSV
+// ============================================================
+function exportToCSV() {
+    var dataCards = document.querySelectorAll('#dataContainer .card');
 
-        if (dataCards.length === 0) {
-            alert('Tidak ada data untuk di-download!');
-            return;
-        }
-
-        var csv = [];
-        var headers = ['No', 'Kode Barang', 'Nama Barang', 'Klasifikasi', 'Spesifikasi/Merk/Type', 'Jumlah', 'Ukuran', 'Bahan', 'Tahun Perolehan', 'Nilai Barang (Rp)', 'Asal Barang', 'Tanggal Verifikasi', 'Kondisi'];
-        csv.push(headers.join(','));
-
-        dataCards.forEach(function(card, index) {
-            var row = [];
-
-            // No
-            var no = index + 1;
-            row.push(no);
-
-            // Kode Barang (sabha1)
-            var kodeEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap span:first-child');
-            var kode = kodeEl ? kodeEl.textContent.trim() : '-';
-            row.push(kode);
-
-            // Nama Barang (sabha2)
-            var namaEl = card.querySelector('h5');
-            var nama = namaEl ? namaEl.textContent.trim() : '-';
-            row.push(nama);
-
-            // Klasifikasi (sabha3)
-            var klasifikasiEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap .d-flex.flex-wrap.gap-12 span:first-child strong');
-            var klasifikasi = klasifikasiEl ? klasifikasiEl.textContent.trim() : '-';
-            row.push(klasifikasi);
-
-            // Spesifikasi/Merk/Type (sabha4)
-            var spesifikasiEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:first-child span');
-            var spesifikasi = spesifikasiEl ? spesifikasiEl.textContent.trim().replace('Spesifikasi/Merk/Type:', '').trim() : '-';
-            row.push(spesifikasi);
-
-            // Jumlah (sabha5)
-            var jumlahEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap .d-flex.flex-wrap.gap-12 span:last-child strong');
-            var jumlah = jumlahEl ? jumlahEl.textContent.trim() : '0';
-            row.push(jumlah);
-
-            // Ukuran (sabha6)
-            var ukuranEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(2) span');
-            var ukuran = ukuranEl ? ukuranEl.textContent.trim().replace('Ukuran:', '').trim() : '-';
-            row.push(ukuran);
-
-            // Bahan (sabha7)
-            var bahanEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(3) span');
-            var bahan = bahanEl ? bahanEl.textContent.trim().replace('Bahan:', '').trim() : '-';
-            row.push(bahan);
-
-            // Tahun Perolehan (sabha8)
-            var tahunEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(4) span');
-            var tahun = tahunEl ? tahunEl.textContent.trim().replace('Tahun Perolehan:', '').trim() : '-';
-            row.push(tahun);
-
-            // Nilai Barang (sabha9)
-            var nilaiEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:first-child span');
-            var nilai = nilaiEl ? nilaiEl.textContent.trim().replace('Nilai Barang:', '').trim() : 'Rp 0';
-            row.push(nilai);
-
-            // Asal Barang (sabha10)
-            var asalEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:nth-child(2) span');
-            var asal = asalEl ? asalEl.textContent.trim().replace('Asal Barang:', '').trim() : '-';
-            row.push(asal);
-
-            // Tanggal Verifikasi (sabha11)
-            var verifikasiEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:nth-child(3) span');
-            var verifikasi = verifikasiEl ? verifikasiEl.textContent.trim().replace('Tanggal Verifikasi:', '').trim() : '-';
-            row.push(verifikasi);
-
-            // Kondisi (sabha12)
-            var kondisiEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:last-child span');
-            var kondisi = kondisiEl ? kondisiEl.textContent.trim().replace('Kondisi:', '').trim() : '-';
-            row.push(kondisi);
-
-            csv.push(row.join(','));
-        });
-
-        var blob = new Blob(['\uFEFF' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
-        var link = document.createElement('a');
-        var url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', 'inventaris_barang_' + new Date().toISOString().slice(0,10) + '.csv');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+    if (dataCards.length === 0) {
+        alert('Tidak ada data untuk di-download!');
+        return;
     }
+
+    var csv = [];
+    var headers = ['No', 'Kode Barang', 'Nama Barang', 'Klasifikasi', 'Spesifikasi/Merk/Type', 'Jumlah', 'Ukuran', 'Bahan', 'Tahun Perolehan', 'Nilai Barang (Rp)', 'Asal Barang', 'Tanggal Verifikasi', 'Kondisi'];
+    csv.push(headers.join(','));
+
+    dataCards.forEach(function(card, index) {
+        var row = [];
+
+        // No
+        var no = index + 1;
+        row.push(no);
+
+        // Kode Barang (sabha1)
+        var kodeEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap span:first-child');
+        var kode = kodeEl ? kodeEl.textContent.trim() : '-';
+        row.push(kode);
+
+        // Nama Barang (sabha2)
+        var namaEl = card.querySelector('h5');
+        var nama = namaEl ? namaEl.textContent.trim() : '-';
+        row.push(nama);
+
+        // Klasifikasi (sabha3)
+        var klasifikasiEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap .d-flex.flex-wrap.gap-12 span:first-child strong');
+        var klasifikasi = klasifikasiEl ? klasifikasiEl.textContent.trim() : '-';
+        row.push(klasifikasi);
+
+        // Spesifikasi/Merk/Type (sabha4)
+        var spesifikasiEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:first-child span');
+        var spesifikasi = spesifikasiEl ? spesifikasiEl.textContent.trim().replace('Spesifikasi/Merk/Type:', '').trim() : '-';
+        row.push(spesifikasi);
+
+        // Jumlah (sabha5)
+        var jumlahEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap .d-flex.flex-wrap.gap-12 span:last-child strong');
+        var jumlah = jumlahEl ? jumlahEl.textContent.trim() : '0';
+        row.push(jumlah);
+
+        // Ukuran (sabha6)
+        var ukuranEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(2) span');
+        var ukuran = ukuranEl ? ukuranEl.textContent.trim().replace('Ukuran:', '').trim() : '-';
+        row.push(ukuran);
+
+        // Bahan (sabha7)
+        var bahanEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(3) span');
+        var bahan = bahanEl ? bahanEl.textContent.trim().replace('Bahan:', '').trim() : '-';
+        row.push(bahan);
+
+        // Tahun Perolehan (sabha8)
+        var tahunEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(4) span');
+        var tahun = tahunEl ? tahunEl.textContent.trim().replace('Tahun Perolehan:', '').trim() : '-';
+        row.push(tahun);
+
+        // Nilai Barang (sabha9)
+        var nilaiEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:first-child span');
+        var nilai = nilaiEl ? nilaiEl.textContent.trim().replace('Nilai Barang:', '').trim() : 'Rp 0';
+        row.push(nilai);
+
+        // Asal Barang (sabha10)
+        var asalEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:nth-child(2) span');
+        var asal = asalEl ? asalEl.textContent.trim().replace('Asal Barang:', '').trim() : '-';
+        row.push(asal);
+
+        // Tanggal Verifikasi (sabha11)
+        var verifikasiEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:nth-child(3) span');
+        var verifikasi = verifikasiEl ? verifikasiEl.textContent.trim().replace('Tanggal Verifikasi:', '').trim() : '-';
+        row.push(verifikasi);
+
+        // Kondisi (sabha12)
+        var kondisiEl = card.querySelector('.col-md-6:last-child .d-flex.flex-column.gap-6 > div:last-child span');
+        var kondisi = kondisiEl ? kondisiEl.textContent.trim().replace('Kondisi:', '').trim() : '-';
+        row.push(kondisi);
+
+        csv.push(row.join(','));
+    });
+
+    var blob = new Blob(['\uFEFF' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement('a');
+    var url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'inventaris_barang_' + new Date().toISOString().slice(0,10) + '.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
 </script>
 @endpush

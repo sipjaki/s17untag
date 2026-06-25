@@ -1,6 +1,8 @@
 {{-- ============================================================
-     DATA FOTO BERANDA (LENGKAP + RESPONSIF)
+     DATA FOTO BERANDA (DENGAN TEXTAREA KETERANGAN + MODAL EDIT TERPISAH)
      ============================================================ --}}
+
+  @include('backend.00_dashboard.08_style')
 
 <div class="col-12">
     <div class="card" style="border-radius: 16px; border: none; box-shadow: 0 2px 12px rgba(0,0,0,0.05);">
@@ -13,69 +15,21 @@
                         📷 Foto Beranda
                     </h4>
                     <p class="card-description" style="font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.5vw, 14px); color: #7a8a9e; margin: 0;">
-                        Kelola foto-foto untuk halaman beranda Sabhagiriwana'17
+                        Kelola foto dan keterangan untuk halaman beranda Sabhagiriwana'17
                     </p>
                 </div>
-                <button class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.5vw, 14px); white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                <button class="btn-biru" data-bs-toggle="modal" data-bs-target="#tambahModal">
                     <i class="mdi mdi-plus"></i> Tambah Foto
                 </button>
             </div>
 
-            {{-- FILTER --}}
-            {{-- <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
-                <div style="flex: 1; min-width: 200px;">
-                    <form method="GET" action="{{ route('00beranda.index') }}" class="d-flex gap-2">
-                        <div class="input-group" style="border-radius: 10px; overflow: hidden; border: 1px solid #e0e4ea;">
-                            <span class="input-group-text bg-white border-0" style="padding: 0 12px;">
-                                <i class="mdi mdi-magnify" style="color: #7a8a9e;"></i>
-                            </span>
-                            <input type="text" class="form-control border-0" name="search" placeholder="Cari data..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 0;">
-                            <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap;">
-                            <i class="mdi mdi-magnify"></i> Cari
-                        </button>
-                        @if(request('search'))
-                            <a href="{{ route('00beranda.index') }}" class="btn btn-outline-secondary" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 13px; white-space: nowrap;">
-                                <i class="mdi mdi-close"></i> Reset
-                            </a>
-                        @endif
-                    </form>
-                </div>
-
-                <div class="d-flex flex-wrap align-items-center gap-2">
-                    <div style="display: flex; align-items: center; gap: 6px;">
-                        <span style="font-family: 'Poppins', sans-serif; font-size: 13px; color: #5a6a7a; white-space: nowrap;">Tampil:</span>
-                        <form method="GET" action="{{ route('00beranda.index') }}" id="perPageForm" class="d-inline">
-                            <input type="hidden" name="search" value="{{ request('search') }}">
-                            <select name="per_page" onchange="document.getElementById('perPageForm').submit()" style="border-radius: 8px; border: 1px solid #e0e4ea; padding: 6px 10px; font-family: 'Poppins', sans-serif; font-size: 13px; background: white; cursor: pointer; outline: none;">
-                                <option value="10" {{ request('per_page', 10) == 10 ? 'selected' : '' }}>10</option>
-                                <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
-                                <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
-                                <option value="75" {{ request('per_page') == 75 ? 'selected' : '' }}>75</option>
-                                <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
-                                <option value="200" {{ request('per_page') == 200 ? 'selected' : '' }}>200</option>
-                                <option value="500" {{ request('per_page') == 500 ? 'selected' : '' }}>500</option>
-                                <option value="1000" {{ request('per_page') == 1000 ? 'selected' : '' }}>1000</option>
-                            </select>
-                        </form>
-                        <span style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #b0b8c4; white-space: nowrap;">
-                            (Total: {{ $data->total() }} data)
-                        </span>
-                    </div>
-
-                    <button onclick="exportToCSV()" class="btn btn-success" style="background: #28a745; border: none; border-radius: 10px; padding: 8px 16px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
-                        <i class="mdi mdi-download"></i> Download
-                    </button>
-                </div>
-            </div> --}}
-
             {{-- DATA CARDS --}}
             <div id="dataContainer">
                 @forelse ($data as $index => $item)
-                    <div class="card mb-3" style="border-radius: 16px; border: 1px solid #f0f2f5; box-shadow: 0 2px 8px rgba(0,0,0,0.02); overflow: hidden;">
+                    <div class="card mb-4" style="border-radius: 16px; border: 1px solid #f0f2f5; box-shadow: 0 2px 8px rgba(0,0,0,0.02); overflow: hidden;">
                         <div class="card-body" style="padding: clamp(16px, 2vw, 24px);">
 
+                            {{-- HEADER CARD --}}
                             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
                                 <div class="d-flex align-items-center flex-wrap gap-2">
                                     <span style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #c62828; font-size: clamp(12px, 1.5vw, 14px); background: rgba(198,40,40,0.06); padding: 4px 14px; border-radius: 30px;">
@@ -86,37 +40,51 @@
                                     </span>
                                 </div>
                                 <div class="d-flex flex-wrap gap-1">
-                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="editData('{{ $item->id }}')" style="border-radius: 8px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: 4px 12px;">
+                                    {{-- Tombol Edit langsung pake data-bs-toggle --}}
+                                    <button type="button" class="btn-hijau" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
                                         <i class="mdi mdi-pencil"></i> Edit
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); padding: 4px 12px;" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    <button type="button" class="btn-merah" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
                                         <i class="mdi mdi-delete"></i> Hapus
                                     </button>
                                 </div>
                             </div>
 
-                            {{-- GALERI FOTO (5 foto) --}}
-                            <div class="row g-3">
+                            {{-- GALERI FOTO + KETERANGAN (5 foto) --}}
+                            <div class="row g-4">
                                 @for ($i = 1; $i <= 5; $i++)
                                     @php
                                         $field = 'sabha' . $i;
+                                        $descField = 'sabha' . ($i + 5); // sabha6..sabha10
                                         $photo = $item->$field;
+                                        $desc = $item->$descField;
                                     @endphp
                                     <div class="col-6 col-md-4 col-lg-2">
-                                        <div style="background: #f8fafc; border-radius: 12px; padding: 8px; text-align: center; border: 1px solid #e8ecf1; height: 100%;">
-                                            <div style="width: 100%; aspect-ratio: 1/1; border-radius: 10px; overflow: hidden; background: #f0f2f5; display: flex; align-items: center; justify-content: center; position: relative;">
+                                        <div style="background: #f8fafc; border-radius: 12px; padding: 10px; text-align: center; border: 1px solid #e8ecf1; height: 100%; display: flex; flex-direction: column;">
+                                            {{-- Foto --}}
+                                            <div style="width: 100%; aspect-ratio: 1/1; border-radius: 10px; overflow: hidden; background: #f0f2f5; display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0;">
                                                 @if($photo && file_exists(public_path($photo)))
                                                     <img src="{{ asset($photo) }}" alt="Foto {{ $i }}" style="width: 100%; height: 100%; object-fit: cover;">
                                                 @else
                                                     <i class="mdi mdi-image-off" style="font-size: 28px; color: #b0b8c4;"></i>
                                                 @endif
                                             </div>
-                                            <p style="font-family: 'Poppins', sans-serif; font-size: clamp(10px, 1vw, 12px); color: #5a6a7a; margin: 4px 0 0; font-weight: 500;">
-                                                Foto {{ $i }}
-                                                @if($photo && file_exists(public_path($photo)))
-                                                    <span style="color: #2e7d32; font-size: 10px;">✓</span>
+                                            {{-- Keterangan --}}
+                                            <div style="margin-top: 8px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                                                <p style="font-family: 'Poppins', sans-serif; font-size: clamp(10px, 1vw, 12px); color: #5a6a7a; margin: 0; font-weight: 600;">
+                                                    Foto {{ $i }}
+                                                    @if($photo && file_exists(public_path($photo)))
+                                                        <span style="color: #2e7d32; font-size: 10px;">✓</span>
+                                                    @endif
+                                                </p>
+                                                @if($desc)
+                                                    <p style="font-family: 'Poppins', sans-serif; font-size: clamp(10px, 0.9vw, 11px); color: #7a8a9e; margin: 4px 0 0; line-height: 1.3; word-break: break-word; background: #fff; padding: 4px 6px; border-radius: 6px; border: 1px solid #eef1f5;">
+                                                        {{ $desc }}
+                                                    </p>
+                                                @else
+                                                    <p style="font-family: 'Poppins', sans-serif; font-size: clamp(9px, 0.8vw, 10px); color: #b0b8c4; margin: 4px 0 0; font-style: italic;">Tidak ada keterangan</p>
                                                 @endif
-                                            </p>
+                                            </div>
                                         </div>
                                     </div>
                                 @endfor
@@ -125,7 +93,9 @@
                         </div>
                     </div>
 
-                    {{-- MODAL DELETE --}}
+                    {{-- ============================================================
+                         MODAL DELETE (per item)
+                         ============================================================ --}}
                     <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-sm">
                             <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
@@ -141,15 +111,15 @@
                                         Apakah Anda yakin ingin menghapus data ini?
                                     </p>
                                     <p style="font-size: clamp(12px, 1.2vw, 13px); color: #7a8a9e; margin: 0; font-family: 'Poppins', sans-serif;">
-                                        Semua foto yang diupload akan ikut terhapus.
+                                        Semua foto dan keterangan akan ikut terhapus.
                                     </p>
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(12px, 1.5vw, 16px) clamp(16px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
+                                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
                                     <form action="{{ route('00beranda.destroy', $item->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                                        <button type="submit" class="btn-merah">
                                             <i class="mdi mdi-delete" style="margin-right: 6px;"></i>
                                             Ya, Hapus
                                         </button>
@@ -159,14 +129,16 @@
                         </div>
                     </div>
 
-                    {{-- MODAL EDIT --}}
+                    {{-- ============================================================
+                         MODAL EDIT (per item) – Textarea & col-6
+                         ============================================================ --}}
                     <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
                             <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
                                 <div class="modal-header" style="border-bottom: 2px solid #0d47a1; padding: clamp(16px, 2vw, 20px) clamp(16px, 2vw, 24px);">
                                     <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: clamp(16px, 2vw, 20px);">
                                         <i class="mdi mdi-pencil" style="color: #0d47a1; margin-right: 10px;"></i>
-                                        Edit Foto Beranda
+                                        Edit Foto & Keterangan
                                     </h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
@@ -174,14 +146,16 @@
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-body" style="padding: clamp(16px, 2vw, 24px);">
-                                        <div class="row g-3">
+                                        <div class="row g-4">
                                             @for ($i = 1; $i <= 5; $i++)
                                                 @php
                                                     $field = 'sabha' . $i;
+                                                    $descField = 'sabha' . ($i + 5);
                                                     $photo = $item->$field;
+                                                    $desc = $item->$descField;
                                                 @endphp
-                                                <div class="col-md-6 col-lg-4">
-                                                    <div style="background: #f8fafc; border-radius: 12px; padding: 12px; border: 1px solid #e8ecf1; height: 100%;">
+                                                <div class="col-12 col-md-6 col-lg-4">
+                                                    <div style="background: #f8fafc; border-radius: 12px; padding: 14px; border: 1px solid #e8ecf1; height: 100%;">
                                                         <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
                                                             Foto {{ $i }}
                                                         </label>
@@ -195,14 +169,22 @@
                                                         @endif
                                                         <input type="file" class="form-control" name="{{ $field }}" accept="image/*" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px); padding: 6px 12px;">
                                                         <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: 10px;">Format: JPG, PNG, JPEG. Maks 20 MB</small>
+
+                                                        {{-- TEXTAREA Keterangan (col-6 penuh) --}}
+                                                        <div class="mt-2">
+                                                            <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(12px, 1.2vw, 13px);">
+                                                                Keterangan Foto {{ $i }}
+                                                            </label>
+                                                            <textarea class="form-control" name="{{ $descField }}" rows="2" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px); padding: 6px 12px; width: 100%;">{{ old($descField, $desc) }}</textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             @endfor
                                         </div>
                                     </div>
                                     <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(12px, 1.5vw, 16px) clamp(16px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                                        <button type="submit" class="btn btn-primary" style="background: #0d47a1; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                                        <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn-orange">
                                             <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
                                         </button>
                                     </div>
@@ -310,37 +292,51 @@
     </div>
 </div>
 
-{{-- MODAL TAMBAH --}}
+{{-- ============================================================
+     MODAL TAMBAH (dengan Textarea)
+     ============================================================ --}}
 <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
             <div class="modal-header" style="border-bottom: 2px solid #c62828; padding: clamp(16px, 2vw, 20px) clamp(16px, 2vw, 24px);">
                 <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: clamp(16px, 2vw, 20px);">
                     <i class="mdi mdi-plus" style="color: #c62828; margin-right: 10px;"></i>
-                    Tambah Foto Beranda
+                    Tambah Foto & Keterangan
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="{{ route('beranda.create') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body" style="padding: clamp(16px, 2vw, 24px);">
-                    <div class="row g-3">
+                    <div class="row g-4">
                         @for ($i = 1; $i <= 5; $i++)
-                            <div class="col-md-6 col-lg-4">
-                                <div style="background: #f8fafc; border-radius: 12px; padding: 12px; border: 1px solid #e8ecf1; height: 100%;">
+                            @php
+                                $field = 'sabha' . $i;
+                                $descField = 'sabha' . ($i + 5);
+                            @endphp
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div style="background: #f8fafc; border-radius: 12px; padding: 14px; border: 1px solid #e8ecf1; height: 100%;">
                                     <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
                                         Foto {{ $i }}
                                     </label>
-                                    <input type="file" class="form-control" name="sabha{{ $i }}" accept="image/*" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px); padding: 6px 12px;">
+                                    <input type="file" class="form-control" name="{{ $field }}" accept="image/*" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px); padding: 6px 12px;">
                                     <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: 10px;">Format: JPG, PNG, JPEG. Maks 20 MB</small>
+
+                                    {{-- TEXTAREA Keterangan --}}
+                                    <div class="mt-2">
+                                        <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(12px, 1.2vw, 13px);">
+                                            Keterangan Foto {{ $i }}
+                                        </label>
+                                        <textarea class="form-control" name="{{ $descField }}" rows="2" placeholder="Masukkan keterangan foto {{ $i }}..." style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px); padding: 6px 12px; width: 100%;"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         @endfor
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(12px, 1.5vw, 16px) clamp(16px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(16px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn-biru">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Simpan
                     </button>
                 </div>
@@ -350,7 +346,7 @@
 </div>
 
 {{-- ============================================================
-     STYLE & SCRIPTS
+     STYLE & SCRIPTS (HANYA UNTUK PAGINATION & EKSPORT)
      ============================================================ --}}
 @push('styles')
 <style>
@@ -475,38 +471,7 @@
 @push('scripts')
 <script>
 // ============================================================
-// EDIT MODAL - PAKAI FUNGSI GLOBAL
-// ============================================================
-function editData(id) {
-    if (!id) {
-        alert('ID tidak ditemukan!');
-        return;
-    }
-
-    var modal = document.getElementById('editModal' + id);
-    if (!modal) {
-        alert('Modal tidak ditemukan!');
-        return;
-    }
-
-    if (typeof $ !== 'undefined') {
-        $(modal).modal('show');
-        return;
-    }
-
-    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-        var myModal = new bootstrap.Modal(modal);
-        myModal.show();
-        return;
-    }
-
-    modal.style.display = 'block';
-    modal.classList.add('show');
-    document.body.classList.add('modal-open');
-}
-
-// ============================================================
-// DOWNLOAD CSV
+// EKSPORT CSV (sudah termasuk keterangan)
 // ============================================================
 function exportToCSV() {
     var dataCards = document.querySelectorAll('#dataContainer .card');
@@ -517,7 +482,7 @@ function exportToCSV() {
     }
 
     var csv = [];
-    var headers = ['ID', 'Foto 1', 'Foto 2', 'Foto 3', 'Foto 4', 'Foto 5', 'Tanggal Dibuat'];
+    var headers = ['ID', 'Foto 1', 'Keterangan 1', 'Foto 2', 'Keterangan 2', 'Foto 3', 'Keterangan 3', 'Foto 4', 'Keterangan 4', 'Foto 5', 'Keterangan 5', 'Tanggal Dibuat'];
     csv.push(headers.join(','));
 
     dataCards.forEach(function(card, index) {
@@ -526,20 +491,25 @@ function exportToCSV() {
         var id = idSpan ? idSpan.textContent.trim() : (index + 1);
         row.push(id);
 
-        var images = card.querySelectorAll('.row.g-3 .col-6 .mdi-image-off, .row.g-3 .col-6 img');
-        var f1 = '-', f2 = '-', f3 = '-', f4 = '-', f5 = '-';
-        images.forEach(function(img, i) {
-            if (i === 0) f1 = img.tagName === 'IMG' ? 'Ada' : 'Tidak Ada';
-            else if (i === 1) f2 = img.tagName === 'IMG' ? 'Ada' : 'Tidak Ada';
-            else if (i === 2) f3 = img.tagName === 'IMG' ? 'Ada' : 'Tidak Ada';
-            else if (i === 3) f4 = img.tagName === 'IMG' ? 'Ada' : 'Tidak Ada';
-            else if (i === 4) f5 = img.tagName === 'IMG' ? 'Ada' : 'Tidak Ada';
+        var items = card.querySelectorAll('.row.g-4 .col-6');
+        var fotoStatus = [];
+        var descTexts = [];
+        items.forEach(function(item) {
+            var img = item.querySelector('img');
+            var descP = item.querySelector('p:last-child');
+            fotoStatus.push(img ? 'Ada' : 'Tidak Ada');
+            descTexts.push(descP ? descP.textContent.trim() : '-');
         });
+
+        for (var i = 0; i < 5; i++) {
+            row.push(fotoStatus[i] || 'Tidak Ada');
+            row.push(descTexts[i] || '-');
+        }
 
         var dateSpan = card.querySelector('.d-flex.align-items-center.flex-wrap.gap-2 span:last-child');
         var date = dateSpan ? dateSpan.textContent.trim().replace('📅 ', '') : '-';
+        row.push(date);
 
-        row.push(f1, f2, f3, f4, f5, date);
         csv.push(row.join(','));
     });
 

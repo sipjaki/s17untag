@@ -1,6 +1,9 @@
 {{-- ============================================================
      DATA KEANGGOTAAN (CARD ELEGAN - RESPONSIF)
+     DENGAN CUSTOM BUTTON & STATUS BARU
      ============================================================ --}}
+
+@include('backend.00_dashboard.08_style')
 
 <div class="col-12">
     <div class="card" style="border-radius: 16px; border: none; box-shadow: 0 2px 12px rgba(0,0,0,0.05);">
@@ -16,7 +19,8 @@
                         Kelola data keanggotaan Sabhagiriwana'17
                     </p>
                 </div>
-                <button class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 18px); font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.5vw, 14px); white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                {{-- TOMBOL TAMBAH -> btn-biru --}}
+                <button class="btn-biru" data-bs-toggle="modal" data-bs-target="#tambahModal">
                     <i class="mdi mdi-plus"></i> Tambah Anggota
                 </button>
             </div>
@@ -35,11 +39,13 @@
                             <input type="text" class="form-control border-0" name="search" placeholder="Cari nama, NPA, NPM, status..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 0;" id="searchInput">
                             <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
                         </div>
-                        <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap;">
+                        {{-- TOMBOL CARI -> btn-biru --}}
+                        {{-- <button type="submit" class="btn-biru">
                             <i class="mdi mdi-magnify"></i> Cari
-                        </button>
+                        </button> --}}
                         @if(request('search'))
-                            <a href="{{ route('05keanggotaan.index') }}" class="btn btn-outline-secondary" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 13px; white-space: nowrap;">
+                            {{-- TOMBOL RESET -> btn-silver --}}
+                            <a href="{{ route('05keanggotaan.index') }}" class="btn-silver">
                                 <i class="mdi mdi-close"></i> Reset
                             </a>
                         @endif
@@ -69,8 +75,8 @@
                         </span>
                     </div>
 
-                    {{-- Download Button --}}
-                    <button onclick="exportToCSV()" class="btn btn-success" style="background: #28a745; border: none; border-radius: 10px; padding: 8px 16px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                    {{-- Download Button -> btn-orange --}}
+                    <button onclick="exportToCSV()" class="btn-orange" style="display: inline-flex; align-items: center; gap: 6px;">
                         <i class="mdi mdi-download"></i> Download
                     </button>
                 </div>
@@ -102,20 +108,28 @@
                                         </div>
                                         <div>
                                             <div class="d-flex align-items-center gap-2 flex-wrap">
-                                                <!-- Status -->
-                                                <span style="font-family: 'Poppins', sans-serif; font-weight: 700; font-size: clamp(10px, 1.1vw, 12px); padding: 3px 12px; border-radius: 30px; white-space: nowrap;
-                                                    @if($item->sabha1 == 'Muda')
-                                                        background: rgba(40,167,69,0.12); color: #28a745;
-                                                    @elseif($item->sabha1 == 'Biasa')
-                                                        background: rgba(220,53,69,0.12); color: #dc3545;
-                                                    @elseif($item->sabha1 == 'Luar Biasa')
-                                                        background: rgba(23,162,184,0.12); color: #17a2b8;
-                                                    @elseif($item->sabha1 == 'Kehormatan')
-                                                        background: rgba(255,193,7,0.12); color: #856404;
-                                                    @else
-                                                        background: rgba(108,117,125,0.12); color: #6c757d;
-                                                    @endif
-                                                ">
+                                                <!-- Status dengan warna baru -->
+                                                @php
+                                                    $statusColor = '#6c757d';
+                                                    $statusBg = 'rgba(108,117,125,0.12)';
+                                                    if ($item->sabha1 == 'Biasa (Muda)') {
+                                                        $statusColor = '#28a745';
+                                                        $statusBg = 'rgba(40,167,69,0.12)';
+                                                    } elseif ($item->sabha1 == 'Biasa (Penuh)') {
+                                                        $statusColor = '#0d6efd';
+                                                        $statusBg = 'rgba(13,110,253,0.12)';
+                                                    } elseif ($item->sabha1 == 'Luar Biasa') {
+                                                        $statusColor = '#fd7e14';
+                                                        $statusBg = 'rgba(253,126,20,0.12)';
+                                                    } elseif ($item->sabha1 == 'Pendukung') {
+                                                        $statusColor = '#6c757d';
+                                                        $statusBg = 'rgba(108,117,125,0.12)';
+                                                    } elseif ($item->sabha1 == 'Kehormatan') {
+                                                        $statusColor = '#856404';
+                                                        $statusBg = 'rgba(255,193,7,0.12)';
+                                                    }
+                                                @endphp
+                                                <span style="font-family: 'Poppins', sans-serif; font-weight: 700; font-size: clamp(10px, 1.1vw, 12px); padding: 3px 12px; border-radius: 30px; white-space: nowrap; background: {{ $statusBg }}; color: {{ $statusColor }};">
                                                     {{ $item->sabha1 ?? 'Status' }}
                                                 </span>
                                                 <!-- Nama Lengkap -->
@@ -138,10 +152,12 @@
 
                                 <!-- Kanan: Tombol Aksi -->
                                 <div class="d-flex gap-1 flex-shrink-0">
-                                    <button class="btn btn-sm btn-outline-primary btn-edit" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #0d47a1; color: #0d47a1; font-family: 'Poppins', sans-serif; font-size: clamp(10px, 1.1vw, 13px); padding: clamp(4px, 0.6vw, 6px) clamp(6px, 0.8vw, 12px);">
+                                    {{-- TOMBOL EDIT -> btn-hijau, langsung data-bs-toggle --}}
+                                    <button class="btn-hijau" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" style="padding: clamp(4px, 0.6vw, 6px) clamp(6px, 0.8vw, 12px); font-size: clamp(10px, 1.1vw, 13px);">
                                         <i class="mdi mdi-pencil"></i> <span class="d-none d-sm-inline">Edit</span>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $item->id }}" style="border-radius: 8px; border-color: #c62828; color: #c62828; font-family: 'Poppins', sans-serif; font-size: clamp(10px, 1.1vw, 13px); padding: clamp(4px, 0.6vw, 6px) clamp(6px, 0.8vw, 12px);" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                    {{-- TOMBOL HAPUS -> btn-merah --}}
+                                    <button class="btn-merah" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" style="padding: clamp(4px, 0.6vw, 6px) clamp(6px, 0.8vw, 12px); font-size: clamp(10px, 1.1vw, 13px);">
                                         <i class="mdi mdi-delete"></i> <span class="d-none d-sm-inline">Hapus</span>
                                     </button>
                                 </div>
@@ -174,7 +190,7 @@
                                         <div style="display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 6px 12px; border-radius: 8px;">
                                             <i class="mdi mdi-calendar" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px); width: 20px;"></i>
                                             <span style="font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); color: #5a6a7a;">
-                                                <strong style="color: #1a1a2e;">Angkatan Pendidikan (Rimba Kabut) :</strong> {{ $item->sabha6 ?? '-' }}
+                                                <strong style="color: #1a1a2e;">Angkatan Pendidikan (Rimba Kabut):</strong> {{ $item->sabha6 ?? '-' }}
                                             </span>
                                         </div>
                                         <!-- Fakultas (sabha8) -->
@@ -184,14 +200,14 @@
                                                 <strong style="color: #1a1a2e;">Fakultas:</strong> {{ $item->sabha8 ?? '-' }}
                                             </span>
                                         </div>
-                                        <!-- Tanggal Pendidikan (sabha13) - BARU -->
+                                        <!-- Tanggal Pendidikan (sabha13) -->
                                         <div style="display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 6px 12px; border-radius: 8px;">
                                             <i class="mdi mdi-calendar-edit" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px); width: 20px;"></i>
                                             <span style="font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); color: #5a6a7a;">
                                                 <strong style="color: #1a1a2e;">Tanggal Pendidikan:</strong> {{ $item->sabha13 ? \Carbon\Carbon::parse($item->sabha13)->format('d M Y') : '-' }}
                                             </span>
                                         </div>
-                                        <!-- Tanggal Pelantikan (sabha14) - BARU -->
+                                        <!-- Tanggal Pelantikan (sabha14) -->
                                         <div style="display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 6px 12px; border-radius: 8px;">
                                             <i class="mdi mdi-calendar-star" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px); width: 20px;"></i>
                                             <span style="font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.2vw, 13px); color: #5a6a7a;">
@@ -262,11 +278,13 @@
                                     </p>
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
+                                    {{-- BATAL -> btn-silver --}}
+                                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
                                     <form action="{{ route('05keanggotaan.destroy', $item->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                                        {{-- YA, HAPUS -> btn-merah --}}
+                                        <button type="submit" class="btn-merah">
                                             <i class="mdi mdi-delete" style="margin-right: 6px;"></i> Ya, Hapus
                                         </button>
                                     </form>
@@ -405,7 +423,7 @@
 </div>
 
 {{-- ============================================================
-     MODAL TAMBAH DATA
+     MODAL TAMBAH DATA (dengan status baru)
      ============================================================ --}}
 <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -428,9 +446,10 @@
                             </label>
                             <select class="form-control" name="sabha1" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);" required>
                                 <option value="">Pilih Status</option>
-                                <option value="Muda">Muda</option>
-                                <option value="Biasa">Biasa</option>
+                                <option value="Biasa (Muda)">Biasa (Muda)</option>
+                                <option value="Biasa (Penuh)">Biasa (Penuh)</option>
                                 <option value="Luar Biasa">Luar Biasa</option>
+                                <option value="Pendukung">Pendukung</option>
                                 <option value="Kehormatan">Kehormatan</option>
                             </select>
                         </div>
@@ -530,7 +549,7 @@
                             <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: JPG, PNG, GIF, WEBP. Maks 20MB</small>
                         </div>
 
-                        <!-- Tanggal Pendidikan (sabha13) - BARU -->
+                        <!-- Tanggal Pendidikan (sabha13) -->
                         <div class="col-12 col-md-6">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
                                 <i class="mdi mdi-calendar-edit" style="color: #0d47a1;"></i> Tanggal Pendidikan
@@ -538,7 +557,7 @@
                             <input type="date" class="form-control" name="sabha13" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
 
-                        <!-- Tanggal Pelantikan (sabha14) - BARU -->
+                        <!-- Tanggal Pelantikan (sabha14) -->
                         <div class="col-12 col-md-6">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
                                 <i class="mdi mdi-calendar-star" style="color: #0d47a1;"></i> Tanggal Pelantikan
@@ -548,8 +567,10 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #c62828; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- SIMPAN -> btn-biru --}}
+                    <button type="submit" class="btn-biru">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Simpan
                     </button>
                 </div>
@@ -559,7 +580,7 @@
 </div>
 
 {{-- ============================================================
-     MODAL EDIT DATA
+     MODAL EDIT DATA (dengan status baru)
      ============================================================ --}}
 @foreach ($data as $item)
 <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
@@ -584,9 +605,10 @@
                             </label>
                             <select class="form-control" name="sabha1" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);" required>
                                 <option value="">Pilih Status</option>
-                                <option value="Muda" {{ $item->sabha1 == 'Muda' ? 'selected' : '' }}>Muda</option>
-                                <option value="Biasa" {{ $item->sabha1 == 'Biasa' ? 'selected' : '' }}>Biasa</option>
+                                <option value="Biasa (Muda)" {{ $item->sabha1 == 'Biasa (Muda)' ? 'selected' : '' }}>Biasa (Muda)</option>
+                                <option value="Biasa (Penuh)" {{ $item->sabha1 == 'Biasa (Penuh)' ? 'selected' : '' }}>Biasa (Penuh)</option>
                                 <option value="Luar Biasa" {{ $item->sabha1 == 'Luar Biasa' ? 'selected' : '' }}>Luar Biasa</option>
+                                <option value="Pendukung" {{ $item->sabha1 == 'Pendukung' ? 'selected' : '' }}>Pendukung</option>
                                 <option value="Kehormatan" {{ $item->sabha1 == 'Kehormatan' ? 'selected' : '' }}>Kehormatan</option>
                             </select>
                         </div>
@@ -699,7 +721,7 @@
                             <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: JPG, PNG, GIF, WEBP. Maks 20 MB</small>
                         </div>
 
-                        <!-- Tanggal Pendidikan (sabha13) - BARU -->
+                        <!-- Tanggal Pendidikan (sabha13) -->
                         <div class="col-12 col-md-6">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
                                 <i class="mdi mdi-calendar-edit" style="color: #0d47a1;"></i> Tanggal Pendidikan
@@ -707,7 +729,7 @@
                             <input type="date" class="form-control" name="sabha13" value="{{ $item->sabha13 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
 
-                        <!-- Tanggal Pelantikan (sabha14) - BARU -->
+                        <!-- Tanggal Pelantikan (sabha14) -->
                         <div class="col-12 col-md-6">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
                                 <i class="mdi mdi-calendar-star" style="color: #0d47a1;"></i> Tanggal Pelantikan
@@ -717,8 +739,10 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background: #0d47a1; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; padding: clamp(6px, 0.8vw, 8px) clamp(14px, 2vw, 24px); font-size: clamp(13px, 1.3vw, 14px);">
+                    {{-- BATAL -> btn-silver --}}
+                    <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
+                    {{-- UPDATE -> btn-orange --}}
+                    <button type="submit" class="btn-orange">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
                     </button>
                 </div>
@@ -729,7 +753,7 @@
 @endforeach
 
 {{-- ============================================================
-     STYLE & SCRIPTS
+     STYLE & SCRIPTS (hanya untuk pagination & export)
      ============================================================ --}}
 @push('styles')
 <style>
@@ -806,7 +830,6 @@
         50% { box-shadow: 0 4px 25px rgba(79, 106, 245, 0.5); }
         100% { box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); }
     }
-
     @media (max-width: 768px) {
         .pagination-nav { justify-content: center; flex-wrap: wrap; }
         .pagination-nav .page-link { font-size: 13px; padding: 6px 12px; min-width: 38px; height: 38px; border-radius: 10px; }
@@ -819,22 +842,11 @@
         .pagination-nav .page-item:last-child .page-link { padding: 4px 8px; font-size: 11px; }
     }
 </style>
+@endpush
 
+@push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Edit Modal
-    document.querySelectorAll('.btn-edit').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            var id = this.dataset.id;
-            var modal = document.getElementById('editModal' + id);
-            if (modal) {
-                var bsModal = new bootstrap.Modal(modal);
-                bsModal.show();
-            }
-        });
-    });
-
     // Close modal klik di luar
     document.querySelectorAll('.modal').forEach(function(modal) {
         modal.addEventListener('click', function(e) {
@@ -846,7 +858,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Download CSV (sudah include sabha13 & sabha14)
+// Download CSV (include sabha13 & sabha14)
 function exportToCSV() {
     var dataCards = document.querySelectorAll('#dataContainer .card');
     if (dataCards.length === 0) {
@@ -885,7 +897,7 @@ function exportToCSV() {
 
         // Angkatan Pendidikan (sabha6)
         var angkatanEl = card.querySelector('.col-md-6:first-child .d-flex.flex-column.gap-6 > div:nth-child(3) span');
-        row.push(angkatanEl ? angkatanEl.textContent.trim().replace('Angkatan Pendidikan:', '').trim() : '-');
+        row.push(angkatanEl ? angkatanEl.textContent.trim().replace('Angkatan Pendidikan (Rimba Kabut):', '').trim() : '-');
 
         // NPM (sabha7)
         var npmEl = card.querySelector('.d-flex.align-items-center.gap-3 .d-flex.flex-wrap.gap-12 span:last-child strong');
