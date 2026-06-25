@@ -1040,7 +1040,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <tr>
                             <th>#</th>
                             <th>Judul</th>
-                            <th>Keterangan</th>
+                            {{-- <th>Keterangan</th> --}}
                             <th>Berkas</th>
                         </tr>
                     </thead>
@@ -1050,7 +1050,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td><strong>{{ $item->sabha1 ?? '-' }}</strong></td>
-                                <td>{{ $item->sabha2 ?? '-' }}</td>
+                                {{-- <td>{{ $item->sabha2 ?? '-' }}</td> --}}
                                 <td>
                                     @if($item->sabha3)
                                         <a href="{{ $item->sabha3 }}" class="file-link" target="_blank">
