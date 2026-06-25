@@ -1375,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="container">
         <section class="kabar-section" id="berita-terbaru">
             <div class="section-header">
-                <h3 class="tentang-title">Tentang <span>S'17</span></h3>
+                <h3 class="tentang-title">Kabar <span>S'17</span></h3>
             </div>
 
             <div class="kabar-grid">
@@ -1426,9 +1426,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 @empty
                     <div class="kabar-empty">
-                        <span class="empty-icon">📭</span>
-                        <h4>Belum Ada Berita</h4>
-                        <p>Silakan tambahkan berita melalui admin panel.</p>
+                        <span class="empty-icon"></span>
                     </div>
                 @endforelse
             </div>
