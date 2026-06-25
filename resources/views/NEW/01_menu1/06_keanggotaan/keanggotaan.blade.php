@@ -130,7 +130,7 @@
 
                     <div style="margin-bottom: 15px;">
                         <label style="font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;color:#1a1a2e;display:block;margin-bottom:4px;">NPA <span style="color:#c62828;">*</span></label>
-                        <input type="text" id="npaInput" placeholder="Contoh: S1712345AB" style="width:100%;padding:12px 16px;border:2px solid #e8ecf1;border-radius:12px;font-family:'Poppins',sans-serif;font-size:14px;outline:none;transition:all 0.3s;">
+                        <input type="text" id="npaInput" placeholder="Masukan NPA" style="width:100%;padding:12px 16px;border:2px solid #e8ecf1;border-radius:12px;font-family:'Poppins',sans-serif;font-size:14px;outline:none;transition:all 0.3s;">
                     </div>
 
                     <div style="margin-bottom: 20px;">
