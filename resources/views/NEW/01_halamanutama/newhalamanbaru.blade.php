@@ -49,7 +49,7 @@
     ============================================================ -->
 <style>
 /* ============================================================
-   SLIDER SECTION - GAMBAR FULL DENGAN OBJECT-FIT
+   SLIDER SECTION - GAMBAR FULL TANPA TRANSISI
    ============================================================ */
 .news-slider-section {
     position: relative;
@@ -79,39 +79,35 @@
     display: flex;
     flex-direction: column;
     background: #fff;
-    opacity: 0;
-    transition: opacity 0.6s ease;
 }
 
-.slide.active {
-    opacity: 1;
-}
-
-/* ===== GAMBAR - TIDAK TERPOTONG ===== */
+/* ===== GAMBAR - TANPA TRANSISI ===== */
 .slide-image {
     width: 100%;
     height: 500px;
     overflow: hidden;
-    background: #e9ecef;
+    background: #f0f2f5;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .slide-image img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* GANTI dari cover ke contain agar tidak terpotong */
+    object-fit: scale-down; /* Gambar tidak terpotong */
     display: block;
-    transition: transform 0.4s ease;
     background: #f0f2f5;
 }
 
-/* Alternatif: pakai object-fit: scale-down untuk yang lebih aman */
+/* HILANGKAN HOVER TRANSISI */
 .slide-image img {
-    object-fit: scale-down;
+    transition: none !important;
 }
 
 .slide:hover .slide-image img {
-    transform: scale(1.02);
+    transform: none !important;
 }
 
 /* ===== KETERANGAN ===== */
@@ -345,7 +341,7 @@
             @endphp
 
             @foreach ($slides as $key => $slide)
-                <div class="slide {{ $key === 0 ? 'active' : '' }}">
+                <div class="slide">
                     {{-- GAMBAR DI ATAS --}}
                     <div class="slide-image">
                         <img src="{{ asset($slide['image']) }}" alt="Slide {{ $key + 1 }}" loading="lazy">
@@ -363,7 +359,7 @@
             <button class="slider-btn prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
             <div class="slider-dots">
                 @foreach ($slides as $key => $slide)
-                    <span class="dot {{ $key === 0 ? 'active' : '' }}" data-slide="{{ $key }}"></span>
+                    <span class="dot" data-slide="{{ $key }}"></span>
                 @endforeach
             </div>
             <button class="slider-btn next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
@@ -381,7 +377,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentIndex = 0;
     const totalSlides = slides.length;
     let autoplayInterval = null;
-    const AUTOPLAY_DELAY = 5000; // 5 detik
+    const AUTOPLAY_DELAY = 5000;
+
+    // Set semua slide ke posisi awal
+    slides.forEach((slide, i) => {
+        slide.style.display = 'flex';
+    });
 
     // Fungsi untuk pindah slide
     function goToSlide(index) {
@@ -392,10 +393,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const offset = -currentIndex * 100;
         slider.style.transform = `translateX(${offset}%)`;
 
-        // Update active class
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === currentIndex);
-        });
+        // Update dots
         dots.forEach((dot, i) => {
             dot.classList.toggle('active', i === currentIndex);
         });
@@ -487,7 +485,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle window resize - pastikan slide tetap
+    // Handle window resize
     let resizeTimeout;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimeout);
@@ -1098,8 +1096,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </iframe>
                 </div>
                 <div class="video-caption">
-                    <h3>📺 Jelajahi Pengalamanmu Bersama Sabhagiriwana'17</h3>
-                    <p>Rasakan sensasi mendaki dan menjelajahi keindahan alam yang menakjubkan bersama komunitas pecinta alam terbesar di Indonesia.</p>
+                    <h3>Jelajahi Pengalamanmu Bersama Sabhagiriwana'17</h3>
                 </div>
             </div>
         </div>
