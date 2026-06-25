@@ -47,9 +47,9 @@
 <!-- ============================================================
     NEWS SLIDER - DINAMIS DARI DATABASE (ID PERTAMA)
     ============================================================ -->
-    <style>
-        /* ============================================================
-   SLIDER SECTION - GAMBAR DI ATAS, TEKS DI BAWAH
+<style>
+/* ============================================================
+   SLIDER SECTION - GAMBAR FULL DENGAN OBJECT-FIT
    ============================================================ */
 .news-slider-section {
     position: relative;
@@ -65,6 +65,7 @@
     overflow: hidden;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background: #fff;
 }
 
 .slider-wrapper {
@@ -76,7 +77,7 @@
     min-width: 100%;
     flex: 0 0 100%;
     display: flex;
-    flex-direction: column; /* GAMBAR DI ATAS, TEKS DI BAWAH */
+    flex-direction: column;
     background: #fff;
     opacity: 0;
     transition: opacity 0.6s ease;
@@ -86,27 +87,34 @@
     opacity: 1;
 }
 
-/* ----- GAMBAR ----- */
+/* ===== GAMBAR - TIDAK TERPOTONG ===== */
 .slide-image {
     width: 100%;
     height: 500px;
     overflow: hidden;
     background: #e9ecef;
+    position: relative;
 }
 
 .slide-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* GANTI dari cover ke contain agar tidak terpotong */
     display: block;
     transition: transform 0.4s ease;
+    background: #f0f2f5;
+}
+
+/* Alternatif: pakai object-fit: scale-down untuk yang lebih aman */
+.slide-image img {
+    object-fit: scale-down;
 }
 
 .slide:hover .slide-image img {
     transform: scale(1.02);
 }
 
-/* ----- KETERANGAN (DI BAWAH) ----- */
+/* ===== KETERANGAN ===== */
 .slide-content {
     padding: 24px 30px 30px;
     background: #ffffff;
@@ -125,7 +133,6 @@
     margin: 0 auto;
 }
 
-/* Jika ingin teks lebih elegan dengan efek */
 .slide-desc::before {
     content: '"';
     font-size: 2rem;
@@ -141,7 +148,7 @@
     opacity: 0.5;
 }
 
-/* ----- SLIDER CONTROLS (tombol & dots) ----- */
+/* ===== SLIDER CONTROLS ===== */
 .slider-controls {
     position: absolute;
     bottom: 20px;
@@ -273,7 +280,8 @@
         height: 8px;
     }
 }
-    </style>
+</style>
+
 <section class="news-slider-section" id="beranda">
     <div class="slider-container">
         <div class="slider-wrapper" id="newsSlider">
@@ -305,8 +313,8 @@
                     $image = $slideData->$imgField ?? null;
                     $desc  = $slideData->$descField ?? null;
 
-                    // Hanya tampilkan jika gambar ada
-                    if (!empty($image)) {
+                    // Hanya tampilkan jika gambar ada dan file exists
+                    if (!empty($image) && file_exists(public_path($image))) {
                         $slides[] = [
                             'image' => $image,
                             'description' => $desc ?: 'Keterangan tidak tersedia',
@@ -340,7 +348,7 @@
                 <div class="slide {{ $key === 0 ? 'active' : '' }}">
                     {{-- GAMBAR DI ATAS --}}
                     <div class="slide-image">
-                        <img src="{{ asset($slide['image']) }}" alt="Slide {{ $key + 1 }}">
+                        <img src="{{ asset($slide['image']) }}" alt="Slide {{ $key + 1 }}" loading="lazy">
                     </div>
                     {{-- KETERANGAN DI BAWAH --}}
                     <div class="slide-content">
@@ -362,6 +370,137 @@
         </div>
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.getElementById('newsSlider');
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    let autoplayInterval = null;
+    const AUTOPLAY_DELAY = 5000; // 5 detik
+
+    // Fungsi untuk pindah slide
+    function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+
+        currentIndex = index;
+        const offset = -currentIndex * 100;
+        slider.style.transform = `translateX(${offset}%)`;
+
+        // Update active class
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === currentIndex);
+        });
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
+        });
+    }
+
+    // Event listeners
+    prevBtn.addEventListener('click', function() {
+        goToSlide(currentIndex - 1);
+        resetAutoplay();
+    });
+
+    nextBtn.addEventListener('click', function() {
+        goToSlide(currentIndex + 1);
+        resetAutoplay();
+    });
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', function() {
+            goToSlide(index);
+            resetAutoplay();
+        });
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+            goToSlide(currentIndex - 1);
+            resetAutoplay();
+        } else if (e.key === 'ArrowRight') {
+            goToSlide(currentIndex + 1);
+            resetAutoplay();
+        }
+    });
+
+    // Touch support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const container = document.querySelector('.slider-container');
+
+    container.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                goToSlide(currentIndex + 1);
+            } else {
+                goToSlide(currentIndex - 1);
+            }
+            resetAutoplay();
+        }
+    }, { passive: true });
+
+    // Autoplay
+    function startAutoplay() {
+        if (autoplayInterval) clearInterval(autoplayInterval);
+        if (totalSlides > 1) {
+            autoplayInterval = setInterval(() => {
+                goToSlide(currentIndex + 1);
+            }, AUTOPLAY_DELAY);
+        }
+    }
+
+    function resetAutoplay() {
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+            startAutoplay();
+        }
+    }
+
+    // Start autoplay
+    startAutoplay();
+
+    // Pause autoplay on hover
+    const sliderContainer = document.querySelector('.slider-container');
+    sliderContainer.addEventListener('mouseenter', function() {
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+            autoplayInterval = null;
+        }
+    });
+
+    sliderContainer.addEventListener('mouseleave', function() {
+        if (!autoplayInterval) {
+            startAutoplay();
+        }
+    });
+
+    // Handle window resize - pastikan slide tetap
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            const offset = -currentIndex * 100;
+            slider.style.transform = `translateX(${offset}%)`;
+        }, 100);
+    });
+
+    // Inisialisasi pertama
+    goToSlide(0);
+});
+</script>
 
 <!-- ============================================================
     SEKAPUR SIRIH (DATABASE)
