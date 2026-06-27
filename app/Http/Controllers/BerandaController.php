@@ -580,7 +580,11 @@ public function divisidelete($id)
                     return $q->where('sabha1', 'LIKE', "%$search%")
                             ->orWhere('sabha2', 'LIKE', "%$search%")
                             ->orWhere('sabha3', 'LIKE', "%$search%")
-                            ->orWhere('sabha4', 'LIKE', "%$search%");
+                            ->orWhere('sabha4', 'LIKE', "%$search%")
+                            ->orWhere('sabha5', 'LIKE', "%$search%")
+                            ->orWhere('sabha6', 'LIKE', "%$search%")
+                            ->orWhere('sabha7', 'LIKE', "%$search%")
+                            ->orWhere('sabha8', 'LIKE', "%$search%");
                 })
                 ->orderBy('created_at', 'desc')
                 ->paginate($perPage)
