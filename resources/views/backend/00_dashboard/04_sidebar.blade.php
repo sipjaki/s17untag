@@ -267,6 +267,11 @@
                             <i class="mdi mdi-trophy"></i> Dokumentasi <br> Kegiatan
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/21angkatankepengurusan">
+                            <i class="mdi mdi-trophy"></i> Foto Angkatan
+                        </a>
+                    </li>
                     {{-- <li class="nav-item">
                         <a class="nav-link" href="#posko">
                             <i class="mdi mdi-map-marker"></i> Posko

@@ -119,12 +119,12 @@
 
                             {{-- DETAIL (Jurusan & Keterangan) - Responsif --}}
                             <div style="display: flex; flex-wrap: wrap; gap: clamp(8px, 1.5vw, 16px) clamp(12px, 2vw, 24px); padding-top: 8px; border-top: 1px solid #f0f2f5;">
-                                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                                {{-- <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                                     <i class="mdi mdi-school" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px);"></i>
                                     <span style="font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.3vw, 13px); color: #5a6a7a;">
                                         <strong style="color: #1a1a2e;">Jurusan:</strong> {{ $item->sabha3 ?? '-' }}
                                     </span>
-                                </div>
+                                </div> --}}
                                 <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                                     <i class="mdi mdi-information" style="color: #0d47a1; font-size: clamp(14px, 1.5vw, 16px);"></i>
                                     <span style="font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.3vw, 13px); color: #5a6a7a;">
@@ -200,10 +200,10 @@
                                                 <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Divisi / Jabatan</label>
                                                 <input type="text" class="form-control" name="sabha2" value="{{ $item->sabha2 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                                             </div>
-                                            <div class="col-12 col-md-6">
+                                            {{-- <div class="col-12 col-md-6">
                                                 <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Jurusan</label>
                                                 <input type="text" class="form-control" name="sabha3" value="{{ $item->sabha3 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
-                                            </div>
+                                            </div> --}}
                                             <div class="col-12 col-md-6">
                                                 <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Upload Foto</label>
                                                 @if($item->sabha5 && file_exists(public_path($item->sabha5)))
@@ -358,10 +358,10 @@
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Divisi / Jabatan</label>
                             <input type="text" class="form-control" name="sabha2" placeholder="Contoh: Ketua, Sekretaris" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
                         </div>
-                        <div class="col-12 col-md-6">
+                        {{-- <div class="col-12 col-md-6">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Jurusan</label>
                             <input type="text" class="form-control" name="sabha3" placeholder="Contoh: Teknik Informatika" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">
-                        </div>
+                        </div> --}}
                         <div class="col-12 col-md-6">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">Upload Foto</label>
                             <input type="file" class="form-control" name="sabha5" accept="image/*" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">

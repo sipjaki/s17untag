@@ -16,6 +16,7 @@ use App\Models\sabha18;
 use App\Models\sabha19;
 use App\Models\sabha2;
 use App\Models\sabha20;
+use App\Models\sabha22;
 use App\Models\sabha3;
 use App\Models\sabha4;
 use App\Models\sabha5;
@@ -25,6 +26,12 @@ use App\Models\sabha8;
 use App\Models\sabha9;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use App\Models\AngkatanKepengurusan;
+
 
 class BerandaController extends Controller
 {
@@ -493,7 +500,7 @@ public function divisicreate(Request $request)
             ->with('success', 'Divisi berhasil ditambahkan!');
 
     } catch (\Exception $e) {
-        return back()
+    return back()
             ->with('error', 'Gagal menyimpan data: ' . $e->getMessage())
             ->withInput();
     }
@@ -3571,7 +3578,126 @@ public function pedulidelete($id)
                 ->with('error', 'Gagal menghapus: ' . $e->getMessage());
         }
     }
+
+    public function adminangkatankepengurusan(Request $request)
+            {
+                $search = $request->search;
+                $perPage = $request->per_page ?? 5;
+
+                $data = sabha22::when($search, function($q) use ($search) {
+                    return $q->where('sabha1', 'LIKE', "%$search%")
+                            ->orWhere('sabha2', 'LIKE', "%$search%")
+                            ->orWhere('sabha3', 'LIKE', "%$search%")
+                            ->orWhere('sabha4', 'LIKE', "%$search%")
+                            ->orWhere('sabha5', 'LIKE', "%$search%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($perPage)
+                ->appends(['search' => $search, 'per_page' => $perPage]);
+
+                return view('backend.01_beranda.09_fotoangkatan.01_adminfotoangkatan', [
+                    'title' => 'Sabhagiriwana17 | Foto Angkatan ',
+                    'user'  => Auth::user(),
+                    'data'  => $data,
+                ]);
+            }
+
+
+public function angkatancreate(Request $request)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'required|string|max:255',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    $data = new sabha22();
+    $data->sabha1 = $request->sabha1;
+    $data->sabha2 = $request->sabha2;
+
+    // Buat direktori public/uploads/angkatan jika belum ada
+    $uploadDir = public_path('uploads/angkatan');
+    if (!File::exists($uploadDir)) {
+        File::makeDirectory($uploadDir, 0775, true);
+    }
+
+    // Proses upload 3 foto
+    $fieldList = ['sabha3', 'sabha4', 'sabha5'];
+    foreach ($fieldList as $field) {
+        if ($request->hasFile($field)) {
+            $file = $request->file($field);
+            // Buat nama unik
+            $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+                        . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($uploadDir, $filename);
+            $data->$field = 'uploads/angkatan/' . $filename; // simpan path relatif dari public
+        }
+    }
+
+    $data->save();
+
+    return redirect()->route('21angkatan.index')->with('success', 'Angkatan berhasil ditambahkan.');
 }
+
+public function angkatanupdate(Request $request, $id)
+{
+    $request->validate([
+        'sabha1' => 'required|string|max:255',
+        'sabha2' => 'required|string|max:255',
+        'sabha3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+        'sabha5' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
+    ]);
+
+    $data = sabha22::findOrFail($id);
+    $data->sabha1 = $request->sabha1;
+    $data->sabha2 = $request->sabha2;
+
+    $uploadDir = public_path('uploads/angkatan');
+    if (!File::exists($uploadDir)) {
+        File::makeDirectory($uploadDir, 0775, true);
+    }
+
+    $fieldList = ['sabha3', 'sabha4', 'sabha5'];
+    foreach ($fieldList as $field) {
+        if ($request->hasFile($field)) {
+            // Hapus file lama jika ada
+            if ($data->$field && File::exists(public_path($data->$field))) {
+                File::delete(public_path($data->$field));
+            }
+            $file = $request->file($field);
+            $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+                        . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($uploadDir, $filename);
+            $data->$field = 'uploads/angkatan/' . $filename;
+        }
+    }
+
+    $data->save();
+
+    return redirect()->route('21angkatan.index')->with('success', 'Angkatan berhasil diperbarui.');
+}
+
+public function angkatandelete($id)
+{
+    $data = sabha22::findOrFail($id);
+
+    // Hapus semua file foto yang terkait
+    $fieldList = ['sabha3', 'sabha4', 'sabha5'];
+    foreach ($fieldList as $field) {
+        if ($data->$field && File::exists(public_path($data->$field))) {
+            File::delete(public_path($data->$field));
+        }
+    }
+
+    $data->delete();
+
+    return redirect()->route('21angkatan.index')->with('success', 'Angkatan berhasil dihapus.');
+}
+
+    }
 
 
 

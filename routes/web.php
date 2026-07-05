@@ -383,6 +383,14 @@ Route::delete('/20pengumuman/{id}', [BerandaController::class, 'pengumumandelete
 Route::post('/pengumumancreate', [BerandaController::class, 'pengumumancreate'])->middleware('auth')->name('pengumuman.create');
 Route::put('/pengumumanupdate/{id}', [BerandaController::class, 'pengumumanupdate'])->middleware('auth')->name('pengumuman.update');
 
+// MENU 21 ANGKATAN KEPENGURUSAN    ===========================
+Route::get('/21angkatankepengurusan', [BerandaController::class, 'adminangkatankepengurusan'])->middleware('auth')->name('21angkatan.index');
+Route::delete('/21angkatankepengurusan/{id}', [BerandaController::class, 'angkatandelete'])->middleware('auth')->name('21angkatan.destroy');
+Route::post('/angkatancreate', [BerandaController::class, 'angkatancreate'])->middleware('auth')->name('angkatan.create');
+Route::put('/angkatanupdate/{id}', [BerandaController::class, 'angkatanupdate'])->middleware('auth')->name('angkatan.update');
+
+
+
 
 
 // PEMBAHARUAN BARU APLIKASI SNOC UNTAG SEMARANG

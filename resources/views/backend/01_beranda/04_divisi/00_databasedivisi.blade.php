@@ -1,6 +1,5 @@
 {{-- ============================================================
-     DATA DIVISI (CARD ELEGAN - RESPONSIF)
-     DENGAN CUSTOM BUTTON (btn-biru, btn-merah, dll)
+     DATA DIVISI (CARD ELEGAN - DENGAN FOTO)
      ============================================================ --}}
 
 @include('backend.00_dashboard.08_style')
@@ -19,9 +18,8 @@
                         Kelola data divisi Sabhagiriwana'17
                     </p>
                 </div>
-                {{-- TOMBOL TAMBAH -> btn-biru --}}
                 <button class="btn-biru" data-bs-toggle="modal" data-bs-target="#tambahModal">
-                    <i class="mdi mdi-plus"></i> Tambah Divisi
+                    <i class="mdi mdi-plus"></i> Tambah Divisi/Bidang
                 </button>
             </div>
 
@@ -36,12 +34,7 @@
                             <input type="text" class="form-control border-0" name="search" placeholder="Cari nama divisi, keterangan..." value="{{ request('search') }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; padding: 8px 0;" id="searchInput">
                             <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
                         </div>
-                        {{-- TOMBOL CARI -> btn-biru --}}
-                        {{-- <button type="submit" class="btn-biru">
-                            <i class="mdi mdi-magnify"></i> Cari
-                        </button> --}}
                         @if(request('search'))
-                            {{-- TOMBOL RESET -> btn-silver --}}
                             <a href="{{ route('04divisi.index') }}" class="btn-silver">
                                 <i class="mdi mdi-close"></i> Reset
                             </a>
@@ -70,7 +63,6 @@
                         </span>
                     </div>
 
-                    {{-- TOMBOL DOWNLOAD -> btn-orange --}}
                     <button onclick="exportToCSV()" class="btn-orange" style="display: inline-flex; align-items: center; gap: 6px;">
                         <i class="mdi mdi-download"></i> Download
                     </button>
@@ -86,7 +78,6 @@
                             <!-- HEADER -->
                             <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
 
-                                <!-- Kiri: Nomor + Nama Divisi -->
                                 <div style="flex: 1; min-width: 0;">
                                     <div class="d-flex align-items-center gap-2 flex-wrap">
                                         <span style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #c62828; font-size: clamp(12px, 1.3vw, 14px); background: rgba(198,40,40,0.08); padding: 3px 12px; border-radius: 30px; white-space: nowrap;">
@@ -104,29 +95,44 @@
                                     </div>
                                 </div>
 
-                                <!-- Kanan: Tombol Aksi -->
                                 <div class="d-flex gap-1 flex-shrink-0">
-                                    {{-- TOMBOL EDIT -> btn-hijau, langsung data-bs-toggle --}}
                                     <button class="btn-hijau" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}" style="padding: clamp(4px, 0.6vw, 6px) clamp(8px, 1vw, 14px); font-size: clamp(11px, 1.2vw, 13px);">
                                         <i class="mdi mdi-pencil"></i> <span class="d-none d-sm-inline">Edit</span>
                                     </button>
-                                    {{-- TOMBOL HAPUS -> btn-merah --}}
-                                    <button class="btn-merah" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" style="padding: clamp(4px, 0.6vw, 6px) clamp(8px, 1vw, 14px); font-size: clamp(11px, 1.2vw, 13px);">
+                                    <button class="btn-merah" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" style="padding: clamp(4px, 0.6vw, 6px) clamp(8px, 1vw, 14px); font-size: clamp(11px, 1.2vw, 13px);">
                                         <i class="mdi mdi-delete"></i> <span class="d-none d-sm-inline">Hapus</span>
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- DIVIDER -->
                             <hr style="margin: clamp(10px, 1.5vw, 12px) 0; border-color: #f0f2f5;">
 
-                            <!-- BODY: KETERANGAN + FILE PDF -->
+                            <!-- BODY: FOTO + KETERANGAN -->
                             <div class="row g-3">
 
+                                <!-- Foto (sabha2) -->
+                                <div class="col-12 col-md-4">
+                                    <div style="background: #f8fafc; border-radius: 12px; padding: clamp(10px, 1.5vw, 12px); border: 1px solid #e8ecf1; text-align: center; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                        @if($item->sabha2 && file_exists(public_path($item->sabha2)))
+                                            <a href="{{ asset($item->sabha2) }}" target="_blank" style="display: block; width: 100%;">
+                                                <img src="{{ asset($item->sabha2) }}" alt="{{ $item->sabha1 }}" style="width: 100%; max-height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid #e0e4ea;">
+                                            </a>
+                                            <p style="font-family: 'Poppins', sans-serif; font-size: clamp(10px, 1vw, 11px); color: #7a8a9e; margin: 6px 0 0;">
+                                                <i class="mdi mdi-open-in-new"></i> Klik untuk memperbesar
+                                            </p>
+                                        @else
+                                            <div style="width: 100%; aspect-ratio: 1/1; background: #f0f2f5; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #b0b8c4;">
+                                                <i class="mdi mdi-image-off" style="font-size: clamp(36px, 4vw, 48px);"></i>
+                                            </div>
+                                            <p style="font-family: 'Poppins', sans-serif; font-size: clamp(11px, 1.1vw, 12px); color: #b0b8c4; margin: 6px 0 0;">Tidak ada foto</p>
+                                        @endif
+                                    </div>
+                                </div>
+
                                 <!-- Keterangan (sabha3) -->
-                                <div class="col-12 col-md-6">
-                                    <div style="background: #f8fafc; border-radius: 12px; padding: clamp(10px, 1.5vw, 12px) clamp(12px, 1.5vw, 16px); border: 1px solid #e8ecf1; height: 100%;">
-                                        <div style="display: flex; align-items: flex-start; gap: clamp(10px, 1.5vw, 12px);">
+                                <div class="col-12 col-md-8">
+                                    <div style="background: #f8fafc; border-radius: 12px; padding: clamp(10px, 1.5vw, 12px) clamp(12px, 1.5vw, 16px); border: 1px solid #e8ecf1; height: 100%; display: flex; flex-direction: column;">
+                                        <div style="display: flex; align-items: flex-start; gap: clamp(10px, 1.5vw, 12px); flex: 1;">
                                             <div style="width: clamp(36px, 4vw, 44px); height: clamp(36px, 4vw, 44px); border-radius: 10px; background: rgba(13,71,161,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                                 <i class="mdi mdi-information" style="font-size: clamp(20px, 2.5vw, 24px); color: #0d47a1;"></i>
                                             </div>
@@ -137,31 +143,6 @@
                                                 <p style="font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px); color: #1a1a2e; margin: 0; word-break: break-word; line-height: 1.5;">
                                                     {{ $item->sabha3 ?? '-' }}
                                                 </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- File PDF (sabha2) -->
-                                <div class="col-12 col-md-6">
-                                    <div style="background: #f8fafc; border-radius: 12px; padding: clamp(10px, 1.5vw, 12px) clamp(12px, 1.5vw, 16px); border: 1px solid #e8ecf1; height: 100%;">
-                                        <div style="display: flex; align-items: center; gap: clamp(10px, 1.5vw, 12px);">
-                                            <div style="width: clamp(36px, 4vw, 44px); height: clamp(36px, 4vw, 44px); border-radius: 10px; background: rgba(198,40,40,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                                <i class="mdi mdi-file-pdf" style="font-size: clamp(20px, 2.5vw, 24px); color: #c62828;"></i>
-                                            </div>
-                                            <div style="flex: 1; min-width: 0;">
-                                                <p style="font-family: 'Poppins', sans-serif; font-size: clamp(10px, 1.1vw, 12px); color: #b0b8c4; margin: 0; font-weight: 500;">
-                                                    FILE PDF
-                                                </p>
-                                                @if($item->sabha2 && file_exists(public_path($item->sabha2)))
-                                                    <a href="{{ asset($item->sabha2) }}" target="_blank" class="btn-biru" style="padding: 4px 12px; font-size: clamp(12px, 1.3vw, 13px); border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-                                                        <i class="mdi mdi-open-in-new"></i> Lihat PDF
-                                                    </a>
-                                                @else
-                                                    <span style="font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); color: #b0b8c4;">
-                                                        <i class="mdi mdi-close-circle"></i> Belum ada file
-                                                    </span>
-                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -185,19 +166,17 @@
                                 </div>
                                 <div class="modal-body" style="padding: clamp(16px, 2vw, 24px);">
                                     <p style="font-size: clamp(14px, 1.5vw, 15px); color: #1a1a2e; margin-bottom: 4px; font-family: 'Poppins', sans-serif;">
-                                        Apakah Anda yakin ingin menghapus divisi ini?
+                                        Apakah Anda yakin ingin menghapus divisi/bidang ini?
                                     </p>
                                     <p style="font-size: clamp(12px, 1.2vw, 13px); color: #7a8a9e; margin: 0; font-family: 'Poppins', sans-serif; word-break: break-word;">
-                                        Divisi: <strong>{{ $item->sabha1 ?? 'Data' }}</strong>
+                                        Divisi/Bidang: <strong>{{ $item->sabha1 ?? 'Data' }}</strong>
                                     </p>
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                                    {{-- BATAL -> btn-silver --}}
                                     <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
                                     <form action="{{ route('04divisi.destroy', $item->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        {{-- YA, HAPUS -> btn-merah --}}
                                         <button type="submit" class="btn-merah">
                                             <i class="mdi mdi-delete" style="margin-right: 6px;"></i> Ya, Hapus
                                         </button>
@@ -216,7 +195,7 @@
                             @if(request('search'))
                                 Data Tidak Ditemukan!
                             @else
-                                Belum Ada Data Divisi
+                                Belum Ada Data Divisi/Bidang
                             @endif
                         </h5>
                         <p style="font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.5vw, 14px); color: #b0b8c4; margin-top: 6px;">
@@ -233,7 +212,6 @@
             {{-- PAGINATION --}}
             @if($data->total() > 0)
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-4 pt-3" style="border-top: 2px solid #f0f2f5;">
-
                 <div style="font-family: 'Poppins', sans-serif; font-size: 13px; color: #6c7a91; background: #f8fafc; padding: 8px 18px; border-radius: 30px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid #e9edf2;">
                     <i class="mdi mdi-list-ul" style="color: #4f6af5; font-size: 14px;"></i>
                     Menampilkan
@@ -246,73 +224,35 @@
 
                 <nav aria-label="Page navigation">
                     <ul class="pagination pagination-nav" style="display: flex; align-items: center; gap: 6px; margin: 0; flex-wrap: wrap; justify-content: center;">
-
                         @if ($data->onFirstPage())
-                            <li class="page-item disabled">
-                                <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #b8c5d6; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; opacity: 0.5; cursor: not-allowed;">
-                                    <i class="mdi mdi-chevron-left" style="font-size: 18px;"></i> Prev
-                                </span>
-                            </li>
+                            <li class="page-item disabled"><span class="page-link"><i class="mdi mdi-chevron-left"></i> Prev</span></li>
                         @else
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $data->previousPageUrl() }}" rel="prev" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: #f8fafc; border: 1px solid #e9edf2; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">
-                                    <i class="mdi mdi-chevron-left" style="font-size: 18px;"></i> Prev
-                                </a>
-                            </li>
+                            <li class="page-item"><a class="page-link" href="{{ $data->previousPageUrl() }}" rel="prev"><i class="mdi mdi-chevron-left"></i> Prev</a></li>
                         @endif
 
-                        @php
-                            $start = max(1, $data->currentPage() - 2);
-                            $end = min($data->lastPage(), $data->currentPage() + 2);
-                        @endphp
-
+                        @php $start = max(1, $data->currentPage() - 2); $end = min($data->lastPage(), $data->currentPage() + 2); @endphp
                         @if ($start > 1)
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $data->url(1) }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">1</a>
-                            </li>
-                            @if ($start > 2)
-                                <li class="page-item disabled"><span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; color: #b8c5d6; background: transparent; border: none; padding: 8px 12px;">...</span></li>
-                            @endif
+                            <li class="page-item"><a class="page-link" href="{{ $data->url(1) }}">1</a></li>
+                            @if ($start > 2) <li class="page-item disabled"><span class="page-link">...</span></li> @endif
                         @endif
-
                         @for ($i = $start; $i <= $end; $i++)
                             @if ($i == $data->currentPage())
-                                <li class="page-item active">
-                                    <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; background: linear-gradient(135deg, #4f6af5, #7c3aed); border-color: #4f6af5; color: #ffffff; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(79, 106, 245, 0.35); transform: translateY(-2px); animation: pulse 2s infinite;">{{ $i }}</span>
-                                </li>
+                                <li class="page-item active"><span class="page-link">{{ $i }}</span></li>
                             @else
-                                <li class="page-item">
-                                    <a class="page-link" href="{{ $data->url($i) }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">{{ $i }}</a>
-                                </li>
+                                <li class="page-item"><a class="page-link" href="{{ $data->url($i) }}">{{ $i }}</a></li>
                             @endif
                         @endfor
-
                         @if ($end < $data->lastPage())
-                            @if ($end < $data->lastPage() - 1)
-                                <li class="page-item disabled"><span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; color: #b8c5d6; background: transparent; border: none; padding: 8px 12px;">...</span></li>
-                            @endif
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $data->url($data->lastPage()) }}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">{{ $data->lastPage() }}</a>
-                            </li>
+                            @if ($end < $data->lastPage() - 1) <li class="page-item disabled"><span class="page-link">...</span></li> @endif
+                            <li class="page-item"><a class="page-link" href="{{ $data->url($data->lastPage()) }}">{{ $data->lastPage() }}</a></li>
                         @endif
-
                         @if ($data->hasMorePages())
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $data->nextPageUrl() }}" rel="next" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: #f8fafc; border: 1px solid #e9edf2; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;">
-                                    Next <i class="mdi mdi-chevron-right" style="font-size: 18px;"></i>
-                                </a>
-                            </li>
+                            <li class="page-item"><a class="page-link" href="{{ $data->nextPageUrl() }}" rel="next">Next <i class="mdi mdi-chevron-right"></i></a></li>
                         @else
-                            <li class="page-item disabled">
-                                <span class="page-link" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #b8c5d6; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 14px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; opacity: 0.5; cursor: not-allowed;">
-                                    Next <i class="mdi mdi-chevron-right" style="font-size: 18px;"></i>
-                                </span>
-                            </li>
+                            <li class="page-item disabled"><span class="page-link">Next <i class="mdi mdi-chevron-right"></i></span></li>
                         @endif
-
                     </ul>
                 </nav>
-
             </div>
             @endif
 
@@ -321,7 +261,7 @@
 </div>
 
 {{-- ============================================================
-     MODAL TAMBAH DATA (RESPONSIF)
+     MODAL TAMBAH DATA (dengan input gambar)
      ============================================================ --}}
 <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -329,7 +269,7 @@
             <div class="modal-header" style="border-bottom: 2px solid #c62828; padding: clamp(14px, 2vw, 20px) clamp(14px, 2vw, 24px);">
                 <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: clamp(16px, 2vw, 20px);">
                     <i class="mdi mdi-plus" style="color: #c62828; margin-right: 10px;"></i>
-                    Tambah Divisi
+                    Tambah Divisi/Bidang
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -339,31 +279,29 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
-                                <i class="mdi mdi-account-group" style="color: #c62828;"></i> Nama Divisi
+                                <i class="mdi mdi-account-group" style="color: #c62828;"></i> Nama Divisi/Bidang
                             </label>
                             <input type="text" class="form-control" name="sabha1" placeholder="Masukkan nama divisi" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);" required>
                         </div>
 
                         <div class="col-12">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
-                                <i class="mdi mdi-information" style="color: #0d47a1;"></i> Keterangan
+                                <i class="mdi mdi-image" style="color: #0d47a1;"></i> Upload Foto/Gambar
                             </label>
-                            <textarea class="form-control" name="sabha3" rows="4" placeholder="Masukkan keterangan divisi..." style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);"></textarea>
+                            <input type="file" class="form-control" name="sabha2" accept="image/*" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">
+                            <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: JPG, PNG, GIF, WEBP. Maks 20MB</small>
                         </div>
 
                         <div class="col-12">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
-                                <i class="mdi mdi-file-pdf" style="color: #c62828;"></i> Upload File PDF
+                                <i class="mdi mdi-information" style="color: #c62828;"></i> Keterangan
                             </label>
-                            <input type="file" class="form-control" name="sabha2" accept=".pdf" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">
-                            <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: PDF. Maks 10MB</small>
+                            <textarea class="form-control" name="sabha3" rows="4" placeholder="Masukkan keterangan divisi..." style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    {{-- BATAL -> btn-silver --}}
                     <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
-                    {{-- SIMPAN -> btn-biru --}}
                     <button type="submit" class="btn-biru">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Simpan
                     </button>
@@ -374,7 +312,7 @@
 </div>
 
 {{-- ============================================================
-     MODAL EDIT DATA (RESPONSIF)
+     MODAL EDIT DATA (dengan preview gambar)
      ============================================================ --}}
 @foreach ($data as $item)
 <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
@@ -383,7 +321,7 @@
             <div class="modal-header" style="border-bottom: 2px solid #0d47a1; padding: clamp(14px, 2vw, 20px) clamp(14px, 2vw, 24px);">
                 <h5 class="modal-title" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #1a1a2e; font-size: clamp(16px, 2vw, 20px);">
                     <i class="mdi mdi-pencil" style="color: #0d47a1; margin-right: 10px;"></i>
-                    Edit Divisi
+                    Edit Divisi/Bidang
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -394,44 +332,40 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
-                                <i class="mdi mdi-account-group" style="color: #c62828;"></i> Nama Divisi
+                                <i class="mdi mdi-account-group" style="color: #c62828;"></i> Nama Divisi/Bidang
                             </label>
                             <input type="text" class="form-control" name="sabha1" value="{{ $item->sabha1 }}" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);" required>
                         </div>
 
                         <div class="col-12">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
-                                <i class="mdi mdi-information" style="color: #0d47a1;"></i> Keterangan
+                                <i class="mdi mdi-image" style="color: #0d47a1;"></i> Ganti Foto/Gambar
                             </label>
-                            <textarea class="form-control" name="sabha3" rows="4" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">{{ $item->sabha3 }}</textarea>
+                            @if($item->sabha2 && file_exists(public_path($item->sabha2)))
+                                <div style="margin-bottom: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; background: #f8fafc; padding: clamp(8px, 1vw, 12px); border-radius: 8px;">
+                                    <img src="{{ asset($item->sabha2) }}" alt="Foto saat ini" style="max-height: 80px; border-radius: 6px; border: 1px solid #e0e4ea;">
+                                    <div style="flex: 1; min-width: 0;">
+                                        <p style="font-size: clamp(10px, 1vw, 11px); color: #7a8a9e; margin: 0; font-family: 'Poppins', sans-serif;">Foto saat ini</p>
+                                        <p style="font-size: clamp(10px, 1vw, 11px); color: #b0b8c4; margin: 0; font-family: 'Poppins', sans-serif;">Kosongkan jika tidak ingin mengganti</p>
+                                    </div>
+                                </div>
+                            @else
+                                <p style="font-size: clamp(11px, 1.1vw, 12px); color: #b0b8c4; font-family: 'Poppins', sans-serif; margin-bottom: 8px;">Belum ada foto</p>
+                            @endif
+                            <input type="file" class="form-control" name="sabha2" accept="image/*" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">
+                            <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: JPG, PNG, GIF, WEBP. Maks 20MB</small>
                         </div>
 
                         <div class="col-12">
                             <label class="form-label" style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(13px, 1.3vw, 14px);">
-                                <i class="mdi mdi-file-pdf" style="color: #c62828;"></i> Upload File PDF
+                                <i class="mdi mdi-information" style="color: #c62828;"></i> Keterangan
                             </label>
-                            @if($item->sabha2 && file_exists(public_path($item->sabha2)))
-                                <div style="margin-bottom: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; background: #f8fafc; padding: clamp(8px, 1vw, 12px); border-radius: 8px;">
-                                    <i class="mdi mdi-file-pdf" style="color: #c62828; font-size: clamp(20px, 2.5vw, 24px);"></i>
-                                    <div style="flex: 1; min-width: 0;">
-                                        <a href="{{ asset($item->sabha2) }}" target="_blank" class="btn-biru" style="padding: 2px 8px; font-size: 11px; border-radius: 6px; text-decoration: none;">
-                                            <i class="mdi mdi-open-in-new"></i> Lihat PDF
-                                        </a>
-                                        <p style="font-size: clamp(10px, 1vw, 11px); color: #7a8a9e; margin: 4px 0 0; font-family: 'Poppins', sans-serif;">Kosongkan untuk tetap menggunakan file lama</p>
-                                    </div>
-                                </div>
-                            @else
-                                <p style="font-size: clamp(11px, 1.1vw, 12px); color: #b0b8c4; font-family: 'Poppins', sans-serif; margin-bottom: 8px;">Belum ada file PDF</p>
-                            @endif
-                            <input type="file" class="form-control" name="sabha2" accept=".pdf" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.2vw, 13px); padding: 6px 12px;">
-                            <small style="font-family: 'Poppins', sans-serif; color: #b0b8c4; font-size: clamp(10px, 1vw, 11px);">Format: PDF. Maks 10MB</small>
+                            <textarea class="form-control" name="sabha3" rows="4" style="border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: clamp(13px, 1.3vw, 14px);">{{ $item->sabha3 }}</textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #f0f2f5; padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px); flex-wrap: wrap; gap: 8px;">
-                    {{-- BATAL -> btn-silver --}}
                     <button type="button" class="btn-silver" data-bs-dismiss="modal">Batal</button>
-                    {{-- UPDATE -> btn-orange --}}
                     <button type="submit" class="btn-orange">
                         <i class="mdi mdi-content-save" style="margin-right: 6px;"></i> Update
                     </button>
@@ -443,218 +377,34 @@
 @endforeach
 
 {{-- ============================================================
-     STYLE & SCRIPTS
+     STYLE & SCRIPTS (tetap sama seperti sebelumnya)
      ============================================================ --}}
 @push('styles')
 <style>
-    /* ============================================================
-       BUTTON CUSTOM (sesuai permintaan)
-       ============================================================ */
-    .btn-biru {
-        background-color: #0d6efd;
-        color: #ffffff;
-        border: none;
-        padding: 8px 18px;
-        border-radius: 8px;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        cursor: pointer;
-    }
-    .btn-biru:hover {
-        background-color: #ffffff;
-        color: #000000;
-        box-shadow: 0 0 25px rgba(13, 110, 253, 0.7);
-        transform: scale(1.02);
-    }
+    /* ===== BUTTON CUSTOM ===== */
+    .btn-biru { background-color: #0d6efd; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 14px; transition: 0.3s; box-shadow: 0 0 10px rgba(13,110,253,0.3); display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+    .btn-biru:hover { background-color: #fff; color: #000; box-shadow: 0 0 25px rgba(13,110,253,0.7); transform: scale(1.02); }
+    .btn-merah { background-color: #dc3545; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 14px; transition: 0.3s; box-shadow: 0 0 10px rgba(220,53,69,0.3); display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+    .btn-merah:hover { background-color: #fff; color: #000; box-shadow: 0 0 25px rgba(220,53,69,0.7); transform: scale(1.02); }
+    .btn-orange { background-color: #fd7e14; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 14px; transition: 0.3s; box-shadow: 0 0 10px rgba(253,126,20,0.3); display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+    .btn-orange:hover { background-color: #fff; color: #000; box-shadow: 0 0 25px rgba(253,126,20,0.7); transform: scale(1.02); }
+    .btn-silver { background-color: #adb5bd; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 14px; transition: 0.3s; box-shadow: 0 0 10px rgba(173,181,189,0.3); display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+    .btn-silver:hover { background-color: #fff; color: #000; box-shadow: 0 0 25px rgba(173,181,189,0.7); transform: scale(1.02); }
+    .btn-hijau { background-color: #198754; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 14px; transition: 0.3s; box-shadow: 0 0 10px rgba(25,135,84,0.3); display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+    .btn-hijau:hover { background-color: #fff; color: #000; box-shadow: 0 0 25px rgba(25,135,84,0.7); transform: scale(1.02); }
 
-    .btn-merah {
-        background-color: #dc3545;
-        color: #ffffff;
-        border: none;
-        padding: 8px 18px;
-        border-radius: 8px;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        cursor: pointer;
-    }
-    .btn-merah:hover {
-        background-color: #ffffff;
-        color: #000000;
-        box-shadow: 0 0 25px rgba(220, 53, 69, 0.7);
-        transform: scale(1.02);
-    }
-
-    .btn-orange {
-        background-color: #fd7e14;
-        color: #ffffff;
-        border: none;
-        padding: 8px 18px;
-        border-radius: 8px;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        box-shadow: 0 0 10px rgba(253, 126, 20, 0.3);
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        cursor: pointer;
-    }
-    .btn-orange:hover {
-        background-color: #ffffff;
-        color: #000000;
-        box-shadow: 0 0 25px rgba(253, 126, 20, 0.7);
-        transform: scale(1.02);
-    }
-
-    .btn-silver {
-        background-color: #adb5bd;
-        color: #ffffff;
-        border: none;
-        padding: 8px 18px;
-        border-radius: 8px;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        box-shadow: 0 0 10px rgba(173, 181, 189, 0.3);
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        cursor: pointer;
-    }
-    .btn-silver:hover {
-        background-color: #ffffff;
-        color: #000000;
-        box-shadow: 0 0 25px rgba(173, 181, 189, 0.7);
-        transform: scale(1.02);
-    }
-
-    .btn-hijau {
-        background-color: #198754;
-        color: #ffffff;
-        border: none;
-        padding: 8px 18px;
-        border-radius: 8px;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        cursor: pointer;
-    }
-    .btn-hijau:hover {
-        background-color: #ffffff;
-        color: #000000;
-        box-shadow: 0 0 25px rgba(25, 135, 84, 0.7);
-        transform: scale(1.02);
-    }
-
-    /* ============================================================
-       PAGINATION STYLE (tetap)
-       ============================================================ */
     .pagination-nav .page-item { margin: 0 2px; }
-    .pagination-nav .page-link {
-        font-family: 'Poppins', sans-serif;
-        font-size: 14px;
-        font-weight: 500;
-        color: #1a2332;
-        background: transparent;
-        border: 2px solid transparent;
-        border-radius: 12px;
-        padding: 8px 16px;
-        min-width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        text-decoration: none;
-    }
-    .pagination-nav .page-link:hover {
-        background: #f0f4ff;
-        border-color: #4f6af5;
-        color: #4f6af5;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(79,106,245,0.15);
-    }
-    .pagination-nav .page-item.active .page-link {
-        background: linear-gradient(135deg, #4f6af5, #7c3aed);
-        border-color: #4f6af5;
-        color: #ffffff;
-        font-weight: 600;
-        box-shadow: 0 4px 15px rgba(79,106,245,0.35);
-        transform: translateY(-2px);
-        animation: pulse 2s infinite;
-    }
-    .pagination-nav .page-item.disabled .page-link {
-        color: #b8c5d6;
-        background: transparent;
-        border-color: transparent;
-        cursor: not-allowed;
-        transform: none;
-        opacity: 0.5;
-    }
+    .pagination-nav .page-link { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1a2332; background: transparent; border: 2px solid transparent; border-radius: 12px; padding: 8px 16px; min-width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: 0.3s; text-decoration: none; }
+    .pagination-nav .page-link:hover { background: #f0f4ff; border-color: #4f6af5; color: #4f6af5; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79,106,245,0.15); }
+    .pagination-nav .page-item.active .page-link { background: linear-gradient(135deg, #4f6af5, #7c3aed); border-color: #4f6af5; color: #fff; font-weight: 600; box-shadow: 0 4px 15px rgba(79,106,245,0.35); transform: translateY(-2px); animation: pulse 2s infinite; }
+    .pagination-nav .page-item.disabled .page-link { color: #b8c5d6; background: transparent; border-color: transparent; cursor: not-allowed; opacity: 0.5; }
     .pagination-nav .page-item:first-child .page-link,
-    .pagination-nav .page-item:last-child .page-link {
-        font-size: 14px;
-        padding: 8px 14px;
-        border-radius: 12px;
-        background: #f8fafc;
-        border: 1px solid #e9edf2;
-    }
+    .pagination-nav .page-item:last-child .page-link { font-size: 14px; padding: 8px 14px; border-radius: 12px; background: #f8fafc; border: 1px solid #e9edf2; }
     .pagination-nav .page-item:first-child .page-link:hover,
-    .pagination-nav .page-item:last-child .page-link:hover {
-        background: #4f6af5;
-        border-color: #4f6af5;
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(79,106,245,0.25);
-    }
-    .pagination-nav .page-item:first-child.disabled .page-link:hover,
-    .pagination-nav .page-item:last-child.disabled .page-link:hover {
-        background: #f8fafc;
-        border-color: #e9edf2;
-        color: #b8c5d6;
-        transform: none;
-        box-shadow: none;
-    }
-    @keyframes pulse {
-        0% { box-shadow: 0 4px 15px rgba(79,106,245,0.35); }
-        50% { box-shadow: 0 4px 25px rgba(79,106,245,0.5); }
-        100% { box-shadow: 0 4px 15px rgba(79,106,245,0.35); }
-    }
-    @media (max-width: 768px) {
-        .pagination-nav { justify-content: center; flex-wrap: wrap; }
-        .pagination-nav .page-link { font-size: 13px; padding: 6px 12px; min-width: 38px; height: 38px; border-radius: 10px; }
-        .pagination-nav .page-item:first-child .page-link,
-        .pagination-nav .page-item:last-child .page-link { padding: 6px 10px; font-size: 12px; }
-    }
-    @media (max-width: 480px) {
-        .pagination-nav .page-link { font-size: 12px; padding: 4px 10px; min-width: 34px; height: 34px; border-radius: 8px; }
-        .pagination-nav .page-item:first-child .page-link,
-        .pagination-nav .page-item:last-child .page-link { padding: 4px 8px; font-size: 11px; }
-    }
+    .pagination-nav .page-item:last-child .page-link:hover { background: #4f6af5; border-color: #4f6af5; color: white; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(79,106,245,0.25); }
+    @keyframes pulse { 0% { box-shadow: 0 4px 15px rgba(79,106,245,0.35); } 50% { box-shadow: 0 4px 25px rgba(79,106,245,0.5); } 100% { box-shadow: 0 4px 15px rgba(79,106,245,0.35); } }
+    @media (max-width: 768px) { .pagination-nav { justify-content: center; flex-wrap: wrap; } .pagination-nav .page-link { font-size: 13px; padding: 6px 12px; min-width: 38px; height: 38px; border-radius: 10px; } .pagination-nav .page-item:first-child .page-link, .pagination-nav .page-item:last-child .page-link { padding: 6px 10px; font-size: 12px; } }
+    @media (max-width: 480px) { .pagination-nav .page-link { font-size: 12px; padding: 4px 10px; min-width: 34px; height: 34px; border-radius: 8px; } }
 </style>
 @endpush
 
@@ -672,43 +422,35 @@ function exportToCSV() {
     }
 
     var csv = [];
-    var headers = ['No', 'Nama Divisi', 'Keterangan', 'File PDF', 'Tanggal Dibuat'];
+    var headers = ['No', 'Nama Divisi', 'Keterangan', 'Ada Foto', 'Tanggal Dibuat'];
     csv.push(headers.join(','));
 
     dataCards.forEach(function(card, index) {
         var row = [];
-
         var no = index + 1;
         row.push(no);
-
         var namaEl = card.querySelector('h5');
         var nama = namaEl ? namaEl.textContent.trim() : '-';
         row.push(nama);
-
-        var ketEl = card.querySelector('.col-md-6:first-child p:last-child');
+        var ketEl = card.querySelector('.col-md-8 p:last-child');
         var keterangan = ketEl ? ketEl.textContent.trim() : '-';
         row.push(keterangan);
-
-        var fileEl = card.querySelector('.col-md-6:last-child a');
-        var file = fileEl ? fileEl.textContent.trim() : 'Tidak ada file';
-        row.push(file);
-
+        var fotoEl = card.querySelector('.col-md-4 img');
+        var adaFoto = fotoEl ? 'Ada' : 'Tidak Ada';
+        row.push(adaFoto);
         var dateEl = card.querySelector('.d-flex.align-items-center.gap-2.flex-wrap .d-flex:last-child span');
         var date = dateEl ? dateEl.textContent.trim() : '-';
         row.push(date);
-
         csv.push(row.join(','));
     });
 
     var blob = new Blob(['\uFEFF' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
     var link = document.createElement('a');
-    var url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'divisi_' + new Date().toISOString().slice(0,10) + '.csv');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'divisi_' + new Date().toISOString().slice(0,10) + '.csv';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(url);
 }
 </script>
 @endpush
