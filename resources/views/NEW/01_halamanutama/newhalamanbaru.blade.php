@@ -1669,7 +1669,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Filter data: hanya tampilkan item yang memiliki minimal satu konten
                 $filtered = $databerita->filter(function ($item) {
                     $judul = $item->sabha1 ?? '';
-                    $p1    = $item->sabha2 ?? '';
+                $p1    = $item->sabha2 ?? '';
                     $p2    = $item->sabha3 ?? '';
                     $p3    = $item->sabha4 ?? '';
                     $foto1 = $item->sabha5 ?? '';
