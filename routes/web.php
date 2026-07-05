@@ -104,12 +104,6 @@ Route::get('/admindashboard', [AdminDashboardController::class, 'index'])->middl
 // --------------------------------------------------------------------------------------------------------------------------------
 
 // ==========================================================
-// |||||||||||||||||| ROUTE UNTUK AKSES TENTANG KAMI |||||||||||||||||||||||||||||||||||
-Route::resource('/tentangkami', TentangkamiController::class);
-// --------------------------------------------------------------------------------------------------------------------------------
-
-
-// ==========================================================
 // |||||||||||||||||| ROUTE UNTUK DATA DAFTAR MITRA |||||||||||||||||||||||||||||||||||
 Route::resource('/daftarumkm', DaftarmitrarumahmakannController::class);
 Route::get('/daftarumkm/{namarumahmakan}', [DaftarmitrarumahmakannController::class, 'show'])->name('daftarumkm');
