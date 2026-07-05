@@ -1325,7 +1325,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- KIRI -->
         <div class="bw-left">
             <a href="/keanggotaan" class="btn-merah">
-                🏔️ Anggota Sabhagiriwana S'17
+                🏔️ Buku Anggota S'17
             </a>
 
             <div class="table-wrapper">
