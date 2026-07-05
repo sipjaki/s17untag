@@ -1657,7 +1657,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .modal-custom .foto-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
     }
 </style>
-
+{{--
 <div class="container">
     <section class="kabar-section" id="berita-terbaru">
         <div class="section-header">
@@ -1737,7 +1737,7 @@ document.addEventListener('DOMContentLoaded', function() {
             @endforelse
         </div>
     </section>
-</div>
+</div> --}}
 
 <!-- ============================================
      MODAL CUSTOM
