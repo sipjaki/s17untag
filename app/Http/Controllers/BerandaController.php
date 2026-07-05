@@ -1343,11 +1343,11 @@ public function berandaupdate(Request $request, $id)
         'sabha3'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
         'sabha4'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
         'sabha5'  => 'nullable|image|mimes:jpeg,png,jpg|max:20480',
-        'sabha6'  => 'nullable|string|max:500',
-        'sabha7'  => 'nullable|string|max:500',
-        'sabha8'  => 'nullable|string|max:500',
-        'sabha9'  => 'nullable|string|max:500',
-        'sabha10' => 'nullable|string|max:500',
+        'sabha6'  => 'nullable|string',
+        'sabha7'  => 'nullable|string',
+        'sabha8'  => 'nullable|string',
+        'sabha9'  => 'nullable|string',
+        'sabha10' => 'nullable|string',
     ]);
 
     try {
